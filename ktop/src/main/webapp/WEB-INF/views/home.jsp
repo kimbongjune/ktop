@@ -14,6 +14,10 @@
 <P>  The time on the server is ${serverTime}. </P>
 <sec:authorize access="isAuthenticated()">
     <p>환영합니다, <sec:authentication property="name" /> 님</p>
+    <form action="<c:url value='/logout' />" method="post">
+    	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	    <button type="submit">로그아웃</button>
+	</form>
 </sec:authorize>
 </body>
 </html>

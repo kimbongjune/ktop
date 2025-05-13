@@ -26,5 +26,13 @@
 	<c:if test="${param.logout == 'true'}">
 	    <div>로그아웃 되었습니다</div>
 	</c:if>
+	
+	<c:if test="${param.session == 'invalid'}">
+	    <div>세션이 만료되었습니다. 다시 로그인 해주세요</div>
+	</c:if>
+	
+	<c:if test="${param.session == 'expired'}">
+	    <div>중복 로그인이 감지되었습니다. 다시 로그인해주세요</div>
+	</c:if>
 </body>
 </html>

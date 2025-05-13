@@ -115,7 +115,7 @@
 	    <!-- 로그아웃 설정 -->
 	    <security:logout 
 	        logout-url="/logout" 
-	        logout-success-url="/login?logout=true"
+	        logout-success-url="/user/login?logout=true"
 	        invalidate-session="true"
 	        delete-cookies="JSESSIONID, remember-me" />
 	
@@ -129,8 +129,9 @@
 	    <security:intercept-url pattern="/**" access="isAuthenticated()" />
 	    
 	    <!-- 세션 설정 -->
-	    <security:session-management invalid-session-url="/login?session=invalid" session-fixation-protection="migrateSession">
-	        <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/login?session=expired" />
+	    <security:session-management 
+	        session-authentication-strategy-ref="sas"
+	        invalid-session-url="/user/login?session=invalid">
 	    </security:session-management>
 	
 		<security:remember-me 
@@ -138,9 +139,29 @@
 		    token-validity-seconds="1209600"
 		    data-source-ref="dataSource"
 		    user-service-ref="customUserDetailsService" />
+		    
+		 <security:access-denied-handler error-page="/error/403" />
 	</security:http>
 	
-	<security:authentication-manager>
+	<bean id="sas" class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
+	    <constructor-arg>
+	        <list>
+	            <bean class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
+	                <constructor-arg ref="sessionRegistry"/>
+	                <property name="maximumSessions" value="1"/>
+	                <property name="exceptionIfMaximumExceeded" value="true"/>
+	            </bean>
+	            <bean class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy"/>
+	            <bean class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
+	                <constructor-arg ref="sessionRegistry"/>
+	            </bean>
+	        </list>
+	    </constructor-arg>
+	</bean>
+	
+	<bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+	
+	<security:authentication-manager alias="authenticationManager">
 	    <security:authentication-provider user-service-ref="customUserDetailsService">
 	        <security:password-encoder ref="passwordEncoder" />
 	    </security:authentication-provider>
