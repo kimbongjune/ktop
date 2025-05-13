@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:websocket="http://www.springframework.org/schema/websocket"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+    	http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<mvc:annotation-driven validator="springValidator">
+	    <mvc:argument-resolvers>
+	        <bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver" />
+	    </mvc:argument-resolvers>
+	</mvc:annotation-driven>
+	
+	<context:annotation-config/>
+	
+	<context:component-scan base-package="net.ktop.ktop">
+	</context:component-scan>
+	
+	<!-- 스프링 프로퍼티 암호화 설정 -->
+	<bean id="environmentVariablesConfiguration" class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+        <property name="algorithm" value="PBEWITHMD5ANDTRIPLEDES"/>
+        <property name="password" value="bs"/>
+    </bean>
+    <bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+        <property name="config" ref="environmentVariablesConfiguration"/>
+    </bean>
+    <bean id="propertyConfig" class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
+        <constructor-arg ref="configurationEncryptor"/>
+        <property name="locations">
+            <list>
+                <value>classpath:/properties/globals.properties</value>
+                <value>classpath:/properties/validation.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- spring validation message 설정 -->
+	<bean id="springValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource"/>
+	</bean>
+    <!-- spring validation message 설정 끝 -->
+    
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+	    <property name="driverClassName" value="${jdbc.driverClassName}"/>
+	    <property name="jdbcUrl" value="${jdbc.url}"/>
+	    <property name="username" value="${jdbc.username}"/>
+	    <property name="password" value="${jdbc.password}"/>
+
+	    <property name="maximumPoolSize" value="20"/>
+	    <property name="minimumIdle" value="2"/>
+	    <property name="idleTimeout" value="30000"/>
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="configLocation" value="classpath:/sqlmap/mybatis-config.xml" />
+ 		<property name="mapperLocations" value="classpath:/sqlmap/mappers/**/*Mapper.xml" />
+	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSession" />
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	    <property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:/properties/globals</value>
+                <value>classpath:/properties/validation</value>
+            </list>
+        </property>
+        <property name="cacheSeconds">
+            <value>60</value>
+        </property>
+        <property name="fallbackToSystemLocale" value="false"/>
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+    <!-- egovframework.com.cmm.EgovMessageSource -->
+    <bean id="egovMessageSource" class="net.ktop.ktop.egov.EgovMessageSource">
+        <property name="reloadableResourceBundleMessageSource">
+            <ref bean="messageSource" />
+        </property>
+    </bean>
+    
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <bean id="customUserDetailsService" class="net.ktop.ktop.module.security.CustomUserDetailsService"/>
+    
+	<security:http auto-config="true" use-expressions="true">
+	    
+	    <!-- 로그인 설정 -->
+	    <security:form-login 
+	        login-page="/user/login" 
+	        default-target-url="/" 
+	        authentication-failure-url="/user/login?error=true"
+	        username-parameter="username"
+	        password-parameter="password" />
+	
+	    <!-- 로그아웃 설정 -->
+	    <security:logout 
+	        logout-url="/logout" 
+	        logout-success-url="/login?logout=true"
+	        invalidate-session="true"
+	        delete-cookies="JSESSIONID, remember-me" />
+	
+	    <!-- 접근 권한 설정 -->
+	    <security:intercept-url pattern="/user/login" access="isAnonymous()" />
+	    <security:intercept-url pattern="/user/signup" access="isAnonymous()" />
+	    <security:intercept-url pattern="/resources/**" access="permitAll" />
+	    <security:intercept-url pattern="/" access="permitAll" />
+	    <security:intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
+	    <security:intercept-url pattern="/manage/**" access="hasAnyRole('ADMIN', 'MANAGER')" />
+	    <security:intercept-url pattern="/**" access="isAuthenticated()" />
+	    
+	    <!-- 세션 설정 -->
+	    <security:session-management invalid-session-url="/login?session=invalid" session-fixation-protection="migrateSession">
+	        <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/login?session=expired" />
+	    </security:session-management>
+	
+		<security:remember-me 
+		    key="ktopSecureRememberMeKey"
+		    token-validity-seconds="1209600"
+		    data-source-ref="dataSource"
+		    user-service-ref="customUserDetailsService" />
+	</security:http>
+	
+	<security:authentication-manager>
+	    <security:authentication-provider user-service-ref="customUserDetailsService">
+	        <security:password-encoder ref="passwordEncoder" />
+	    </security:authentication-provider>
+	</security:authentication-manager>
+    
+</beans>
