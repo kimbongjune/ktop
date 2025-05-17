@@ -1,0 +1,53 @@
+
+#review_fade		{display:none;position:fixed;top:0%;left:0%;width:100%;height:100%;background:#000;opacity:.80;z-index:9999900;}
+#review_layer		{display:none; background:#ffffff; padding:20px; width:500px;z-index:9999999;}
+
+.review_point_star		{color:#d4d4d4;}
+.review_point_star_view	{color:#d4d4d4;}
+.review_point_star_on	{color:#f74826 !important;}
+
+
+
+/* 리뷰 리스트 */
+.review_list_wrap											{position:relative;display:block; clear:both;border-top:1px solid #333;}		
+.review_list_wrap .tit_wrap							{overflow:hidden; text-align:center;  line-height:52px;  background:#fafafa;border-bottom:1px solid #dfdfdf; }
+.review_list_wrap .tit_wrap p						{font-family: 'S-CoreDream-5Medium'; color:#111;}
+.review_list_wrap .tit_wrap .no					{float:left; width:6%; }  
+.review_list_wrap .tit_wrap .star					{float:left; width:14%;}
+.review_list_wrap .tit_wrap .cont				{float:left; width:60%;}
+.review_list_wrap .tit_wrap .name				{float:left; width:10%; }
+.review_list_wrap .tit_wrap .date				{float:left; width:10%; } 
+
+.review_list_wrap .content_wrap					{overflow:hidden; font-size:1em; }
+.review_list_wrap .content_wrap li					{overflow:hidden; text-align:center;  padding:15px 0px;border-bottom:1px solid #dfdfdf;} 
+.review_list_wrap .content_wrap .no				{float:left; width:6%; font-size:1em; } 
+.review_list_wrap .content_wrap .star			{float:left; width:14%; } 
+.review_list_wrap .content_wrap .cont			{float:left; width:60%; text-align:left; color:#222;   font-size:1em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;} 
+.review_list_wrap .content_wrap .name		{float:left; width:10%; overflow:hidden; font-size:1em; text-overflow:ellipsis; white-space:nowrap; color:#888; }
+.review_list_wrap .content_wrap .name02	{display:none;padding:3px 0 8px  0;font-size:0.9em;}
+.review_list_wrap .content_wrap .date			{float:left; width:10%; font-size:1em; color:#777;}
+ 
+
+
+
+
+ 
+@media screen and (max-width:820px) {
+.review_list_wrap .tit_wrap					{display:none; }  
+.review_list_wrap .content_wrap li					{padding:12px 15px;}
+.review_list_wrap .content_wrap .no				{display:none;} 
+.review_list_wrap .content_wrap .name				{display:none;} 
+.review_list_wrap .content_wrap .date				{display:none;} 
+.review_list_wrap .content_wrap .star			{float:none; width:100%;text-align:left;  } 
+.review_list_wrap .content_wrap .cont			{float:none; width:100%;  } 
+.review_list_wrap .content_wrap .name02	{display:block;text-align:left; color:#999;}
+ 
+}
+
+
+
+
+
+
+
+

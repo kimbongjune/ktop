@@ -1,0 +1,145 @@
+/*  게시글 리스트  ==================================================================================== */
+.board_search						{overflow:hidden; margin-bottom:20px;}
+.board_search .ginfo				{float:left; padding:20px 0 0 0; }
+.board_search dl					{float:right; width:45%; overflow:hidden;}
+.board_search dl dt					{float:left; width:23%; position:relative;}
+.board_search select				{width:100%; padding:0 10px; height:46px; vertical-align:top;border:1px solid #d4d4d4;cursor:pointer; appearance: none; -moz-appearance: none; -webkit-appearance: none;}
+.board_search dl dt:after			{position: absolute; content: ''; display: block; z-index:1; top:17px; right:10px; width: 5px; height: 5px; -webkit-transform: rotate(45deg); transform: rotate(45deg); border-bottom: 2px solid #7d7d7d; border-right: 2px solid #7d7d7d;}
+.board_search dl dd					{float:right; width:calc(77% - 5px);height:48px;color:#333;line-height:48px;vertical-align:top;}
+.board_search .input_form			{box-sizing:border-box; width:calc(100% - 70px); height:46px;color:#666; vertical-align:top;border:1px solid #d4d4d4; padding:0 10px; letter-spacing:-0.75px;}
+.board_search .btn					{float:right; border:1px solid #3f4247; background:#3f4247; height:46px; line-height:40px; width:70px; text-align:center; color:#fff; letter-spacing:-1px;}
+.board_search .btn:hover			{background:#333;}
+
+
+/* screen 768 */
+@media screen and (max-width:768px) {
+
+	.board_search .ginfo			{float:none; padding:0 0 10px 0;}
+	.board_search dl				{float:none; width:100%;}
+
+}
+
+/* screen 580 */
+@media screen and (max-width:580px) {
+
+	.board_search dl dt				{float:none; width:100%; margin-bottom:5px;}
+	.board_search dl dd				{float:none; width:100%;}
+
+}
+
+.board_category						{text-align:center; margin-bottom:20px;}
+.board_category li					{display:inline-block; margin-right:3px;}
+.board_category li:last-child		{margin:0;}
+.board_category li a				{display:block; background:#f7f7f7; color:#555; padding:5px 15px; border-radius:2px; font-weight:500; }
+.board_category li a:hover, .board_category .on a		{background:#f15f22; color:#fff; }
+
+
+.board_list .content_wrap						{width:100%; border-collapse:collapse; border-top:2px solid #5e5e5e;table-layout:fixed; border-left:1px solid #dfdfdf; border-right:1px solid #dfdfdf;}
+
+.board_list .content_wrap_q						{position:relative; background:#fff; border-bottom:1px solid #dfdfdf;padding:30px 20px;overflow:hidden;}
+.board_list .content_wrap_q:after				{position: absolute; content: ''; display: block; top:40px; right:20px; width: 8px; height: 8px; -webkit-transform: rotate(45deg); transform: rotate(45deg); border-bottom: 3px solid #d1d1d1; border-right: 3px solid #d1d1d1;}
+
+.board_list .content_wrap_q em					{font-style:normal; float:left; width:30px; line-height:30px;font-size:1.2em;text-align:center; color:#f22222;font-weight:700; }
+.board_list .content_wrap_q .tits				{float:left; font-size:1.1em; color:#222; padding:2px 10px 0 10px; width:calc(100% - 40px);font-weight:500; cursor:pointer;}
+.board_list .content_wrap_q .btns				{position: absolute; right:60px;}
+
+.board_list .content_wrap_a						{position:relative; background:#fafafa; border-bottom:1px solid #dfdfdf;padding:30px 20px;}
+.board_list .content_wrap_a:after				{content:''; display:block; clear:both;}
+.board_list .content_wrap_a:before				{position: absolute; content: ''; display: block; top:-50px; right:20px; width: 8px; height: 8px; -webkit-transform: rotate(45deg); transform: rotate(45deg); border-top: 3px solid #f22222; border-left: 3px solid #f22222; background:#fff;}
+
+.board_list .content_wrap_a em					{font-style:normal; float:left;width:32px; height:32px; line-height:30px;font-size:1.1em;text-align:center;background:#f22222;color:#fff;font-weight:500;border-radius:100%;}
+.board_list .content_wrap_a .cont				{float:left;padding:0 0 0 15px; width:calc(100% - 40px);}
+.board_list .content_wrap_a .cont img			{max-width:100%;}
+
+.board_list .content_wrap .nolist				{padding:70px 0; text-align:center; border-bottom:1px solid #dfdfdf;}
+
+.board_list .btn_wrap							{padding-top:40px; overflow:hidden; }
+
+
+
+@media screen and (max-width:768px) {
+
+	.board_list .content_wrap_q,
+	.board_list .content_wrap_a					{padding:20px 10px;}
+
+	.board_list .content_wrap_q em,
+	.board_list .content_wrap_a em				{width:30px; height:30px; line-height:28px;}
+	.board_list .content_wrap_q .tits			{font-size:1em;}
+	.board_list .content_wrap_q:after			{top:26px;}
+	.board_list .content_wrap_a:before			{top:-44px;}
+
+}
+
+
+
+/*  게시글 뷰  ==================================================================================== */
+.board_view										{margin:40px auto;}
+.board_view .tit_wrap							{padding:30px 20px; border-top:1px solid #333; border-bottom:1px solid #dfdfdf;} 
+.board_view .tit_wrap .tit						{font-size:1.4em; letter-spacing:-0.75px; line-height:140%; COLOR:#333; font-weight:700;padding:0 0 10px 0;} 
+.board_view .tit_wrap .tit span					{display:inline-block; padding:0px 10px; height:31px; line-height:31px; color:#ff6600; border:1px solid #ff6600; margin-right:5px; font-size:0.8em; background-color:#fff; }
+.board_view .tit_wrap .name						{color:#999;  font-size:0.9em; }
+.board_view .tit_wrap .name span					{position:relative; padding-right:23px;}
+.board_view .tit_wrap .name span:after			{content:''; position:absolute; top:0; right:12px; bottom:0; width:1px; height:1em; margin:auto; background:#ddd;}
+.board_view .tit_wrap .name span:last-child		{padding:0;}
+.board_view .tit_wrap .name span:last-child:after{display:none;}
+
+.board_view .content_wrap						{overflow:hidden;padding:40px 20px; word-break:break-all; min-height:300px; }
+.board_view .content_wrap img					{max-width:100%; }
+
+.board_view .video_wrap							{text-align:center;margin-bottom:40px;}
+.board_view .video_wrap .youtube_iframes		{width:720px; height:480px; }
+
+.board_view .file_wrap 							{padding:10px; border-top:1px solid #ddd; overflow:hidden; }
+.board_view .file_wrap li						{font-size:0.95em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:90%; }
+.board_view .file_wrap .tit						{float:left; width:140px; }
+.board_view .file_wrap .tit span				{display:inline-block; margin-left:10px; width:120px; font-size:1em; font-weight:bold; text-align:center; line-height:40px; border:1px solid #ccc; }
+.board_view .file_wrap .txt						{float:right; width:calc(100% - 140px); line-height:180%; }
+
+.board_view .btn_wrap							{padding:40px 0 60px 0; text-align:center; overflow:hidden; border-top:1px solid #333;}
+.board_view .btn_wrap .bbs_btn02				{margin-right:3px;}
+.board_view .pn_wrap							{border-top:1px solid #ddd; }
+.board_view .pn_wrap li							{overflow:hidden; padding:20px 0; border-bottom:1px solid #ddd; } 
+.board_view .pn_wrap li:last-child				{border-bottom:1px solid #ddd; } 
+.board_view .pn_wrap li a						{display:block; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:0.95em;}
+.board_view .pn_wrap li a span					{display:inline-block; text-align:left; text-indent:20px; margin-right:20px; width:17%; color:#333333; border-right:1px solid #e8e8e8; }
+
+.board_view .bwrite_cm							{padding-top:20px;}
+
+
+@media screen and (max-width:1024px) {
+	.board_view .tit_wrap						{padding:20px;} 
+	.board_view .tit_wrap .tit					{font-size:1.2em;}
+	.board_view .tit_wrap .name					{font-size:0.85em;}
+
+	.board_view .content_wrap					{padding:30px 10px;}
+	.board_view .btn_wrap						{padding:20px 0;}
+}
+
+@media screen and (max-width:768px) {
+	.board_view .file_wrap li					{font-size:0.8em; }
+	.board_view .file_wrap .tit					{display:none; }
+	.board_view .file_wrap .txt					{float:none; width:100%; }
+
+	.board_view .pn_wrap li						{overflow:hidden; padding:15px 0; border-bottom:1px solid #ddd; } 
+	.board_view .pn_wrap li a					{font-size:0.8em; }
+	.board_view .pn_wrap li a span				{text-indent:10px; }
+}
+
+
+
+
+
+/*  게시글 폼  ==================================================================================== */
+.board_form										{margin:40px auto;}
+.board_form .tit								{color:#111; font-weight:bold; padding:15px 10px; text-align:center; background-color:#eeeeee; border-top:2px solid #5e5e5e; font-size:1.1em; }
+.board_form	table								{border-collapse:collapse; width:100%; table-layout:fixed; }
+.board_form table tbody th						{padding:10px 8px; background:#cdcfd4; border:1px solid #aaa;}
+.board_form table tbody th:first-child			{border-left:0;}
+.board_form table tbody th:last-child			{border-right:0;}
+.board_form table tbody th span					{display:block;font-size:0.85em;color:#ec0b0b;}
+.board_form table tbody td						{background:#fff; padding:8px 6px;  word-break:break-all; border-right:1px solid #ddd; border-bottom:1px solid #ddd; border-left:1px solid #ddd; height:48px;} 
+.board_form table tbody td:first-child			{border-left:0;}
+.board_form table tbody td:last-child			{border-right:0;}
+.board_form table tbody tr:hover td				{background:#f9f9f9;}
+
+.board_form .btn_wrap							{padding:40px 0; overflow:hidden; text-align:center; }

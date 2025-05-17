@@ -1,38 +1,42 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<form action="<c:url value='/login' />" method="post">
-	    <input type="text" name="username" placeholder="아이디" />
-	    <input type="password" name="password" placeholder="비밀번호" />
-	    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	    <label>
-		    <input type="checkbox" name="remember-me" />
-		    자동 로그인 유지
-		</label>
-	    <button type="submit">로그인</button>
-	</form>
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+
+		<section class="sub_container"> 
+		<h6>서브 콘텐츠</h6> 
+			<div class="sub_category_box">  
+		 
+						
+		<div class="web_size">  
+							
+			<div class="sub_cont"> 
+<form name="login_form" method="post" action="#" onsubmit="return login_form_submit();">
+<input type="hidden" name="gc" value="MA" />
+<input type="hidden" name="do" value="update" />
+<input type="hidden" name="action" value="login" />
+<div id="login_box" >
+	<div class="logo"><img src="<c:url value='/resources/static/image/top_logo.png' />" alt="건축자재포털" /></div>
+	<div class="field">
+		<input type="text" id="user_id" name="user_id" class="alnum_ required" minlength="5" maxlength="16" title="아이디" autofocus placeholder="아이디" />
+		<input type="password" id="user_passwd" name="user_passwd" class="required" minlength="6" maxlength="16" title="비밀번호" placeholder="비밀번호" />
+		<i class="fas fa-eye-slash" title="비밀번호 보기"></i>
+	</div>
+
 	
-	<c:if test="${param.error == 'true'}">
-	    <div>로그인 실패: 아이디 또는 비밀번호를 확인하세요</div>
-	</c:if>
+	<div class="btns"><input type="submit" value="로그인" /></div>
+		<ul class="bottom"> 
+		<li><a href="<c:url value='/user/findid' />">아이디찾기</a></li>
+		<li><a href="<c:url value='/user/findpw' />">비밀번호찾기</a></li>
+		<li><a href="<c:url value='/user/signup' />">회원가입</a></li>
+	</ul>
 	
-	<c:if test="${param.logout == 'true'}">
-	    <div>로그아웃 되었습니다</div>
-	</c:if>
-	
-	<c:if test="${param.session == 'invalid'}">
-	    <div>세션이 만료되었습니다. 다시 로그인 해주세요</div>
-	</c:if>
-	
-	<c:if test="${param.session == 'expired'}">
-	    <div>중복 로그인이 감지되었습니다. 다시 로그인해주세요</div>
-	</c:if>
-</body>
-</html>
+	</div>
+</form>
+
+
+	 
+		</div>	<!-- web_size  -->
+		</div>	<!-- web_size  -->
+		</div>	<!-- web_size  -->
+	</section>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
