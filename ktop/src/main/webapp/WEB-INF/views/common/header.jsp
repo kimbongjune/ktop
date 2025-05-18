@@ -46,7 +46,7 @@ if ( (navigator.appName == 'Netscape' && agent.indexOf('trident') != -1) || (age
 							<fieldset>	
 								<legend class="hidden">검색 입력 폼</legend>	 
 								<div class="search_group">	
-									<form method="post" name="search" action="<c:url value='/search' />" >
+									<form method="get" name="search" action="<c:url value='/search' />" >
 																				<input type="hidden" name="sit" value="product_title" />
 										<div>	
 											<input type="text" id="" name="" title="검색어 입력" placeholder="검색어를 입력하세요" />	
@@ -146,7 +146,7 @@ if ( (navigator.appName == 'Netscape' && agent.indexOf('trident') != -1) || (age
 						<fieldset>	
 							<legend class="hidden">검색 입력 폼</legend>	 
 							<div class="search_group">	
-								<form method="post" name="search" action="<c:url value='/search' />" >
+								<form method="get" name="search" action="<c:url value='/search' />" >
 																		<input type="hidden" name="sit" value="product_title" />
 									<div>	
 										<input type="text" name="stx" title="검색어 입력" placeholder="검색어를 입력하세요" value="" />	

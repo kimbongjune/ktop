@@ -28,9 +28,9 @@
 			<div class="sub_cont"> 
 
 									<ul class="tabmenu01">
-								<li class="on"><a href="<c:url value='/partner' />" >협력사소개</a></li>
+								<li class=""><a href="<c:url value='/partner' />" >협력사소개</a></li>
 								<li class=""><a href="<c:url value='/partner/guide' />" >협력사 가입안내</a></li>
-								<li class=""><a href="<c:url value='/partner/join' />" >협력사 등록</a></li>
+								<li class="on"><a href="<c:url value='/partner/join' />" >협력사 등록</a></li>
 							</ul>
 			
 						

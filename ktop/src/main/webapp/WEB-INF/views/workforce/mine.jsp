@@ -10,8 +10,8 @@
 									<div class="lnb">
 				<div class="web_size">  
 					<ul>	
-												<li class="on"><a href="<c:url value='/workforce' />" >인력 POOL</a></li>
-												<li class=""><a href="<c:url value='/workforce/mine' />" >인력 POOL 안내/등록</a></li>
+												<li class=""><a href="<c:url value='/workforce' />" >인력 POOL</a></li>
+												<li class="on"><a href="<c:url value='/workforce/mine' />" >인력 POOL 안내/등록</a></li>
 											</ul>
 				</div>
 			</div>

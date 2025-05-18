@@ -44,7 +44,7 @@
  
 <div class="product_list_search_box">
 <div class="product_list_search_tit">QUICK SEARCH</div>
-	<form method="post" name="search" action="<c:url value='/search' />" >
+	<form method="get" name="search" action="<c:url value='/search' />" >
 		<input type="hidden" name="gc" value="572SJLL" />
 		<input type="hidden" name="sit" value="product_title" />
 		<input type="hidden" name="company_area_arr" id="company_area_arr" value="" />

@@ -10,9 +10,9 @@
 									<div class="lnb">
 				<div class="web_size">  
 					<ul>	
-												<li class="on"><a href="<c:url value='/notice' />" >공지사항</a></li>
+												<li class=""><a href="<c:url value='/notice' />" >공지사항</a></li>
 												<li class=""><a href="<c:url value='/notice/faq' />" >자주하는질문</a></li>
-												<li class=""><a href="<c:url value='/notice/qna' />" >질문과답변</a></li>
+												<li class="on"><a href="<c:url value='/notice/qna' />" >질문과답변</a></li>
 												<li class=""><a href="<c:url value='/notice/company' />" >회사소개</a></li>
 											</ul>
 				</div>

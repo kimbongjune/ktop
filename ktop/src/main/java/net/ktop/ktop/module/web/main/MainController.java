@@ -35,4 +35,11 @@ public class MainController {
 		return "main/home";
 	}
 	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public String search(Locale locale, Model model, @AuthenticationPrincipal UserDetails user) {
+		//model.addAttribute("serverTime", formattedDate );
+		
+		return "main/search";
+	}
+	
 }

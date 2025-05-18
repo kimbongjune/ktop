@@ -45,7 +45,7 @@
 <div class="company_view_h4">
 	<div class="company_list_top_txt">총 <strong>3</strong>개의 상품이 있습니다.</div>
 	<div class="company_view_product_search"> 
-		<form method="post" name="search" action="<c:url value='/search' />" >
+		<form method="get" name="search" action="<c:url value='/search' />" >
 			<input type="hidden" name="gc" value="603TYQP" />
 <input type="hidden" name="sca" value="b" />
 <input type="hidden" name="company_id" value="1" />

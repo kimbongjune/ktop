@@ -22,7 +22,7 @@
 				<div class="main_search_tit">어떤 자재를 찾으시나요?</div>
 					 
 <div class="main_search_box">
-	<form method="post" name="search" action="<c:url value='/search' />" >
+	<form method="get" name="search" action="<c:url value='/search' />" >
 				<input type="hidden" name="sit" value="product_title" />
 		<input type="hidden" name="company_area_arr" id="company_area_arr" value="" />
 		<ul class="main_search_category">
