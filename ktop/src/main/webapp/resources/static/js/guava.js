@@ -253,10 +253,10 @@ $(function() {
 
 
 	// 방문자 버튼 클리시
-	$('.admin_visit_btns').click(function() {
-		$('input[name="do"]').val($(this).attr('data-do'));
-		$('form[name="search_form"]').submit();
-	});
+//	$('.admin_visit_btns').click(function() {
+//		$('input[name="do"]').val($(this).attr('data-do'));
+//		$('form[name="search_form"]').submit();
+//	});
 
 
 	// 문자 발송그룹 버튼 조작

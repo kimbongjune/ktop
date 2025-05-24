@@ -83,7 +83,7 @@ html							{font-size:15px;}
 
 .sub_category_box			{position:relative;   }
 
-.sub_top							{position:relative;  overflow:hidden;padding:15px 0 20px 10px;}
+.sub_top							{position:relative;  overflow:hidden;padding:50px 0 20px 10px;}
 .sub_top:after				{content:''; display:block; clear:both;} 
 .sub_top h2					{float:left;color:#000;font-size:2em;font-weight:500;line-height:130%;letter-spacing:-2px;} 
  
