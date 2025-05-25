@@ -328,14 +328,14 @@ $(function() {
 
 
 	// 메뉴 서브카테고리 생성
-	$('.cate_subadd_btns').click(function() {
-		$('#parent_id').val($(this).attr('data-parent_id'));
-		show_boxposition(this, $('#add_box'), 'bottom_right');
-		$('#menu_name,#cate_name').focus();
-		
-		$('#add_box').parent().append('<div class="add_layer_fade"></div>');
-		$('.add_layer_fade').css({'width':$(document).width(),'height':$(document).height()});
-	});
+//	$('.cate_subadd_btns').click(function() {
+//		$('#parent_id').val($(this).attr('data-parent_id'));
+//		show_boxposition(this, $('#add_box'), 'bottom_right');
+//		$('#menu_name,#cate_name').focus();
+//		
+//		$('#add_box').parent().append('<div class="add_layer_fade"></div>');
+//		$('.add_layer_fade').css({'width':$(document).width(),'height':$(document).height()});
+//	});
 
 
 	// 메뉴 서브카테고리 닫기

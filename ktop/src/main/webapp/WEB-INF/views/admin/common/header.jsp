@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="<c:url value='/resources/static/css/guava.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/css/fontawesome.min.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/css/solid.min.css' />">
-
+<script src="<c:url value='/resources/static/js/axios.min.js'  />"></script>
 <script src="<c:url value='/resources/static/js/jquery.min.js' />"></script>
 </head>
 <body data-currentzoom="100" data-leftmenu="on">

@@ -1,4 +1,4 @@
-package net.ktop.ktop.module.web.admin;
+package net.ktop.ktop.module.web.admin.material;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

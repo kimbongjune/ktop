@@ -43,10 +43,6 @@
             <AppenderRef ref="rollingFile" />
         </Logger>
         <Logger name="org.springframework.security" level="INFO" additivity="false">
-            <AppenderRef ref="console" />
-            <AppenderRef ref="rollingFile" />
-        </Logger>
-        <Logger name="org.springframework.security" level="DEBUG" additivity="false">
 		    <AppenderRef ref="console" />
 		    <AppenderRef ref="rollingFile" />
 		</Logger>

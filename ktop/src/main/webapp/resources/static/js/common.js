@@ -72,18 +72,18 @@ $(function() {
 	}
 
 	// 높이 저장 이벤트 (폼)
-	if($('.Fix_FormBtns').length) {
-		$('.Fix_FormBtns').click(function(e) {
-			sessionStorage.removeItem('Fix_FormArr');
-			Fix_FormArr['scrollTop'] = common_fixScrollTop;
-			sessionStorage.setItem('Fix_FormArr', JSON.stringify(Fix_FormArr) );
-		});
-		if(sessionStorage.getItem('Fix_FormArr')) {
-			Fix_FormArr = JSON.parse(sessionStorage.getItem('Fix_FormArr'));
-			window.scrollTo(0, Fix_FormArr['scrollTop']);
-			sessionStorage.removeItem('Fix_FormArr');
-		}
-	}
+//	if($('.Fix_FormBtns').length) {
+//		$('.Fix_FormBtns').click(function(e) {
+//			sessionStorage.removeItem('Fix_FormArr');
+//			Fix_FormArr['scrollTop'] = common_fixScrollTop;
+//			sessionStorage.setItem('Fix_FormArr', JSON.stringify(Fix_FormArr) );
+//		});
+//		if(sessionStorage.getItem('Fix_FormArr')) {
+//			Fix_FormArr = JSON.parse(sessionStorage.getItem('Fix_FormArr'));
+//			window.scrollTo(0, Fix_FormArr['scrollTop']);
+//			sessionStorage.removeItem('Fix_FormArr');
+//		}
+//	}
 
 	// 리사이즈
 	Resize_process();
@@ -149,17 +149,17 @@ $(function() {
 	});
 
 	// 삭제 버튼
-	$('.delete_btns').click(function() {
-		var this_txt = '한번 삭제한 자료는 복구할 방법이 없습니다.\n정말 삭제하시겠습니까?';
-		if($(this).attr('data-txt')) {
-			this_txt = $(this).attr('data-txt');
-		}
-		if(confirm(this_txt)) {
-			window.location.href = encodeURI($(this).attr('data-href'));
-		}else {
-			return false;
-		}
-	});
+//	$('.delete_btns').click(function() {
+//		var this_txt = '한번 삭제한 자료는 복구할 방법이 없습니다.\n정말 삭제하시겠습니까?';
+//		if($(this).attr('data-txt')) {
+//			this_txt = $(this).attr('data-txt');
+//		}
+//		if(confirm(this_txt)) {
+//			window.location.href = encodeURI($(this).attr('data-href'));
+//		}else {
+//			return false;
+//		}
+//	});
 
 	// 업그레이드 버튼
 	$('.upgrade_btns').click(function() {

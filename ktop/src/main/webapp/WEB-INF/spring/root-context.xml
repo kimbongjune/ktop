@@ -103,7 +103,7 @@
     <bean id="customUserDetailsService" class="net.ktop.ktop.module.security.CustomUserDetailsService"/>
     
 	<security:http auto-config="true" use-expressions="true">
-	    
+	    <security:csrf disabled="true"/>
 	    <!-- 로그인 설정 -->
 	    <security:form-login 
 	        login-page="/user/login" 
