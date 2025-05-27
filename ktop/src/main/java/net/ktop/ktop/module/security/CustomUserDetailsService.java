@@ -22,13 +22,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	logger.info("CustomUserDetailsService called");
+        logger.info("CustomUserDetailsService called");
         UserDto user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username);
         }
-
-        return new User(user.getId(), user.getPassword(), 
-                AuthorityUtils.createAuthorityList(user.getRole()));
+        return new CustomUserDetails(user);  // 여기서 커스텀 객체로 반환
     }
 }

@@ -1,150 +1,106 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
+<link rel="stylesheet" href="<c:url value='/resources/static/css/person.css' />">
 <div class="main_contents">
 	<div class="sub_top">
-		<h2>카테고리 관리</h2>
+		<h2>지역 관리</h2>
 	</div>
+	<div class="ghalf">
 
+		<h4>지역 관리</h4>
 
-	<div id="add_box" class="add_layer add_layer2">
-		<div class="tit">
-			<p>서브카테고리 생성</p>
-			<div class="close add_layer_close_btns" title="닫기"></div>
-		</div>
-		<div class="wrap">
-			<p>
-				<input type="text" id="menu_name" name="menu_name" class="input_form required" title="서브 메뉴명" placeholder="서브 카테고리명을 입력해주세요." />
-			</p>
-			<p class="btn">
-				<button type="button" class="ab_m ab_blue Fix_FormBtns" id="btn_subcat_add">생성</button>
-			</p>
-		</div>
-	</div>
-
-
-	<div id="add_box2" class="add_layer">
-		<div class="tit">
-			<p>메뉴정보</p>
-			<div class="close add_layer_close_btns" title="닫기"></div>
-		</div>
-		<div class="wrap">
-			<div class="level_app_box">
-				<h5>APP정보</h5>
-				<div class="level_app_txt"></div>
-			</div>
-
-			<div class="level_check_box">
-				<h5>권한정보</h5>
-				<table class="gtable">
-					<colgroup>
-						<col style="width: 80px;" />
-						<col />
-					</colgroup>
-					<tbody>
-						<tr>
-							<th>일반</th>
-							<td>
-								<label class="inlineblock"><i class="fas fa-check-circle level_checks" data-val="10[:]3"></i> 승인 &nbsp;&nbsp;&nbsp;&nbsp;</label>
-							</td>
-						</tr>
-						<tr>
-							<th>협력사</th>
-							<td>
-								<label class="inlineblock"><i class="fas fa-check-circle level_checks" data-val="40[:]1"></i> 심사 &nbsp;&nbsp;&nbsp;&nbsp;</label> <label class="inlineblock"><i class="fas fa-check-circle level_checks" data-val="40[:]2"></i> 반려 &nbsp;&nbsp;&nbsp;&nbsp;</label> <label class="inlineblock"><i class="fas fa-check-circle level_checks" data-val="40[:]3"></i> 승인 &nbsp;&nbsp;&nbsp;&nbsp;</label>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-
-
-	<!--
-<div class="help_box">
-	<p class="ghelp">* GUAVA 메뉴관리</p>
-	<p class="ghelp">* GUAVA 메뉴관리</p>
-</div>
-!-->
-
-<div class="gcontrol">
-	<input type="text" name="menu_name" class="input_form w200p required" title="새로운 카테고리명" placeholder="새로운 카테고리명" autofocus id="text_cat_add" />
-	<button type="button" class="ab_m ab_blue" id="btn_cat_add">
-		<i class="fas fa-clone"></i>새 카테고리 생성
-	</button>
-
-</div>
-
-
-
-	<input type="hidden" name="gc" value="100ARPF" /> <input type="hidden" name="do" value="update" /> <input type="hidden" name="action" value="listupdate" />
-
-	<table class="gtable gmtable">
-		<colgroup>
-			<col style="width: 100px;" />
-			<col />
-			<col style="width: 120px;" />
-			<col style="width: 120px;" />
-		</colgroup>
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>메뉴명</th>
-				<th>출력구분</th>
-				<th>작업</th>
-			</tr>
-		</thead>
-		<tbody  id="table_body_cat">
-			<c:forEach var="category" items="${categoryList}">
-			    <tr bgcolor="#fff" id="cat_${category.id}">
-					<td class="center">${category.id}</td>
-					<td>
-						<div class="input_list">
-							<span class="line"><input type="text" class="input_form" style="width: 100%" value="${category.name}" /></span>
-						</div>
-						<div class="arr_list">
-							<div class="ab_m ab_blue cate_subadd_btns" onclick="addSubCategory(this)">+</div>
-						</div>
-					</td>
-					<td class="center">
-						<select style="width: 100%;">
-							<option value="true"  <c:if test="${category.active == true}">selected</c:if>>사용</option>
-						    <option value="false" <c:if test="${category.active == false}">selected</c:if>>사용안함</option>
-						</select>
-					</td>
-					<td class="center">
-						<div class="ab_m delete_btns Fix_FormBtns" onclick="updateCategory(this, ${category.id})">변경</div>
-						<div class="ab_m delete_btns Fix_FormBtns" onclick="removeCategory(this, ${category.id})">삭제</div>
-					</td>
-				</tr>
-		
-			    <c:forEach var="child" items="${category.children}">
-			        <tr bgcolor="#eff3f9" id="cat_${child.id}" data-parent_id="${child.parentId}">
-						<td class="center">${child.id}</td>
+		<div id="add_box" class="add_layer">
+			<table class="gtable" style="width: 380px;">
+				<colgroup>
+					<col style="width: 100px;" />
+					<col />
+					<col style="width: 60px;" />
+				</colgroup>
+				<tbody>
+					<tr>
+						<th><label for="group_name">세부 지역명</label></th>
 						<td>
-							<div class="input_list2">
-								<span class="line"><input type="text" class="input_form" style="width: 95%" value="${child.name}" /></span>
+							<input type="text" id="agroup_name" name="agroup_name" id="agroup_name" class="input_form w150p required" title="세부 지역명" placeholder="세부 지역명" /> <input type="button" class="ab_m ab_red" value="생성" id="btn_subcat_add" />
+						</td>
+						<td class="center">
+							<div class="ab_m" id="cate_subclose_btn">닫기</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="gcontrol">
+			<input type="text" name="agroup_name" class="input_form w200p required" title="새로운 지역명" placeholder="새로운 지역명" autofocus id="text_region_add" /> <input type="button" class="ab_m ab_blue" value="+ 지역 생성" id="btn_region_add" />
+		</div>
+
+		<table class="gtable">
+			<colgroup>
+				<col style="width: 100px;" />
+				<col />
+				<col style="width: 120px;" />
+				<col style="width: 120px;" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>지역명</th>
+					<th>출력구분</th>
+					<th>작업</th>
+				</tr>
+			</thead>
+			<tbody id="table_body_region">
+				<c:forEach var="region" items="${regionList}">
+				    <tr id="cat_${region.id}">
+						<td class="center ">${region.id}</td>
+						<td>
+							<div class="input_list">
+								<span class="line"><input type="text" class="input_form" style="width: 100%;" value="${region.name}" /></span>
 							</div>
 							<div class="arr_list">
-								<div class="ab_m ab_h alert_btns" data-txt="더 이상 하위 메뉴 생성이 불가능합니다.">+</div>
+								<div class="ab_m ab_blue cate_subadd_btns"  onclick="addSubCategory(this)">+</div>
 							</div>
 						</td>
 						<td class="center">
 							<select style="width: 100%;">
-								<option value="true"  <c:if test="${child.active == true}">selected</c:if>>사용</option>
-						    	<option value="false" <c:if test="${child.active == false}">selected</c:if>>사용안함</option>
+								<option value="true"  <c:if test="${region.active == true}">selected</c:if>>사용</option>
+						    	<option value="false" <c:if test="${region.active == false}">selected</c:if>>사용안함</option>
 							</select>
 						</td>
 						<td class="center">
-							<div class="ab_m delete_btns Fix_FormBtns" onclick="updateCategory(this)">변경</div>
-							<div class="ab_m delete_btns Fix_FormBtns" onclick="removeCategory(this)">삭제</div>
+							<div class="ab_m delete_btns Fix_FormBtns" onclick="updateCategory(this, ${region.id})">변경</div>
+							<div class="ab_m delete_btns Fix_FormBtns" onclick="removeCategory(this, ${region.id})">삭제</div>
 						</td>
 					</tr>
-			    </c:forEach>
-			</c:forEach>
-		<tbody/>
-	</table>
+			
+				    <c:forEach var="child" items="${region.children}">
+				        <tr  id="cat_${child.id}" data-parent_id="${child.parentId}">
+							<td class="center ">${child.id}</td>
+							<td>
+								<div class="input_list2">
+									<span class="line"><input type="text" class="input_form" style="width: 95%;" value="${child.name}" /></span>
+								</div>
+								<div class="arr_list">
+									<div class="ab_m ab_h alert_btns" data-txt="더 이상 하위 메뉴 생성이 불가능합니다.">+</div>
+								</div>
+							</td>
+							<td class="center">
+								<select style="width: 100%;">
+									<option value="true"  <c:if test="${child.active == true}">selected</c:if>>사용</option>
+						    		<option value="false" <c:if test="${child.active == false}">selected</c:if>>사용안함</option>
+								</select>
+							</td>
+							<td class="center">
+								<div class="ab_m delete_btns Fix_FormBtns" onclick="updateCategory(this)">변경</div>
+								<div class="ab_m delete_btns Fix_FormBtns" onclick="removeCategory(this)">삭제</div>
+							</td>
+						</tr>
+				    </c:forEach>
+				</c:forEach>
+			</tbody>
+		</table>
 
+	</div>
 </div>
 <script>
 
@@ -162,14 +118,14 @@
 				return alert("상위 카테고리가 선택되지 않았습니다.");
 			}
 			
-			const menuName = $("#menu_name");
+			const menuName = $("#agroup_name");
 			if(menuName.val().trim() == ""){
 				return alert("메뉴명은 필수 입력입니다.");
 			}
 			
 			try {
 				// 비동기 서버 요청
-				const response = await axios.post('<c:url value="/admin/site/category/add"/>', {
+				const response = await axios.post('<c:url value="/admin/region/add"/>', {
 				    name: menuName.val().trim(),
 				    active : true,
 				    parentId : parentIdEl.replace("cat_", "")
@@ -189,7 +145,7 @@
 
 				// 행 추가
 				let text = '';
-				text += '<tr bgcolor="#eff3f9" id="cat_' + id + '" data-parent_id="'+parentId+'">';
+				text += '<tr id="cat_' + id + '" data-parent_id="'+parentId+'">';
 				text +=     '<td class="center">' + id + '</td>';
 				text +=     '<td>';
 				text +=         '<div class="input_list2">';
@@ -246,14 +202,14 @@
 		$('.add_layer_fade').css({'width':$(document).width(),'height':$(document).height()});
 	}); */
 
-	$("#btn_cat_add").click(async (e) =>{
-		const menuName = $("#text_cat_add");
+	$("#btn_region_add").click(async (e) =>{
+		const menuName = $("#text_region_add");
 		if(menuName.val().trim() == ""){
 			return alert("메뉴명은 필수 입력입니다.");
 		}
 		try {
 			// 비동기 서버 요청
-			const response = await axios.post('<c:url value="/admin/site/category/add"/>', {
+			const response = await axios.post('<c:url value="/admin/region/add"/>', {
 			    name: menuName.val().trim(),
 			    active : true
 			}, {
@@ -269,10 +225,9 @@
 			const parentId = data.parentId == null ? "" : data.parentId;
 			const name = data.name;
 			const active = data.active;
-
 			// 행 추가
 			let text = '';
-			text += '<tr bgcolor="#fff" id="cat_' + id + '">';
+			text += '<tr id="cat_' + id + '">';
 			text +=     '<td class="center">' + id + '</td>';
 			text +=     '<td>';
 			text +=         '<div class="input_list">';
@@ -296,7 +251,7 @@
 			text +=     '</td>';
 			text += '</tr>';
 
-			$("#table_body_cat").append(text);
+			$("#table_body_region").append(text);
 			menuName.val(""); // 입력창 초기화
 
 		} catch (error) {
@@ -312,7 +267,7 @@
 			const parentId = $(e).parent().parent().attr('id')
 			console.log(parentId)
 			try {
-				const response = await axios.delete('<c:url value="/admin/site/category/del"/>', {
+				const response = await axios.delete('<c:url value="/admin/region/del"/>', {
 					params: {
 				        id: parentId.replace("cat_", "")
 				    }
@@ -358,7 +313,7 @@
 		}
 		
 		try {
-			const response = await axios.put('<c:url value="/admin/site/category/mod"/>', {
+			const response = await axios.put('<c:url value="/admin/region/mod"/>', {
 				id: parentId.replace("cat_", ""),
 		        name : menuName,
 		        active : activeVal
@@ -379,4 +334,5 @@
 	}
 </script>
 <!-- main_contents -->
+<script src="<c:url value='/resources/static/js/person.js' />"></script>
 <%@ include file="/WEB-INF/views/admin/common/footer.jsp"%>

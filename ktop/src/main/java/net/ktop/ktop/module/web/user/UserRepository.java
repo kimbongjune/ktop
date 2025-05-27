@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRepository {
    private SqlSessionTemplate template;
+   
+   private final static String MAPPER_NAME = "usermapper.";
 
    @Autowired
    public UserRepository(SqlSessionTemplate template) {
@@ -14,15 +16,27 @@ public class UserRepository {
    }
 
    public UserDto login(UserDto dto) {
-      return template.selectOne("usermapper.findUserOne", dto);
+      return template.selectOne(MAPPER_NAME+"findUserOne", dto);
    }
    
    public UserDto findByUsername(String id) {
-      return template.selectOne("usermapper.findByUsername", id);
+      return template.selectOne(MAPPER_NAME+"findByUsername", id);
    }
 
    public int idCheck(String id) {
-      return 0;
+	   return template.selectOne(MAPPER_NAME+"idCheck", id);
+   }
+   
+   public int nickCheck(String nickName) {
+	   return template.selectOne(MAPPER_NAME+"nickCheck", nickName);
+   }
+   
+   public int phoneCheck(String phoneMobile) {
+	   return template.selectOne(MAPPER_NAME+"phoneCheck", phoneMobile);
+   }
+   
+   public int emailCheck(String email) {
+	   return template.selectOne(MAPPER_NAME+"emailCheck", email);
    }
 
    public UserDto updateUserInfo(UserDto dto) {
@@ -30,7 +44,7 @@ public class UserRepository {
    }
 
    public int signUp(UserDto dto) {
-	   return template.insert("usermapper.insertUserOne", dto);
+	   return template.insert(MAPPER_NAME+"insertUserOne", dto);
    }
 
    public int signOut(String id) {

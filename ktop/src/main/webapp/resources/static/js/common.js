@@ -207,9 +207,9 @@ $(function() {
 
 
 	// 전체 선택/해제
-	$('.all_check').click(function() {
-		$('.'+$(this).attr('data-class')+'[disabled!=disabled]').prop('checked',$(this).is(':checked'));
-	});
+//	$('.all_check').click(function() {
+//		$('.'+$(this).attr('data-class')+'[disabled!=disabled]').prop('checked',$(this).is(':checked'));
+//	});
 
 
 	// 파일 첨부시 (up_files)

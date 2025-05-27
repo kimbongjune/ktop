@@ -20,6 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500&display=swap" rel="stylesheet">
 
+<script src="<c:url value='/resources/static/js/axios.min.js'  />"></script>
 <script src="<c:url value='/resources/static/js/jquery.min.js' />"></script>
 <script>
 	var agent = navigator.userAgent.toLowerCase();

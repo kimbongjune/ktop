@@ -10,15 +10,12 @@
 		<div class="web_size">  
 							
 			<div class="sub_cont"> 
-<form name="login_form" method="post" action="#" onsubmit="return login_form_submit();">
-<input type="hidden" name="gc" value="MA" />
-<input type="hidden" name="do" value="update" />
-<input type="hidden" name="action" value="login" />
+<form name="login_form" method="post" action="<c:url value='/login' />" onsubmit="return login_form_submit();">
 <div id="login_box" >
 	<div class="logo"><img src="<c:url value='/resources/static/image/top_logo.png' />" alt="건축자재포털" /></div>
 	<div class="field">
-		<input type="text" id="user_id" name="user_id" class="alnum_ required" minlength="5" maxlength="16" title="아이디" autofocus placeholder="아이디" />
-		<input type="password" id="user_passwd" name="user_passwd" class="required" minlength="6" maxlength="16" title="비밀번호" placeholder="비밀번호" />
+		<input type="text" id="username" name="username" class="alnum_" title="아이디" autofocus placeholder="아이디" />
+		<input type="password" id="password" name="password" class=""  title="비밀번호" placeholder="비밀번호" />
 		<i class="fas fa-eye-slash" title="비밀번호 보기"></i>
 	</div>
 

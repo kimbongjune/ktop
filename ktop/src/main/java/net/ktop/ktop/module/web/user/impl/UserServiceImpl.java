@@ -9,34 +9,49 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-   private UserRepository userRepository;
-   
-   private PasswordEncoder passwordEncoder;
+	private UserRepository userRepository;
 
-   @Autowired
-   public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-      this.userRepository = userRepository;
-      this.passwordEncoder = passwordEncoder;
-   }
+	private PasswordEncoder passwordEncoder;
 
-   public UserDto login(UserDto dto) {
-      return this.userRepository.login(dto);
-   }
+	@Autowired
+	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
 
-   public int idCheck(String id) {
-      return 0;
-   }
+	public UserDto login(UserDto dto) {
+		return this.userRepository.login(dto);
+	}
 
-   public UserDto updateUserInfo(UserDto dto) {
-      return null;
-   }
+	public int idCheck(String id) {
+		return userRepository.idCheck(id);
+	}
 
-   public int signUp(UserDto dto) {
-	   dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-      return userRepository.signUp(dto);
-   }
+	@Override
+	public int nickCheck(String nickName) {
+		return userRepository.nickCheck(nickName);
+	}
+	
+	@Override
+	public int phoneCheck(String phoneMobile) {
+		return userRepository.phoneCheck(phoneMobile);
+	}
+	
+	@Override
+	public int emailCheck(String email) {
+		return userRepository.emailCheck(email);
+	}
 
-   public int signOut(String id) {
-      return 0;
-   }
+	public UserDto updateUserInfo(UserDto dto) {
+		return null;
+	}
+
+	public int signUp(UserDto dto) {
+		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+		return userRepository.signUp(dto);
+	}
+
+	public int signOut(String id) {
+		return 0;
+	}
 }

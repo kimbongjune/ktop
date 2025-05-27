@@ -38,13 +38,13 @@
 	</delete>
 	
 	<select id="selectCategoryAll" resultMap="categoryWithChildrenMap">
-	    SELECT * FROM category WHERE parent_id IS NULL
+	    SELECT * FROM category WHERE parent_id IS NULL ORDER BY created_at;
 	</select>
 	
 	<select id="selectChildrenByParentId" resultType="net.ktop.ktop.module.web.admin.category.AdminSiteCategoryDto">
 	    SELECT *
 	    FROM category
-	    WHERE parent_id = #{param1}
+	    WHERE parent_id = #{param1} ORDER BY created_at;
 	</select>
 	
 	<update id="updateCategory" parameterType="net.ktop.ktop.module.web.admin.category.AdminSiteCategoryDto">

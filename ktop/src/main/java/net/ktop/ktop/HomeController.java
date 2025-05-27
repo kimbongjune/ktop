@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import net.ktop.ktop.module.security.CustomUserDetails;
+
 /**
  * Handles requests for the application home page.
  */
@@ -25,9 +27,9 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/aaaa", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, @AuthenticationPrincipal UserDetails user) {
+	public String home(Locale locale, Model model, @AuthenticationPrincipal CustomUserDetails user) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		logger.info("login user {}", user != null ? user.getUsername() : "not login");
+		logger.info("login user {}", user != null ? user.getNickName() : "not login");
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);

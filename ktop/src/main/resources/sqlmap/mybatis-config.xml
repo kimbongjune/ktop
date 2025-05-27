@@ -11,5 +11,6 @@
 	</settings>
 	<typeAliases>
 		<typeAlias alias="UserDto" type="net.ktop.ktop.module.web.user.UserDto"/>
+		<typeAlias alias="SignupQuestionDto" type="net.ktop.ktop.module.web.signupquestion.SignupQuestionDto"/>
    	</typeAliases>
 </configuration>

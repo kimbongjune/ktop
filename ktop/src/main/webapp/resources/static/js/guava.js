@@ -26,28 +26,28 @@ $(function() {
 
 
 	// 아이디 중복검사
-	if($('.idcheck').length) {
-		$('.idcheck').blur(function() {
-			var this_val = $.trim($(this).val());
-			var this_length = this_val.length;
-			var this_minlength = $(this).attr('minlength');
-			var this_parent = $(this).parent();
-			if(this_val) {
-				$.post(guava_ajax_url, {'user_id':$.trim(this_val),'gubun':'id_check'}, function(strText) {
-					this_parent.find('i').hide();
-					if(this_length >= this_minlength) {
-						$('.idcheck_'+strText).show();
-					}
-					$('#id_enabled').val(strText);
-				});
-			}
-		}).keydown(function() {
-			$(this).parent().find('i').hide();
-		});
-	}
-
-
-	// 패스워드
+//	if($('.idcheck').length) {
+//		$('.idcheck').blur(function() {
+//			var this_val = $.trim($(this).val());
+//			var this_length = this_val.length;
+//			var this_minlength = $(this).attr('minlength');
+//			var this_parent = $(this).parent();
+//			if(this_val) {
+//				$.post(guava_ajax_url, {'user_id':$.trim(this_val),'gubun':'id_check'}, function(strText) {
+//					this_parent.find('i').hide();
+//					if(this_length >= this_minlength) {
+//						$('.idcheck_'+strText).show();
+//					}
+//					$('#id_enabled').val(strText);
+//				});
+//			}
+//		}).keydown(function() {
+//			$(this).parent().find('i').hide();
+//		});
+//	}
+//
+//
+//	// 패스워드
 	if($('input[type="password"]').length) {
 		$(document).on('click','.fa-eye-slash',function() {
 			$(this).prev().attr('type','text');
@@ -58,97 +58,97 @@ $(function() {
 			$(this).removeClass('fa-eye').addClass('fa-eye-slash').attr('title','비밀번호 보기');
 		});
 	}
-
-
-	// 패스워드 검사
-	if($('.pwcheck').length) {
-		$('.pwcheck').keyup(function() {
-			var this_ = $(this);
-			var this_rule = this_.hasClass('pwrulecheck');
-			var this_rule_cnt = $('.pwrulecheck').length;
-			var this_re = this_.hasClass('pwrecheck');
-			var this_re_target = $('#'+this_.attr('data-target'));
-			var this_val = $.trim(this_.val());
-			var this_length = this_val.length;
-			var this_minlength = this_.attr('minlength');
-			var this_parent = this_.parent();
-			var this_index = this_.index('.pwcheck');
-
-
-			// 비밀번호 작성규칙 적용시 (비밀번호 입력)
-			if(this_rule) {
-				if(this_val && $('.pw_check_wrap').css('display') == 'none') $('#pw_check_msg,.pw_check_wrap').show();
-
-				var this_alpha = ['A','N','S'];
-				var this_class = ['.alpha','.num','.special'];
-
-				var this_check = passwd_check(this_val, 1);
-				if(this_check == 'ANS' && this_length >= this_minlength) {
-					$('#pw_check_msg,.pw_check_wrap').hide();
-					if($('.pwcheck_rule').hasClass('fa-check') == false) $('.pwcheck_rule').removeClass('fa-key').addClass('fa-check fsky');
-				}else {
-					$('#pw_check_msg,.pw_check_wrap').show();
-					if($('.pwcheck_rule').hasClass('fa-check') == true) $('.pwcheck_rule').removeClass('fa-check fsky').addClass('fa-key');
-					for(var i=0;i<this_alpha.length;i++) {
-						if(this_check.indexOf(this_alpha[i]) !== -1) {
-							if($('.pw_check_wrap').find(this_class[i]).hasClass('on') == false) $('.pw_check_wrap').find(this_class[i]).addClass('on');
-						}else {
-							if($('.pw_check_wrap').find(this_class[i]).hasClass('on') == true) $('.pw_check_wrap').find(this_class[i]).removeClass('on');
-						}
-					}
-				}
-
-			}
-
-			// 비밀번호 작성규칙 적용시 (비밀번호 또는 확인 입력)
-			if( this_rule || (this_re && this_re_target.hasClass('pwrulecheck')) ) {
-				if(this_val && this_parent.find('i[class^="fas pwcheck_'+(this_rule?'rule':'re')+'"]').length < 1) {
-					this_parent.append('<i class="fas pwcheck_'+(this_rule?'rule':'re')+' fa-key"></i>');
-					this_parent.find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','40px');
-				}
-			}
-
-			// 비밀번호 작성규칙 적용시 (확인 입력)
-			if(this_rule_cnt) {
-				if(this_val && this_re_target.val()) {
-					if(this_val == this_re_target.val() && ($('.pwrecheck').val()).length >= $('.pwrecheck').attr('minlength') && $('.pwcheck_rule').hasClass('fa-check') == true) {
-						if($('.pwcheck_re').hasClass('fa-check') == false) $('.pwcheck_re').removeClass('fa-key').addClass('fa-check fsky');
-					}else {
-						if($('.pwcheck_re').hasClass('fa-check') == true) $('.pwcheck_re').removeClass('fa-check fsky').addClass('fa-key');
-					}
-				}
-			}else {
-				if(!this_re) {
-					if(this_length >= this_minlength) {
-						this_parent.find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','40px');
-						$('.pwcheck_'+this_index).show();
-					}else {
-						this_parent.find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','10px');
-						$('.pwcheck_'+this_index).hide();
-					}
-
-					if(this_val == this_re_target.val() && $('.pwcheck_'+this_index).css('display') != 'none') {
-						$('.pwrecheck').parent().find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','40px');
-						$('.pwcheck_1').show();
-					}else {
-						$('.pwrecheck').parent().find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','10px');
-						$('.pwcheck_1').hide();
-					}
-				}else {
-					if(this_length >= this_minlength && this_val == this_re_target.val() && $('.pwcheck_0').css('display') != 'none') {
-						this_parent.find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','40px');
-						$('.pwcheck_'+this_index).show();
-					}else {
-						this_parent.find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','10px');
-						$('.pwcheck_'+this_index).hide();
-					}
-				}
-			}
-		});
-	}
-
-
-	// 회원가입,수정 멀티 탭
+//
+//
+//	// 패스워드 검사
+//	if($('.pwcheck').length) {
+//		$('.pwcheck').keyup(function() {
+//			var this_ = $(this);
+//			var this_rule = this_.hasClass('pwrulecheck');
+//			var this_rule_cnt = $('.pwrulecheck').length;
+//			var this_re = this_.hasClass('pwrecheck');
+//			var this_re_target = $('#'+this_.attr('data-target'));
+//			var this_val = $.trim(this_.val());
+//			var this_length = this_val.length;
+//			var this_minlength = this_.attr('minlength');
+//			var this_parent = this_.parent();
+//			var this_index = this_.index('.pwcheck');
+//
+//
+//			// 비밀번호 작성규칙 적용시 (비밀번호 입력)
+//			if(this_rule) {
+//				if(this_val && $('.pw_check_wrap').css('display') == 'none') $('#pw_check_msg,.pw_check_wrap').show();
+//
+//				var this_alpha = ['A','N','S'];
+//				var this_class = ['.alpha','.num','.special'];
+//
+//				var this_check = passwd_check(this_val, 1);
+//				if(this_check == 'ANS' && this_length >= this_minlength) {
+//					$('#pw_check_msg,.pw_check_wrap').hide();
+//					if($('.pwcheck_rule').hasClass('fa-check') == false) $('.pwcheck_rule').removeClass('fa-key').addClass('fa-check fsky');
+//				}else {
+//					$('#pw_check_msg,.pw_check_wrap').show();
+//					if($('.pwcheck_rule').hasClass('fa-check') == true) $('.pwcheck_rule').removeClass('fa-check fsky').addClass('fa-key');
+//					for(var i=0;i<this_alpha.length;i++) {
+//						if(this_check.indexOf(this_alpha[i]) !== -1) {
+//							if($('.pw_check_wrap').find(this_class[i]).hasClass('on') == false) $('.pw_check_wrap').find(this_class[i]).addClass('on');
+//						}else {
+//							if($('.pw_check_wrap').find(this_class[i]).hasClass('on') == true) $('.pw_check_wrap').find(this_class[i]).removeClass('on');
+//						}
+//					}
+//				}
+//
+//			}
+//
+//			// 비밀번호 작성규칙 적용시 (비밀번호 또는 확인 입력)
+//			if( this_rule || (this_re && this_re_target.hasClass('pwrulecheck')) ) {
+//				if(this_val && this_parent.find('i[class^="fas pwcheck_'+(this_rule?'rule':'re')+'"]').length < 1) {
+//					this_parent.append('<i class="fas pwcheck_'+(this_rule?'rule':'re')+' fa-key"></i>');
+//					this_parent.find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','40px');
+//				}
+//			}
+//
+//			// 비밀번호 작성규칙 적용시 (확인 입력)
+//			if(this_rule_cnt) {
+//				if(this_val && this_re_target.val()) {
+//					if(this_val == this_re_target.val() && ($('.pwrecheck').val()).length >= $('.pwrecheck').attr('minlength') && $('.pwcheck_rule').hasClass('fa-check') == true) {
+//						if($('.pwcheck_re').hasClass('fa-check') == false) $('.pwcheck_re').removeClass('fa-key').addClass('fa-check fsky');
+//					}else {
+//						if($('.pwcheck_re').hasClass('fa-check') == true) $('.pwcheck_re').removeClass('fa-check fsky').addClass('fa-key');
+//					}
+//				}
+//			}else {
+//				if(!this_re) {
+//					if(this_length >= this_minlength) {
+//						this_parent.find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','40px');
+//						$('.pwcheck_'+this_index).show();
+//					}else {
+//						this_parent.find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','10px');
+//						$('.pwcheck_'+this_index).hide();
+//					}
+//
+//					if(this_val == this_re_target.val() && $('.pwcheck_'+this_index).css('display') != 'none') {
+//						$('.pwrecheck').parent().find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','40px');
+//						$('.pwcheck_1').show();
+//					}else {
+//						$('.pwrecheck').parent().find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','10px');
+//						$('.pwcheck_1').hide();
+//					}
+//				}else {
+//					if(this_length >= this_minlength && this_val == this_re_target.val() && $('.pwcheck_0').css('display') != 'none') {
+//						this_parent.find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','40px');
+//						$('.pwcheck_'+this_index).show();
+//					}else {
+//						this_parent.find('i[class="fas fa-eye-slash"], i[class="fas fa-eye"]').css('right','10px');
+//						$('.pwcheck_'+this_index).hide();
+//					}
+//				}
+//			}
+//		});
+//	}
+//
+//
+//	// 회원가입,수정 멀티 탭
 	if($('#register_box .tabs li').length) {
 		$('.tabauto li').click(function() {
 			var this_index = $(this).index('.tabauto li');
@@ -173,38 +173,38 @@ $(function() {
 			register_add_form($('.tabs li.on').attr('data-type'));
 		}
 	}
-
-
-	// 자동등록방지
-	if($('#secret_key').length) {
-		$('#secret_key').keyup(function() {
-			$(this).val($(this).val().replace(/[^0-9a-zA-Z]/g, ''));
-		});
+//
+//
+//	// 자동등록방지
+//	if($('#secret_key').length) {
+//		$('#secret_key').keyup(function() {
+//			$(this).val($(this).val().replace(/[^0-9a-zA-Z]/g, ''));
+//		});
 		$('#secret_reload').click(function() { // 새로고침
 			$('#secret_image').attr('src',($('#secret_image').attr('src').split('?v='))[0]+'?v='+parseInt(Math.random()*1000000));
 			return false;
 		});
-		$('#secret_mp3').click(function() { // 음성
-			$.post(guava_ajax_url, {'gubun':'secret_music'}, function(strText) {
-				var html5audio = document.createElement('audio');
-				if(html5audio.canPlayType && html5audio.canPlayType('audio/mpeg') && strText) {
-					var wav = new Audio(strText);
-					wav.id = 'mp3_audio';
-					wav.autoplay = false;
-					wav.controls = false;
-					wav.autobuffer = false;
-					wav.loop = false;
-
-					if($('#mp3_audio').length) $('#mp3_audio').remove();
-					$('#secret_mp3').after(wav);
-
-					var oAudio = document.getElementById('mp3_audio');
-					oAudio.play();
-				}
-			});
-			return false;
-		});
-	}
+//		$('#secret_mp3').click(function() { // 음성
+//			$.post(guava_ajax_url, {'gubun':'secret_music'}, function(strText) {
+//				var html5audio = document.createElement('audio');
+//				if(html5audio.canPlayType && html5audio.canPlayType('audio/mpeg') && strText) {
+//					var wav = new Audio(strText);
+//					wav.id = 'mp3_audio';
+//					wav.autoplay = false;
+//					wav.controls = false;
+//					wav.autobuffer = false;
+//					wav.loop = false;
+//
+//					if($('#mp3_audio').length) $('#mp3_audio').remove();
+//					$('#secret_mp3').after(wav);
+//
+//					var oAudio = document.getElementById('mp3_audio');
+//					oAudio.play();
+//				}
+//			});
+//			return false;
+//		});
+//	}
 
 
 	// 게시글 선택
