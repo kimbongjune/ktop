@@ -105,7 +105,7 @@
 
 
 <div class="center mt30">
-	<a href="<c:url value='/user/company/1' />"><div class="bbs_btn01">수정</div></a>
+	<a href="<c:url value='/user/company/edit' />"><div class="bbs_btn01">수정</div></a>
 </div>
 
 

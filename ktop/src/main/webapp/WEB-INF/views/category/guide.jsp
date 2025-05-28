@@ -10,42 +10,24 @@
 									<div class="lnb">
 				<div class="web_size">  
 					<ul>	
-												<li><a href="<c:url value='/category/1' />">설계사무소</a></li>
-												<li class="on"><a href="<c:url value='/category/2' />">장비</a></li>
-												<li><a href="<c:url value='/category/3' />">레미콘</a></li>
-												<li><a href="<c:url value='/category/4' />">형틀목수</a></li>
-												<li><a href="<c:url value='/category/5' />">철근배근</a></li>
-												<li><a href="<c:url value='/category/6' />">설비</a></li>
-												<li><a href="<c:url value='/category/7' />">전기</a></li>
-												<li><a href="<c:url value='/category/8' />">통신</a></li>
-												<li><a href="<c:url value='/category/9' />">샷시</a></li>
-												<li><a href="<c:url value='/category/10' />">유리</a></li>
-												<li><a href="<c:url value='/category/11' />">경량철골</a></li>
-												<li><a href="<c:url value='/category/12' />">태양열</a></li>
-												<li><a href="<c:url value='/category/13' />">에어컨</a></li>
-												<li><a href="<c:url value='/category/14' />">컨테이너</a></li>
-												<li><a href="<c:url value='/category/15' />">타일</a></li>
-											</ul>
+						<c:forEach var="category" items="${categorySubList}">
+							<li ${category.id eq categoryNum ? 'class="on"' : ''}><a href="<c:url value='/category/${category.id}' />">${category.name}</a></li>
+						</c:forEach>
+					</ul>
 				</div>
 			</div>
 			
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>협력사</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/category/1' />" >건축</a></li>
-											<li><a href="<c:url value='/category/2' />" >장비</a></li>
-											<li><a href="<c:url value='/category/2/guide' />" >협력사가입안내</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 
 
 									<ul class="tabmenu01">
-								<li class=""><a href="<c:url value='/category/2' />" >협력사소개</a></li>
-								<li class="on"><a href="<c:url value='/category/2/guide' />" >협력사 가입안내</a></li>
-								<li class=""><a href="<c:url value='/category/2/join' />" >협력사 등록</a></li>
+								<li class=""><a href="<c:url value='/category/${categoryNum}' />" >협력사소개</a></li>
+								<li class="on"><a href="<c:url value='/category/${categoryNum}/guide' />" >협력사 가입안내</a></li>
+								<li class=""><a href="<c:url value='/category/${categoryNum}/join' />" >협력사 등록</a></li>
 							</ul>
 			
 						

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="categoryMapper">
+	
+	<resultMap id="categoryWithChildrenMap" type="net.ktop.ktop.module.web.category.CategoryDto">
+        <id      property="id"        column="id"/>
+        <result  property="name"      column="name"/>
+        <result  property="parentId"  column="parent_id"/>
+        <result  property="depth"     column="depth"/>
+        <result  property="displayOrder" column="display_order"/>
+        <result  property="isActive"  column="is_active"/>
+        <result  property="createdAt" column="created_at"/>
+        <result  property="updatedAt" column="updated_at"/>
+
+        <!-- 자식(중분류) 리스트 매핑 : depth=1 만 조회 -->
+        <collection property="children"
+                    ofType="net.ktop.ktop.module.web.category.CategoryDto"
+                    select="selectChildrenByParentId"
+                    column="id"/>
+    </resultMap>
+	
+	<select id="selectCategoryAll" resultMap="categoryWithChildrenMap">
+	    SELECT * FROM category WHERE parent_id IS NULL ORDER BY created_at;
+	</select>
+	
+	<select id="selectChildrenByParentId" resultType="net.ktop.ktop.module.web.category.CategoryDto">
+	    SELECT *
+	    FROM category
+	    WHERE parent_id = #{param1} ORDER BY created_at;
+	</select>
+	
+	<select id="selectCategoryById" resultType="net.ktop.ktop.module.web.category.CategoryDto" parameterType="int">
+	    SELECT *
+			FROM category
+			WHERE
+			    parent_id = (
+			        SELECT
+			            CASE
+			                WHEN c.parent_id IS NULL THEN c.id
+			                ELSE c.parent_id
+			            END
+			        FROM category c
+			        WHERE c.id = #{id}
+			    )
+			ORDER BY created_at;
+	</select>
+</mapper>

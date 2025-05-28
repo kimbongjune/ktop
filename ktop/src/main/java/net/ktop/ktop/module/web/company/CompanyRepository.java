@@ -1,0 +1,22 @@
+package net.ktop.ktop.module.web.company;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class CompanyRepository {
+	private final SqlSessionTemplate template;
+	
+	private final static String MAPPER_NAME = "companyMapper.";
+
+	@Autowired
+	public CompanyRepository(SqlSessionTemplate template) {
+		this.template = template;
+	}
+	
+	public CompanyDto getCompanyOne(String id) {
+		return template.selectOne(MAPPER_NAME + "getCompanyOne", id);
+	}
+	
+}

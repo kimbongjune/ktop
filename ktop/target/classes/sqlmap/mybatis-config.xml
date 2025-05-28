@@ -12,5 +12,6 @@
 	<typeAliases>
 		<typeAlias alias="UserDto" type="net.ktop.ktop.module.web.user.UserDto"/>
 		<typeAlias alias="SignupQuestionDto" type="net.ktop.ktop.module.web.signupquestion.SignupQuestionDto"/>
+		<typeAlias alias="CompanyDto" type="net.ktop.ktop.module.web.company.CompanyDto"/>
    	</typeAliases>
 </configuration>

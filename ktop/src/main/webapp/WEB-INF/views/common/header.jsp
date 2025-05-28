@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -74,55 +75,20 @@
 						<p class="close mbmenu_close" title="메뉴 닫기"></p>
 					</div>
 					<ul class="gnb_ul">
-						<li class="lis " data-key="465"><a href="<c:url value='/category/1' />" class="mbsub1s">건축<span></span></a>
-							<ul id="submenu_465">
-								<li class=""><a href="<c:url value='/category/1' />">설계사무소 </a></li>
-								<li class=""><a href="<c:url value='/category/2' />">장비</a></li>
-								<li class=""><a href="<c:url value='/category/3' />">레미콘</a></li>
-								<li class=""><a href="<c:url value='/category/4' />">형틀목수</a></li>
-								<li class=""><a href="<c:url value='/category/5' />">철근배근</a></li>
-								<li class=""><a href="<c:url value='/category/6' />">설비</a></li>
-								<li class=""><a href="<c:url value='/category/7' />">전기</a></li>
-								<li class=""><a href="<c:url value='/category/8' />">통신</a></li>
-								<li class=""><a href="<c:url value='/category/9' />">샷시</a></li>
-								<li class=""><a href="<c:url value='/category/10' />">유리</a></li>
-								<li class=""><a href="<c:url value='/category/11' />">경량철골</a></li>
-								<li class=""><a href="<c:url value='/category/12' />">태양열</a></li>
-								<li class=""><a href="<c:url value='/category/13' />">에어컨</a></li>
-								<li class=""><a href="<c:url value='/category/14' />">컨테이너</a></li>
-								<li class=""><a href="<c:url value='/category/15' />">타일</a></li>
+						<%-- <p>${categoryNum}</p> --%>
+						<c:forEach var="category" items="${categoryList}">
+							<li class="lis ${category.id eq categorySubList[0].parentId ? 'on' : ''}" data-key="${category.id}">
+							<a href="<c:url value='/category/${category.id}' />" class="mbsub1s">${category.name}
+								<span></span>
+							</a>
+							<ul id="submenu_${category.id}">
+								<c:forEach var="child" items="${category.children}">
+									<li class=""><a href="<c:url value='/category/${child.id}' />">${child.name}</a></li>
+								</c:forEach>
 							</ul>
 						</li>
-						<li class="lis " data-key="466"><a href="<c:url value='/category/16' />" class="mbsub1s">토목<span></span></a>
-							<ul id="submenu_466">
-								<li class=""><a href="<c:url value='/category/16' />">설계</a></li>
-								<li class=""><a href="<c:url value='/category/17' />">장비</a></li>
-								<li class=""><a href="<c:url value='/category/18' />">건자재</a></li>
-								<li class=""><a href="<c:url value='/category/19' />">컨테이너</a></li>
-							</ul>
-						</li>
-						<li class="lis " data-key="467"><a href="<c:url value='/category/20' />" class="mbsub1s">조경<span></span></a>
-							<ul id="submenu_467">
-								<li class=""><a href="<c:url value='/category/20' />">나무</a></li>
-								<li class=""><a href="<c:url value='/category/21' />">건자재</a></li>
-								<li class=""><a href="<c:url value='/category/22' />">컨테이너</a></li>
-							</ul>
-						</li>
-						<li class="lis " data-key="468"><a href="<c:url value='/category/23' />" class="mbsub1s">인테리어<span></span></a>
-							<ul id="submenu_468">
-								<li class=""><a href="<c:url value='/category/23' />">철거</a></li>
-								<li class=""><a href="<c:url value='/category/24' />">설비</a></li>
-								<li class=""><a href="<c:url value='/category/25' />">목수</a></li>
-								<li class=""><a href="<c:url value='/category/26' />">전기</a></li>
-								<li class=""><a href="<c:url value='/category/27' />">도배, 장판</a></li>
-								<li class=""><a href="<c:url value='/category/28' />">페인트</a></li>
-								<li class=""><a href="<c:url value='/category/29' />">건자재</a></li>
-								<li class=""><a href="<c:url value='/category/30' />">에어컨</a></li>
-								<li class=""><a href="<c:url value='/category/31' />">컨테이너</a></li>
-								<li class=""><a href="<c:url value='/category/32' />">타일</a></li>
-							</ul>
-						</li>
-						<li class="lis " data-key="470"><a href="<c:url value='/workforce' />" class="mbsub1s">인력<span></span></a>
+						</c:forEach>
+						<li class="lis  ${menuCategory eq 'workforce' ? 'on' : ''}" data-key="470"><a href="<c:url value='/workforce' />" class="mbsub1s">인력<span></span></a>
 							<ul id="submenu_470">
 								<li class=""><a href="<c:url value='/workforce' />">인력 POOL </a></li>
 								<li class=""><a href="<c:url value='/workforce/mine' />">인력 POOL 안내/등록 </a></li>
@@ -152,9 +118,24 @@
 
 					<li><a href="<c:url value='/' />">협력사신청</a></li>
 					<li><a href="<c:url value='/notice' />">고객센터</a></li>
-					<li class="login"><a href="<c:url value='/user/login' />">로그인</a></li>
+					<li class="login">
+						<sec:authorize access="isAnonymous()">
+							<a href="<c:url value='/user/login' />">로그인</a>
+						</sec:authorize> 
+						
+						<sec:authorize access="isAuthenticated()">
+							<a href="<c:url value='/logout' />">로그아웃</a>
+						</sec:authorize>
+						
+					</li>
 					<li>
-						<%-- <a href="<c:url value='/user/signup' />">회원가입</a> --%> <a href="<c:url value='/user/mypage' />">마이페이지</a>
+						<sec:authorize access="isAnonymous()">
+							<a href="<c:url value='/user/signup' />">회원가입</a>
+						</sec:authorize> 
+						
+						<sec:authorize access="isAuthenticated()">
+							<a href="<c:url value='/user/mypage' />">마이페이지</a>
+						</sec:authorize>
 					</li>
 				</ul>
 			</div>

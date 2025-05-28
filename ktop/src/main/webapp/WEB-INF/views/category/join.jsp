@@ -10,42 +10,24 @@
 									<div class="lnb">
 				<div class="web_size">  
 					<ul>	
-												<li><a href="<c:url value='/category/1' />">설계사무소</a></li>
-												<li class="on"><a href="<c:url value='/category/2' />">장비</a></li>
-												<li><a href="<c:url value='/category/3' />">레미콘</a></li>
-												<li><a href="<c:url value='/category/4' />">형틀목수</a></li>
-												<li><a href="<c:url value='/category/5' />">철근배근</a></li>
-												<li><a href="<c:url value='/category/6' />">설비</a></li>
-												<li><a href="<c:url value='/category/7' />">전기</a></li>
-												<li><a href="<c:url value='/category/8' />">통신</a></li>
-												<li><a href="<c:url value='/category/9' />">샷시</a></li>
-												<li><a href="<c:url value='/category/10' />">유리</a></li>
-												<li><a href="<c:url value='/category/11' />">경량철골</a></li>
-												<li><a href="<c:url value='/category/12' />">태양열</a></li>
-												<li><a href="<c:url value='/category/13' />">에어컨</a></li>
-												<li><a href="<c:url value='/category/14' />">컨테이너</a></li>
-												<li><a href="<c:url value='/category/15' />">타일</a></li>
-											</ul>
+						<c:forEach var="category" items="${categorySubList}">
+							<li ${category.id eq categoryNum ? 'class="on"' : ''}><a href="<c:url value='/category/${category.id}' />">${category.name}</a></li>
+						</c:forEach>
+					</ul>
 				</div>
 			</div>
 			
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>협력사</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/category/1' />" >건축</a></li>
-											<li><a href="<c:url value='/category/2' />" >장비</a></li>
-											<li><a href="<c:url value='/category/2/join' />" >협력사등록</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 
 
 									<ul class="tabmenu01">
-								<li class=""><a href="<c:url value='/category/2' />" >협력사소개</a></li>
-								<li class=""><a href="<c:url value='/category/2/guide' />" >협력사 가입안내</a></li>
-								<li class="on"><a href="<c:url value='/category/2/join' />" >협력사 등록</a></li>
+								<li class=""><a href="<c:url value='/category/${categoryNum}' />" >협력사소개</a></li>
+								<li class=""><a href="<c:url value='/category/${categoryNum}/guide' />" >협력사 가입안내</a></li>
+								<li class="on"><a href="<c:url value='/category/${categoryNum}/join' />" >협력사 등록</a></li>
 							</ul>
 			
 						
@@ -58,7 +40,7 @@
 				<h3 class="sub_title">자재</h3>
 						 
 
-<div class="company_overview_wrap"> 
+<%-- <div class="company_overview_wrap"> 
  
 
 <div class="company_overview_box">
@@ -121,11 +103,44 @@
  
 
 
-</div>
+</div> --%>
 
 
 <div class="center mt30">
-	<a href="<c:url value='/partner/edit' />"><div class="bbs_btn01">재신청</div></a>
+	
+	<sec:authorize access="isAnonymous()">
+	    <div class="error_box">
+			<i class="fas fa-exclamation-circle"></i>
+			<div class="txt">로그인 후 사용 가능합니다.<span>회원이시라면 로그인 후 이용하시기 바랍니다.</span></div>
+			<a href="<c:url value='/user/login' />"><div class="sub_btn01">로그인</div></a>
+		</div>
+	</sec:authorize>
+	<sec:authorize access="isAuthenticated()">
+		<sec:authorize access="hasRole('ROLE_PARTNER')">
+			<c:choose>
+			    <c:when test="${not empty company}">
+			        <!-- company 객체가 존재할 때 -->
+			        <a href="<c:url value='/partner/regist' />"><div class="bbs_btn01">신청</div></a>
+			    </c:when>
+			    <c:otherwise>
+			        <!-- company 객체가 없을 때 -->
+			        <div class="error_box">
+				        <i class="fas fa-exclamation-circle"></i>
+						<div class="txt">등록된 회사 정보가 없습니다.<span>회사정보를 먼저 등록 후 파트너 신청이 가능합니다.</span></div>
+						<a href="<c:url value='/user/company' />"><div class="bbs_btn01">회사정보 등록</div></a>
+					</div>
+			    </c:otherwise>
+			</c:choose>
+    		
+		</sec:authorize>
+		<sec:authorize access="!hasRole('ROLE_PARTNER')">
+		    <div class="error_box">
+				<i class="fas fa-exclamation-circle"></i>
+				<div class="txt">일반회원은 사용할 수 없습니다.<span>파트너 계정으로 로그인 후 이용 가능합니다.</span></div>
+			</div>
+		</sec:authorize>
+	</sec:authorize>
+	<%-- <a href="<c:url value='/partner/edit' />"><div class="bbs_btn01">재신청</div></a> --%>
 	<!-- <a href="<c:url value='/partner/regist' />"><div class="bbs_btn01">신청</div></a> -->
 	<!-- <a href="<c:url value='/partner/edit' />"><div class="bbs_btn01">수정</div></a> -->
 </div>

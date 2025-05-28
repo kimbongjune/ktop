@@ -3,6 +3,8 @@ package net.ktop.ktop.module.web.user;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.plaf.synth.Region;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.ktop.ktop.module.util.EmailService;
+import net.ktop.ktop.module.web.region.RegionDto;
+import net.ktop.ktop.module.web.region.RegionService;
 import net.ktop.ktop.module.web.signupquestion.SignupQuestionDto;
 import net.ktop.ktop.module.web.signupquestion.SignupQuestionService;
 
@@ -29,12 +33,14 @@ public class UserController {
    private final SignupQuestionService signupQuestionService;
    private final UserService userService;
    private final EmailService emailService;
+   private final RegionService regionService;
 
    @Autowired
-   public UserController(UserService userService, EmailService emailService, SignupQuestionService signupQuestionService) {
+   public UserController(UserService userService, EmailService emailService, SignupQuestionService signupQuestionService, RegionService regionService) {
       this.userService = userService;
       this.emailService = emailService;
       this.signupQuestionService = signupQuestionService;
+      this.regionService = regionService;
    }
 
    @RequestMapping(value = "/login", method = {RequestMethod.GET})
@@ -103,9 +109,17 @@ public class UserController {
       return "/user/company";
    }
    
-   @RequestMapping(value = "/company/{id}", method = {RequestMethod.GET})
-   public String company(@PathVariable("id") String id) {
+   @RequestMapping(value = "/company/edit", method = {RequestMethod.GET})
+   public String companyEdit() {
       return "/user/companyedit";
+   }
+   
+   @RequestMapping(value = "/company/write", method = {RequestMethod.GET})
+   public String companyWrite(Model model) {
+	   List<RegionDto> regionList = regionService.getAllRegion();
+	   
+	   model.addAttribute("regionList", regionList);
+	   return "/user/companywrite";
    }
    
    @RequestMapping(value = "/check/id", method = {RequestMethod.GET})
