@@ -13,5 +13,7 @@
 		<typeAlias alias="UserDto" type="net.ktop.ktop.module.web.user.UserDto"/>
 		<typeAlias alias="SignupQuestionDto" type="net.ktop.ktop.module.web.signupquestion.SignupQuestionDto"/>
 		<typeAlias alias="CompanyDto" type="net.ktop.ktop.module.web.company.CompanyDto"/>
+		<typeAlias alias="FileDto" type="net.ktop.ktop.module.util.file.FileDto"/>
+		<typeAlias alias="CompanyFileDto" type="net.ktop.ktop.module.web.company.file.CompanyFileDto"/>
    	</typeAliases>
 </configuration>

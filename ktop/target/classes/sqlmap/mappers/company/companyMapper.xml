@@ -3,8 +3,106 @@
 
 <mapper namespace="companyMapper">
 
-	<select id="getCompanyOne" resultType="CompanyDto" parameterType="String">
-	    SELECT * FROM company WHERE id = #{id}
+    <!-- CompanyDto 매핑 -->
+    <resultMap id="companyWithFilesMap" type="net.ktop.ktop.module.web.company.CompanyDto">
+	    <id property="id" column="c_id" />
+	    <result property="companyName" column="company_name" />
+	    <result property="ceoName" column="ceo_name" />
+	    <result property="phone" column="phone" />
+	    <result property="email" column="email" />
+	    <result property="zipcode" column="zipcode" />
+	    <result property="address1" column="address1" />
+	    <result property="address2" column="address2" />
+	    <result property="homepage" column="homepage" />
+	    <result property="regionId" column="region_id" />
+	    <result property="regionName" column="region_name" />
+	    <result property="descriptionHtml" column="description_html" />
+	    <result property="createdAt" column="company_created_at" />
+	    <result property="updatedAt" column="company_updated_at" />
+	    <result property="deletedAt" column="company_deleted_at" />
+	    
+	    <collection property="companyFileList" ofType="net.ktop.ktop.module.web.company.file.CompanyFileDto">
+	        <id property="id" column="cf_id" />
+	        <result property="companyId" column="company_id" />
+	        <result property="fileId" column="file_id" />
+	        <result property="fileType" column="file_type" />
+	        <association property="file" javaType="net.ktop.ktop.module.util.file.FileDto">
+	            <id property="id" column="f_id"/>
+	            <result property="filePath" column="file_path"/>
+	            <result property="originalName" column="original_name"/>
+	            <result property="fileName" column="file_name"/>
+	            <result property="mimeType" column="mime_type"/>
+	            <result property="fileSize" column="file_size"/>
+	            <result property="createdAt" column="file_created_at"/>
+	        </association>
+	    </collection>
+	</resultMap>
+
+
+
+	<select id="getCompanyOne" parameterType="String" resultMap="companyWithFilesMap">
+	    SELECT DISTINCT
+	        c.id AS c_id,
+	        c.company_name,
+	        c.ceo_name,
+	        c.phone,
+	        c.email,
+	        c.zipcode,
+	        c.address1,
+	        c.address2,
+	        c.homepage,
+	        c.region_id,
+	        c.description_html,
+	        c.created_at AS company_created_at,
+	        c.updated_at AS company_updated_at,
+	        c.deleted_at AS company_deleted_at,
+	        cf.id AS cf_id,
+	        cf.company_id,
+	        cf.file_id,
+	        cf.file_type,
+	        f.id AS f_id,
+	        f.file_path,
+	        f.original_name,
+	        f.file_name,
+	        f.mime_type,
+	        f.file_size,
+	        f.created_at AS file_created_at,
+	        rc.name AS region_name
+	    FROM company c
+	    LEFT JOIN company_file cf ON c.id = cf.company_id
+	    LEFT JOIN file f ON cf.file_id = f.id
+	    LEFT JOIN region_category rc ON c.region_id = rc.id 
+	    WHERE c.id = #{id}
 	</select>
+
+	
+	<insert id="insertCompanyOne" parameterType="CompanyDto">
+    INSERT INTO company (
+        id,
+        company_name,
+        ceo_name,
+        phone,
+        email,
+        zipcode,
+        address1,
+        address2,
+        homepage,
+        region_id,
+        description_html
+    ) VALUES (
+        #{id},
+        #{companyName},
+        #{ceoName},
+        #{phone},
+        #{email},
+        #{zipcode},
+        #{address1},
+        #{address2},
+        #{homepage},
+        #{regionId},
+        #{descriptionHtml}
+    )
+</insert>
+	
 	
 </mapper>

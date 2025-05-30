@@ -1,5 +1,10 @@
 package net.ktop.ktop.module.web.company;
 
+import java.util.List;
+
+import net.ktop.ktop.module.web.company.file.CompanyFileDto;
+import net.ktop.ktop.module.web.region.RegionDto;
+
 public class CompanyDto {
     /** 업체 아이디 */
     private String id;
@@ -42,6 +47,10 @@ public class CompanyDto {
 
     /** 탈퇴일 */
     private String deletedAt;
+    
+    private List<CompanyFileDto> companyFileList;
+    
+    private String regionName;
 
 	public String getId() {
 		return id;
@@ -154,12 +163,30 @@ public class CompanyDto {
 	public void setDeletedAt(String deletedAt) {
 		this.deletedAt = deletedAt;
 	}
+	
+	public List<CompanyFileDto> getCompanyFileList() {
+		return companyFileList;
+	}
+
+	public void setCompanyFileList(List<CompanyFileDto> companyFileList) {
+		this.companyFileList = companyFileList;
+	}
+	
+	public String getRegionName() {
+		return regionName;
+	}
+
+	public void setRegionName(String regionName) {
+		this.regionName = regionName;
+	}
 
 	@Override
 	public String toString() {
 		return "CompanyDto [id=" + id + ", companyName=" + companyName + ", ceoName=" + ceoName + ", phone=" + phone
 				+ ", email=" + email + ", zipcode=" + zipcode + ", address1=" + address1 + ", address2=" + address2
 				+ ", homepage=" + homepage + ", regionId=" + regionId + ", descriptionHtml=" + descriptionHtml
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt
+				+ ", companyFileList=" + companyFileList + ", regionName=" + regionName + "]";
 	}
+	
 }

@@ -19,4 +19,8 @@ public class CompanyRepository {
 		return template.selectOne(MAPPER_NAME + "getCompanyOne", id);
 	}
 	
+	public int insertCompanyOne(CompanyDto dto) {
+		return template.insert(MAPPER_NAME + "insertCompanyOne", dto);
+	}
+	
 }

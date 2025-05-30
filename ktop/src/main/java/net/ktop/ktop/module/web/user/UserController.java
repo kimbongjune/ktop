@@ -1,5 +1,7 @@
 package net.ktop.ktop.module.web.user;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,8 +21,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import net.ktop.ktop.module.security.CustomUserDetails;
 import net.ktop.ktop.module.util.EmailService;
+import net.ktop.ktop.module.util.file.FileDto;
+import net.ktop.ktop.module.util.file.FileService;
+import net.ktop.ktop.module.web.company.CompanyDto;
+import net.ktop.ktop.module.web.company.CompanyService;
+import net.ktop.ktop.module.web.company.file.CompanyFileDto;
 import net.ktop.ktop.module.web.region.RegionDto;
 import net.ktop.ktop.module.web.region.RegionService;
 import net.ktop.ktop.module.web.signupquestion.SignupQuestionDto;
@@ -34,13 +44,17 @@ public class UserController {
    private final UserService userService;
    private final EmailService emailService;
    private final RegionService regionService;
+   private final CompanyService companyService;
+   private final FileService fileService;
 
    @Autowired
-   public UserController(UserService userService, EmailService emailService, SignupQuestionService signupQuestionService, RegionService regionService) {
+   public UserController(UserService userService, EmailService emailService, SignupQuestionService signupQuestionService, RegionService regionService, CompanyService companyService, FileService fileService) {
       this.userService = userService;
       this.emailService = emailService;
       this.signupQuestionService = signupQuestionService;
       this.regionService = regionService;
+      this.companyService = companyService;
+      this.fileService = fileService;
    }
 
    @RequestMapping(value = "/login", method = {RequestMethod.GET})
@@ -105,8 +119,16 @@ public class UserController {
    }
    
    @RequestMapping(value = "/company", method = {RequestMethod.GET})
-   public String company() {
-      return "/user/company";
+   public String company(Model model, @AuthenticationPrincipal CustomUserDetails user) {
+	   CompanyDto dto = null;
+	   if(user != null) {
+		   dto = companyService.getCompanyOne(user.getUsername());
+	   }
+	   
+	   System.out.println(dto);
+	   
+	   model.addAttribute("company", dto);
+	   return "/user/company";
    }
    
    @RequestMapping(value = "/company/edit", method = {RequestMethod.GET})
@@ -120,6 +142,35 @@ public class UserController {
 	   
 	   model.addAttribute("regionList", regionList);
 	   return "/user/companywrite";
+   }
+   
+   @RequestMapping(value = "/company/write", method = {RequestMethod.POST})
+   public String companyWrites(Model model, @ModelAttribute CompanyDto dto,
+		    @RequestParam(value = "file1", required = false) MultipartFile file1,
+		    @RequestParam(value = "file2", required = false) MultipartFile file2,
+		    @AuthenticationPrincipal CustomUserDetails user) throws IOException {
+	   	if(user == null) {
+	   		//TODO 경고문구 flash Attribute로
+	   		return "redirect:/user/company";
+	   	}
+	   	
+	   	dto.setId(user.getUsername());
+	   	companyService.insertCompanyOne(dto);
+	   	List<CompanyFileDto> companyFileList = new ArrayList<>();
+
+	    if (file1 != null && !file1.isEmpty()) {
+	        FileDto fileDto = fileService.saveUploadedFile(file1);
+	        companyFileList.add(new CompanyFileDto(dto.getId(), fileDto.getId(), 1));
+	    }
+
+	    if (file2 != null && !file2.isEmpty()) {
+	        FileDto fileDto = fileService.saveUploadedFile(file2);
+	        companyFileList.add(new CompanyFileDto(dto.getId(), fileDto.getId(), 2));
+	    }
+   		if(companyFileList != null && !companyFileList.isEmpty()) {
+   			companyService.insertCompanyFiles(companyFileList);
+   		}
+   		return "redirect:/user/company";
    }
    
    @RequestMapping(value = "/check/id", method = {RequestMethod.GET})

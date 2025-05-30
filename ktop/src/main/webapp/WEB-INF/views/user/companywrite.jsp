@@ -44,12 +44,7 @@
 						
 <!-- <h4>업체정보 수정</h4> -->
 
-<form name="company_form" method="post" enctype="multipart/form-data" action="#">
-<input type="hidden" name="gc" value="598CDTE" />
-<input type="hidden" name="company_id" value="7" />
-<input type="hidden" name="do" value="update" />
-<input type="hidden" name="action" value="update" />
-
+<form name="company_form" method="post" enctype="multipart/form-data" action="">
 <table class="gtable">
 <colgroup>
 	<col style="width:15%;" />
@@ -59,42 +54,42 @@
 </colgroup>
 <tbody>
 <tr>
-	<th><label for="company_title">업체명</label> <em class="fpilsu">*</em></th>
+	<th><label for="companyName">업체명</label> <em class="fpilsu">*</em></th>
     <td>
-		<input type="text" id="company_title" name="company_title" class="input_form w90 required" title="업체명" value="" />
+		<input type="text" id="companyName" name="companyName" class="input_form w90" title="업체명" value="" />
 	</td>
-	<th><label for="company_ceo">대표자명</label> <em class="fpilsu">*</em></th>
+	<th><label for="ceoName">대표자명</label> <em class="fpilsu">*</em></th>
     <td>
-		<input type="text" id="company_ceo" name="company_ceo" class="input_form w90 required" title="대표자명" value="" />
+		<input type="text" id="ceoName" name="ceoName" class="input_form w90" title="대표자명" value="" />
 	</td>
 </tr>
 <tr>
-	<th><label for="company_tel">전화번호</label> <em class="fpilsu">*</em></th>
+	<th><label for="phone">전화번호</label> <em class="fpilsu">*</em></th>
     <td>
-		<input type="tel" id="company_tel" name="company_tel" class="telnum input_form w150p hypenauto required" title="전화번호" value="" />
+		<input type="tel" id="phone" name="phone" class="telnum input_form w150p hypenauto" title="전화번호" value="" />
 	</td>
-	<th><label for="company_email">이메일</label> <em class="fpilsu">*</em></th>
+	<th><label for="email">이메일</label> <em class="fpilsu">*</em></th>
     <td>
-		<input type="text" id="company_email" name="company_email" class="input_form w90 required" title="이메일" value="" />
+		<input type="text" id="email" name="email" class="input_form w90" title="이메일" value="" />
 	</td>
 </tr>
 <tr>
 	<th><label for="company_zip">주소</label></th>
     <td colspan="3">
-		<input type="text" id="company_zip" name="company_zip" class="input_form numeric w70p" readonly minlength="5" maxlength="5" title="우편번호" data-zip="company_zip" data-addr1="company_addr1" data-addr2="company_addr2" value="" />&nbsp;
-		<div class="ab_m zip_search_btns" data-zip="company_zip" data-addr1="company_addr1" data-addr2="company_addr2">우편번호검색</div>
-		<input type="text" id="company_addr1" name="company_addr1" class="input_form w90 mt5" title="주소" value="" /><br />
-		<input type="text" id="company_addr2" name="company_addr2" class="input_form w300p mt5" title="상세주소" value="" /> <label for="company_addr2">상세주소 입력</label>
+		<input type="text" id="zipcode" name="zipcode" class="input_form numeric w70p" readonly minlength="5" maxlength="5" title="우편번호" data-zip="company_zip" data-addr1="company_addr1" data-addr2="company_addr2" value="" />&nbsp;
+		<div class="ab_m zip_search_btns" data-zip="zipcode" data-addr1="address1" data-addr2="address2">우편번호검색</div>
+		<input type="text" id="address1" name="address1" class="input_form w90 mt5" title="주소" value="" /><br />
+		<input type="text" id="address2" name="address2" class="input_form w300p mt5" title="상세주소" value="" /> <label for="address2">상세주소 입력</label>
 	</td>
 </tr>
 <tr>
-	<th><label for="company_homepage">홈페이지</label></th>
+	<th><label for="homepage">홈페이지</label></th>
     <td>
-		<input type="text" id="company_homepage" name="company_homepage" class="input_form w90" title="홈페이지" value="" />
+		<input type="text" id="homepage" name="homepage" class="input_form w90" title="홈페이지" value="" />
 	</td>
 	<th><label for="company_area">지역 선택</label> <em class="fpilsu">*</em></th>
 	<td>
-		<select id="company_area" name="company_area" class="required" title="지역 선택">
+		<select id="regionId" name="regionId" class="" title="지역 선택">
 			<option value="">:선택:</option>
 			<c:forEach var="region" items="${regionList}">
 				<option value='${region.id}' >${region.name}</option>
@@ -113,7 +108,7 @@
 <div class="file_box">
 	<div class="file_preview" id="file_preview_1">
 						</div>
-	<label for="gc_file_1"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="gc_file_1" name="gc_file[1]" class="up_files"  data-target="file_preview_1" data-checkid="gc_file_del_1"  /></label>
+	<label for="file1"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="file1" name="file1" class="up_files"  data-target="file_preview_1" data-checkid="gc_file_del_1"  /></label>
 	</div></td>
 </tr>
 <tr>
@@ -124,14 +119,14 @@
 	<div class="file_preview" id="file_preview_2">
 									<%-- <img src="<c:url value='/resources/static/image/1662429127_5c740f43f33d20e391fa9acb90bef4142bef7328.jpg' />" class="popimg_btns cursor" data-href="<c:url value='/resources/static/image/1662429127_5c740f43f33d20e391fa9acb90bef4142bef7328.jpg' />" alt="클릭시 큰 이미지" /> --%>
 						</div>
-	<label for="gc_file_2"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="gc_file_2" name="gc_file[2]" class="up_files"  data-target="file_preview_2" data-checkid="gc_file_del_2" accept="image/*" /></label>
+	<label for="file2"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="file2" name="file2" class="up_files"  data-target="file_preview_2" data-checkid="gc_file_del_2" accept="image/*" /></label>
 		<!-- <div class="file_btn ab_red cursor del_files" data-previewid="file_preview_2" data-checkid="gc_file_del_2" title="파일삭제">삭제</div> -->
 	</div></td>
 </tr>
 <tr>
 	<th>협력사 소개</th>
     <td colspan="3">
-		<textarea id="company_content" name="company_content" class="textarea_form h100p required summernote" title="협력사 소개" data-table="sys_company_list" data-target="7"></textarea>
+		<textarea id="descriptionHtml" name="descriptionHtml" class="textarea_form h100p summernote" title="협력사 소개" data-table="sys_company_list" data-target="7"></textarea>
 	</td>
 </tr>
 </tbody>
@@ -148,6 +143,50 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+	$('form[name="company_form"]').on('submit', function (e) {
+	    const companyName = $('#companyName').val().trim();
+	    const ceoName = $('#ceoName').val().trim();
+	    const phone = $('#phone').val().trim();
+	    const email = $('#email').val().trim();
+	    const regionId = $('#regionId').val();
+	
+	    if (companyName === "") {
+	        alert("업체명을 입력해 주세요.");
+	        $('#companyName').focus();
+	        e.preventDefault();
+	        return;
+	    }
+	
+	    if (ceoName === "") {
+	        alert("대표자명을 입력해 주세요.");
+	        $('#ceoName').focus();
+	        e.preventDefault();
+	        return;
+	    }
+	
+	    if (phone === "") {
+	        alert("전화번호를 입력해 주세요.");
+	        $('#phone').focus();
+	        e.preventDefault();
+	        return;
+	    }
+	
+	    if (email === "") {
+	        alert("이메일을 입력해 주세요.");
+	        $('#email').focus();
+	        e.preventDefault();
+	        return;
+	    }
+	
+	    if (regionId === "") {
+	        alert("지역을 선택해 주세요.");
+	        $('#regionId').focus();
+	        e.preventDefault();
+	        return;
+	    }
+	});
+</script>
 <script src="<c:url value='/resources/static/js/company.js' />"></script>
 <script src="<c:url value='/resources/static/js/jquery-ui.min.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/bootstrap.min.js' />"></script>
