@@ -28,5 +28,10 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryDto> selectCategoryById(int id) {
 		return repository.selectCategoryById(id);
 	}
+
+	@Override
+	public boolean isTopLevelCategory(int id) {
+		return repository.isTopLevelCategory(id);
+	}
 	
 }

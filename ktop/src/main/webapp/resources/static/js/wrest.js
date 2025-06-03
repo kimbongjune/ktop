@@ -382,7 +382,7 @@ function wrestInitialized() {
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // 폼필드 자동검사
-    wrestInitialized();
-});
+//document.addEventListener('DOMContentLoaded', function() {
+//    // 폼필드 자동검사
+//    wrestInitialized();
+//});

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <link rel="stylesheet" href="<c:url value='/resources/static/css/company.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/css/jquery-ui.min.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/plugin/editor/bootstrap.min.css' />">
@@ -44,13 +46,7 @@
 						
 <!-- <h4>업체정보 수정</h4> -->
 
-<form name="company_form" method="post" enctype="multipart/form-data" action="#">
-<input type="hidden" name="gc" value="598CDTE" />
-<input type="hidden" name="company_id" value="7" />
-<input type="hidden" name="do" value="update" />
-<input type="hidden" name="action" value="update" />
-
-
+<form name="company_form" method="post" enctype="multipart/form-data" action="">
 <table class="gtable">
 <colgroup>
 	<col style="width:15%;" />
@@ -60,78 +56,49 @@
 </colgroup>
 <tbody>
 <tr>
-	<th><label for="company_title">업체명</label> <em class="fpilsu">*</em></th>
+	<th><label for="companyName">업체명</label> <em class="fpilsu">*</em></th>
     <td>
-		<input type="text" id="company_title" name="company_title" class="input_form w90 required" title="업체명" value="세인디자인건축" />
+		<input type="text" id="companyName" name="companyName" class="input_form w90" title="업체명" value="${company.companyName}" />
 	</td>
-	<th><label for="company_ceo">대표자명</label> <em class="fpilsu">*</em></th>
+	<th><label for="ceoName">대표자명</label> <em class="fpilsu">*</em></th>
     <td>
-		<input type="text" id="company_ceo" name="company_ceo" class="input_form w90 required" title="대표자명" value="송정휘" />
+		<input type="text" id="ceoName" name="ceoName" class="input_form w90" title="대표자명" value="${company.ceoName}" />
 	</td>
 </tr>
 <tr>
-	<th><label for="company_tel">전화번호</label> <em class="fpilsu">*</em></th>
+	<th><label for="phone">전화번호</label> <em class="fpilsu">*</em></th>
     <td>
-		<input type="tel" id="company_tel" name="company_tel" class="telnum input_form w150p hypenauto required" title="전화번호" value="063-241-9432" />
+		<input type="tel" id="phone" name="phone" class="telnum input_form w150p hypenauto" title="전화번호" value="${company.phone}" />
 	</td>
-	<th><label for="company_email">이메일</label> <em class="fpilsu">*</em></th>
+	<th><label for="email">이메일</label> <em class="fpilsu">*</em></th>
     <td>
-		<input type="text" id="company_email" name="company_email" class="input_form w90 required" title="이메일" value="sein9432@naver.com" />
+		<input type="text" id="email" name="email" class="input_form w90" title="이메일" value="${company.email}" />
 	</td>
 </tr>
 <tr>
 	<th><label for="company_zip">주소</label></th>
     <td colspan="3">
-		<input type="text" id="company_zip" name="company_zip" class="input_form numeric w70p" readonly minlength="5" maxlength="5" title="우편번호" data-zip="company_zip" data-addr1="company_addr1" data-addr2="company_addr2" value="123456" />&nbsp;
-		<div class="ab_m zip_search_btns" data-zip="company_zip" data-addr1="company_addr1" data-addr2="company_addr2">우편번호검색</div>
-		<input type="text" id="company_addr1" name="company_addr1" class="input_form w90 mt5" title="주소" value="전북 전주시" /><br />
-		<input type="text" id="company_addr2" name="company_addr2" class="input_form w300p mt5" title="상세주소" value="" /> <label for="company_addr2">상세주소 입력</label>
+		<input type="text" id="zipcode" name="zipcode" class="input_form numeric w70p" readonly minlength="5" maxlength="5" title="우편번호" data-zip="company_zip" data-addr1="company_addr1" data-addr2="company_addr2" value="${company.zipcode}" />&nbsp;
+		<div class="ab_m zip_search_btns" data-zip="zipcode" data-addr1="address1" data-addr2="address2">우편번호검색</div>
+		<input type="text" id="address1" name="address1" class="input_form w90 mt5" title="주소" value="${company.address1}" /><br />
+		<input type="text" id="address2" name="address2" class="input_form w300p mt5" title="상세주소" value="${company.address2}" /> <label for="address2">상세주소 입력</label>
 	</td>
 </tr>
 <tr>
-	<th><label for="company_homepage">홈페이지</label></th>
+	<th><label for="homepage">홈페이지</label></th>
     <td>
-		<input type="text" id="company_homepage" name="company_homepage" class="input_form w90" title="홈페이지" value="" />
+		<input type="text" id="homepage" name="homepage" class="input_form w90" title="홈페이지" value="${company.homepage}" />
 	</td>
-	<th><label for="company_area">지역 선택</label> <em class="fpilsu">*</em></th>
+	<th><label for="regionId">지역 선택</label> <em class="fpilsu">*</em></th>
 	<td>
-		<select id="company_area" name="company_area" class="required" title="지역 선택">
+		<select id="regionId" name="regionId" class="" title="지역 선택">
 			<option value="">:선택:</option>
-			<option value='1/' >서울</option>
-<option value='2/' >부산</option>
-<option value='3/' >인천</option>
-<option value='4/' >대구</option>
-<option value='5/' >광주</option>
-<option value='6/' >대전</option>
-<option value='7/' >울산</option>
-<option value='8/' >경기</option>
-<option value='8/34/' >&nbsp;&nbsp;&nbsp;&nbsp;┖수원시</option>
-<option value='8/35/' >&nbsp;&nbsp;&nbsp;&nbsp;┖안양시</option>
-<option value='9/' >강원</option>
-<option value='9/32/' >&nbsp;&nbsp;&nbsp;&nbsp;┖춘천시</option>
-<option value='9/33/' >&nbsp;&nbsp;&nbsp;&nbsp;┖원주시</option>
-<option value='10/' >충남</option>
-<option value='10/30/' >&nbsp;&nbsp;&nbsp;&nbsp;┖천안시</option>
-<option value='10/31/' >&nbsp;&nbsp;&nbsp;&nbsp;┖공주시</option>
-<option value='11/' >충북</option>
-<option value='11/28/' >&nbsp;&nbsp;&nbsp;&nbsp;┖청주시</option>
-<option value='11/29/' >&nbsp;&nbsp;&nbsp;&nbsp;┖충주시</option>
-<option value='12/' >경남</option>
-<option value='12/26/' >&nbsp;&nbsp;&nbsp;&nbsp;┖창원시</option>
-<option value='12/27/' >&nbsp;&nbsp;&nbsp;&nbsp;┖진주시</option>
-<option value='13/' >경북</option>
-<option value='13/24/' >&nbsp;&nbsp;&nbsp;&nbsp;┖안동시</option>
-<option value='13/25/' >&nbsp;&nbsp;&nbsp;&nbsp;┖구미시</option>
-<option value='14/' >전남</option>
-<option value='14/20/' >&nbsp;&nbsp;&nbsp;&nbsp;┖여수시</option>
-<option value='14/21/' >&nbsp;&nbsp;&nbsp;&nbsp;┖목포시</option>
-<option value='15/' >전북</option>
-<option value='15/17/' selected>&nbsp;&nbsp;&nbsp;&nbsp;┖전주시</option>
-<option value='15/18/' >&nbsp;&nbsp;&nbsp;&nbsp;┖익산시</option>
-<option value='15/19/' >&nbsp;&nbsp;&nbsp;&nbsp;┖군산시</option>
-<option value='16/' >제주</option>
-<option value='16/22/' >&nbsp;&nbsp;&nbsp;&nbsp;┖제주시</option>
-<option value='16/23/' >&nbsp;&nbsp;&nbsp;&nbsp;┖서귀포시</option>
+			<c:forEach var="region" items="${regionList}">
+				<option ${company.regionId eq region.id ? "selected" : ""} value='${region.id}' >${region.name}</option>
+				<c:forEach var="child" items="${region.children}">
+					<option ${company.regionId eq child.id ? "selected" : ""} value='${child.id}' >&nbsp;&nbsp;&nbsp;&nbsp;┖${child.name}</option>
+				</c:forEach>
+			</c:forEach>
 		</select>
 	</td>
 </tr>
@@ -141,11 +108,18 @@
 
 <div class="file_box">
 	<div class="file_preview" id="file_preview_1">
-									<img src="<c:url value='/resources/static/image/1662429127_0ab222632b8859295eec4f5bb802698a0c17bfb0.jpg' />" class="popimg_btns cursor" data-href="<c:url value='/resources/static/image/1662429127_0ab222632b8859295eec4f5bb802698a0c17bfb0.jpg' />" alt="클릭시 큰 이미지" />
+									<c:choose>
+										<c:when test="${fn:contains(company.companyFileList[0].file.mimeType, 'image')}">
+											<img src="<c:url value='${company.companyFileList[0].file.filePath}' />" alt="${company.companyFileList[0].file.originalName}" />
+										</c:when>
+										<c:otherwise>
+											<i class="fas fa-save fa-3x"></i>
+										</c:otherwise>
+									</c:choose>									
 						</div>
-	<label for="gc_file_1"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="gc_file_1" name="gc_file[1]" class="up_files"  data-target="file_preview_1" data-checkid="gc_file_del_1"  /></label>
+	<label for="file1"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="file1" name="file1" class="up_files"  data-target="file_preview_1" data-checkid="gc_file_del_1"  /></label>
 		<div class="file_btn ab_red cursor del_files" data-previewid="file_preview_1" data-checkid="gc_file_del_1" title="파일삭제">삭제</div>
-	<input type="hidden" id="gc_file_del_1" name="gc_file_del[1]" value="" />
+	<input type="hidden" name="delFile1" value="${company.companyFileList[0].id}"/>
 	</div></td>
 </tr>
 <tr>
@@ -154,17 +128,17 @@
 
 <div class="file_box">
 	<div class="file_preview" id="file_preview_2">
-									<img src="<c:url value='/resources/static/image/1662429127_5c740f43f33d20e391fa9acb90bef4142bef7328.jpg' />" class="popimg_btns cursor" data-href="<c:url value='/resources/static/image/1662429127_5c740f43f33d20e391fa9acb90bef4142bef7328.jpg' />" alt="클릭시 큰 이미지" />
+									<img src="<c:url value='${company.companyFileList[1].file.filePath}' />" alt="${company.companyFileList[1].file.originalName}" />
 						</div>
-	<label for="gc_file_2"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="gc_file_2" name="gc_file[2]" class="up_files"  data-target="file_preview_2" data-checkid="gc_file_del_2" accept="image/*" /></label>
+	<label for="file2"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="file2" name="file2" class="up_files"  data-target="file_preview_2" data-checkid="gc_file_del_2" accept="image/*" /></label>
 		<div class="file_btn ab_red cursor del_files" data-previewid="file_preview_2" data-checkid="gc_file_del_2" title="파일삭제">삭제</div>
-	<input type="hidden" id="gc_file_del_2" name="gc_file_del[2]" value="" />
+	<input type="hidden" name="delFile2" value="${company.companyFileList[1].id}"/>
 	</div></td>
 </tr>
 <tr>
 	<th>협력사 소개</th>
     <td colspan="3">
-		<textarea id="company_content" name="company_content" class="textarea_form h100p required summernote" title="협력사 소개" data-table="sys_company_list" data-target="7"><p><img alt="editor_image" src="<c:url value='/resources/static/image/1662429115_842881968d42aa81f4683633aebae53d23ed8b7f.jpg' />" style=""><br></p><p><br></p><p><img alt="editor_image" src="<c:url value='/resources/static/image/1662429115_842881968d42aa81f4683633aebae53d23ed8b7f.jpg' />" style=""><br></p></textarea>
+		<textarea id="descriptionHtml" name="descriptionHtml" class="textarea_form h100p required summernote" title="협력사 소개" data-table="sys_company_list" data-target="7">${company.descriptionHtml}</textarea>
 	</td>
 </tr>
 </tbody>
@@ -181,6 +155,99 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+$('form[name="company_form"]').on('submit', function(e) {
+	const companyName = $('#companyName').val().trim();
+	const ceoName = $('#ceoName').val().trim();
+	const phone = $('#phone').val().trim();
+	const email = $('#email').val().trim();
+	const zipcode = $('#zipcode').val().trim();
+	const address1 = $('#address1').val().trim();
+	const address2 = $('#address2').val().trim();
+	const regionId = $('#regionId').val().trim();
+	const descriptionHtml = $('#descriptionHtml').summernote('code');
+	
+	if (companyName === "") {
+		alert("업체명을 입력해 주세요.");
+		$('#companyName').focus();
+		e.preventDefault();
+		return;
+	}
+
+	if (ceoName === "") {
+		alert("대표자명을 입력해 주세요.");
+		$('#ceoName').focus();
+		e.preventDefault();
+		return;
+	}
+
+	if (phone === "") {
+		alert("전화번호를 입력해 주세요.");
+		$('#phone').focus();
+		e.preventDefault();
+		return;
+	}
+
+	if (email === "") {
+		alert("이메일을 입력해 주세요.");
+		$('#email').focus();
+		e.preventDefault();
+		return;
+	}
+	
+	if (zipcode === "" || address1 === "" || address2 === "") {
+		alert("주소를 입력해 주세요.");
+		$('#address1').focus();
+		e.preventDefault();
+		return;
+	}
+
+	if (regionId === "") {
+		alert("지역을 선택해 주세요.");
+		$('#regionId').focus();
+		e.preventDefault();
+		return;
+	}
+
+	if($("#file_preview_1").children().length < 1){
+    	if ($('#file1')[0].files.length > 0) {
+	    	return true;
+	    }
+    	alert("사업자등록증을 업로드 해주세요.");
+        $('#file1').focus();
+        e.preventDefault();
+        return;
+    }
+    if($("#file_preview_2").children().length < 1){
+    	if ($('#file2')[0].files.length > 0) {
+	    	return true;
+	    }
+    	alert("소개이미지를 업로드 해주세요.");
+        $('#file2').focus();
+        e.preventDefault();
+        return;
+    }
+	
+	if(isSummernoteContentEmpty(content)){
+		alert("회사 소개문구를 작성해주세요");
+		$('#descriptionHtml').focus();
+		return;
+	}
+});
+
+function isSummernoteContentEmpty(html) {
+    const hasImage = /<img\b[^>]*>/i.test(html); // img 태그 하나라도 존재하면 true
+
+    // img 태그 제외한 모든 태그 제거 → 텍스트만 추출
+    const text = html
+        .replace(/<(?!img\b)[^>]*>/gi, '') // img 외 모든 태그 제거
+        .replace(/&nbsp;/gi, '')           // &nbsp; 제거
+        .replace(/\u200B/g, '')            // zero-width space 제거
+        .trim();
+
+    return !hasImage && text === '';
+}
+</script>	
 <script src="<c:url value='/resources/static/js/company.js' />"></script>
 <script src="<c:url value='/resources/static/js/jquery-ui.min.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/bootstrap.min.js' />"></script>

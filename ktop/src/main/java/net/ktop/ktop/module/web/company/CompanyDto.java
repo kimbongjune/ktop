@@ -34,7 +34,7 @@ public class CompanyDto {
     private String homepage;
 
     /** 업체 지역 코드 (region_category 테이블과 외래키) */
-    private Long regionId;
+    private int regionId;
 
     /** 업체 소개 문구 (HTML) */
     private String descriptionHtml;
@@ -124,11 +124,11 @@ public class CompanyDto {
 		this.homepage = homepage;
 	}
 
-	public Long getRegionId() {
+	public int getRegionId() {
 		return regionId;
 	}
 
-	public void setRegionId(Long regionId) {
+	public void setRegionId(int regionId) {
 		this.regionId = regionId;
 	}
 

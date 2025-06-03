@@ -23,4 +23,7 @@ public class CompanyRepository {
 		return template.insert(MAPPER_NAME + "insertCompanyOne", dto);
 	}
 	
+	public int updateCompanyOne(CompanyDto dto) {
+		return template.update(MAPPER_NAME + "updateCompanyOne", dto);
+	}
 }

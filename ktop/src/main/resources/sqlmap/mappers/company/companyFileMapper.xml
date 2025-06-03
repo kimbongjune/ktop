@@ -5,7 +5,7 @@
 
     <insert id="insertCompanyFiles" parameterType="java.util.List">
 	    INSERT INTO company_file (
-	        compnay_id,
+	        company_id,
 	        file_id,
 	        file_type
 	    )
@@ -18,5 +18,11 @@
 	        )
 	    </foreach>
 	</insert>
+	
+	<delete id="deleteCompanyFileOne" parameterType="string">
+	    DELETE FROM company_file
+	    WHERE id = #{id}
+	</delete>
+		
 
 </mapper>

@@ -73,36 +73,55 @@
 	    LEFT JOIN file f ON cf.file_id = f.id
 	    LEFT JOIN region_category rc ON c.region_id = rc.id 
 	    WHERE c.id = #{id}
+	    ORDER BY cf.file_type ASC;
 	</select>
 
 	
 	<insert id="insertCompanyOne" parameterType="CompanyDto">
-    INSERT INTO company (
-        id,
-        company_name,
-        ceo_name,
-        phone,
-        email,
-        zipcode,
-        address1,
-        address2,
-        homepage,
-        region_id,
-        description_html
-    ) VALUES (
-        #{id},
-        #{companyName},
-        #{ceoName},
-        #{phone},
-        #{email},
-        #{zipcode},
-        #{address1},
-        #{address2},
-        #{homepage},
-        #{regionId},
-        #{descriptionHtml}
-    )
-</insert>
+	    INSERT INTO company (
+	        id,
+	        company_name,
+	        ceo_name,
+	        phone,
+	        email,
+	        zipcode,
+	        address1,
+	        address2,
+	        homepage,
+	        region_id,
+	        description_html
+	    ) VALUES (
+	        #{id},
+	        #{companyName},
+	        #{ceoName},
+	        #{phone},
+	        #{email},
+	        #{zipcode},
+	        #{address1},
+	        #{address2},
+	        #{homepage},
+	        #{regionId},
+	        #{descriptionHtml}
+	    )
+	</insert>
+	
+	<update id="updateCompanyOne" parameterType="CompanyDto">
+	    UPDATE company
+	    SET
+	        company_name = #{companyName},
+	        ceo_name = #{ceoName},
+	        phone = #{phone},
+	        email = #{email},
+	        zipcode = #{zipcode},
+	        address1 = #{address1},
+	        address2 = #{address2},
+	        homepage = #{homepage},
+	        region_id = #{regionId},
+	        description_html = #{descriptionHtml},
+	        updated_at = NOW()
+	    WHERE id = #{id}
+	</update>
+		
 	
 	
 </mapper>

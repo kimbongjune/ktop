@@ -32,10 +32,22 @@ public class CompanyServiceImpl implements CompanyService{
 	public int insertCompanyOne(CompanyDto dto) {
 		return companyRepository.insertCompanyOne(dto);
 	}
+	
+	@Override
+	public int updateCompanyOne(CompanyDto dto) {
+		return companyRepository.updateCompanyOne(dto);
+	}
 
 	@Override
 	public int insertCompanyFiles(List<CompanyFileDto> dto) {
 		return companyFileRepository.insertCompanyFiles(dto);
 	}
+
+	@Override
+	public int deleteCompanyFileOne(String id) {
+		return companyFileRepository.deleteCompanyFileOne(id);
+	}
+	
+	
 	
 }

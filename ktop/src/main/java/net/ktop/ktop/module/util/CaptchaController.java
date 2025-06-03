@@ -34,7 +34,8 @@ public class CaptchaController {
 
         // 응답 설정 및 출력
         response.setContentType("image/jpeg");
-        ImageIO.write(captcha.getImage(), "jpg", response.getOutputStream());
+        boolean result = ImageIO.write(captcha.getImage(), "png", response.getOutputStream());
+        System.out.println("ImageIO write result: " + result);
     }
     
     @ResponseBody

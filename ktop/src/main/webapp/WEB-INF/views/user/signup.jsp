@@ -29,7 +29,9 @@
 										<label for="id">아이디</label> <span class="fpilsu">*</span>
 									</dt>
 									<dd>
-										<input type="text" id="id" name="id" class="alnum_ idcheck" minlength="6" maxlength="16" title="아이디" placeholder="아이디 6~16글자 (영문 또는 숫자)" value="" /> <i class="fas fa-check fa-lg fsky idcheck_1" id="id_check_success" title="사용가능 아이디" style="display: none;"></i> <i class="fas fa-times fa-lg fred idcheck_" title="사용중인 아이디" id="id_check_fail" style="display: none;"></i>
+										<input type="text" id="id" name="id" class="alnum_ idcheck" minlength="6" maxlength="16" title="아이디" placeholder="아이디 6~16글자 (영문 또는 숫자)" value="" />
+										<i class="fas fa-check fa-lg fsky idcheck_1" id="id_check_success" title="사용가능 아이디" style="display: none;"></i>
+										<i class="fas fa-times fa-lg fred idcheck_" title="사용중인 아이디" id="id_check_fail" style="display: none;"></i>
 										<div class="guide-text" id="id_guide_text">※ 6~16자 영문 또는 숫자만 입력하세요.</div>
 									</dd>
 								</dl>

@@ -30,8 +30,10 @@ public class CategoryController {
 	@RequestMapping(value = "/{category}",  method = {RequestMethod.GET})
 	public String category(@PathVariable("category") int category, Model model) {
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
+		boolean isTopLevelCategory = categoryService.isTopLevelCategory(category);
 		
 		model.addAttribute("menuCategory", "category");
+		model.addAttribute("isTopLevelCategory", isTopLevelCategory);
 		model.addAttribute("categoryNum", category);
 		model.addAttribute("categorySubList", list);
 		

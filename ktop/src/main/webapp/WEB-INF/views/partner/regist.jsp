@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <link rel="stylesheet" href="<c:url value='/resources/static/css/company.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/css/jquery-ui.min.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/plugin/editor/bootstrap.min.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/plugin/editor/summernote.min.css' />">
 
-
+	
 		<section class="sub_container"> 
 		<h6>서브 콘텐츠</h6> 
 			<div class="sub_category_box">  
@@ -21,21 +23,10 @@
 			
 		<div class="web_size">  
 					<div class="sub_top">  
-				<h2>협력사</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/partner' />" >협력사</a></li>
-											<li><a href="<c:url value='/partner/join' />" >협력사 등록</a></li>
-														</ul>
+				<h2>협력사 등록</h2>
 			</div> 
 		
 			<div class="sub_cont"> 
-
-									<ul class="tabmenu01">
-								<li class="on"><a href="<c:url value='/partner' />" >협력사소개</a></li>
-								<li class=""><a href="<c:url value='/partner/guide' />" >협력사 가입안내</a></li>
-								<li class=""><a href="<c:url value='/partner/join' />" >협력사 등록</a></li>
-							</ul>
 			
 						
  
@@ -49,11 +40,6 @@
 <!-- <h4>업체정보 수정</h4> -->
 
 <form name="company_form" method="post" enctype="multipart/form-data" action="#">
-<input type="hidden" name="gc" value="655RSZJ" />
-<input type="hidden" name="company_id" value="1" />
-<input type="hidden" name="do" value="update" />
-<input type="hidden" name="action" value="update" />
-
 
 <table class="gtable">
 <colgroup>
@@ -64,79 +50,41 @@
 </colgroup>
 <tbody>
 <tr>
-	<th><label for="company_title">업체명</label> <em class="fpilsu">*</em></th>
+	<th><label for="company_title">업체명</label></th>
     <td>
-		<input type="text" id="company_title" name="company_title" class="input_form w90 required" title="업체명" value="" />
+    	<div>${company.companyName}</div>
 	</td>
-	<th><label for="company_ceo">대표자명</label> <em class="fpilsu">*</em></th>
+	<th><label for="company_ceo">대표자명</label></th>
     <td>
-		<input type="text" id="company_ceo" name="company_ceo" class="input_form w90 required" title="대표자명" value="" />
+		<div>${company.ceoName}</div>
 	</td>
 </tr>
 <tr>
-	<th><label for="company_tel">전화번호</label> <em class="fpilsu">*</em></th>
+	<th><label for="company_tel">전화번호</label></th>
     <td>
-		<input type="tel" id="company_tel" name="company_tel" class="telnum input_form w150p hypenauto required" title="전화번호" value="" />
+		<div>${company.phone}</div>
 	</td>
-	<th><label for="company_email">이메일</label> <em class="fpilsu">*</em></th>
+	<th><label for="company_email">이메일</label></th>
     <td>
-		<input type="text" id="company_email" name="company_email" class="input_form w90 required" title="이메일" value="" />
+		<div>${company.email}</div>
 	</td>
 </tr>
 <tr>
 	<th><label for="company_zip">주소</label></th>
     <td colspan="3">
-		<input type="text" id="company_zip" name="company_zip" class="input_form numeric w70p" readonly minlength="5" maxlength="5" title="우편번호" data-zip="company_zip" data-addr1="company_addr1" data-addr2="company_addr2" value="" />&nbsp;
-		<div class="ab_m zip_search_btns" data-zip="company_zip" data-addr1="company_addr1" data-addr2="company_addr2">우편번호검색</div>
-		<input type="text" id="company_addr1" name="company_addr1" class="input_form w90 mt5" title="주소" value="" /><br />
-		<input type="text" id="company_addr2" name="company_addr2" class="input_form w300p mt5" title="상세주소" value="" /> <label for="company_addr2">상세주소 입력</label>
+		<div>${company.zipcode}</div>
+		<div>${company.address1}</div>
+		<div>${company.address2}</div>
 	</td>
 </tr>
 <tr>
 	<th><label for="company_homepage">홈페이지</label></th>
     <td>
-		<input type="text" id="company_homepage" name="company_homepage" class="input_form w90" title="홈페이지" value="" />
+		<div>${company.homepage}</div>
 	</td>
-	<th><label for="company_area">지역 선택</label> <em class="fpilsu">*</em></th>
+	<th><label for="company_area">지역 선택</label></th>
 	<td>
-		<select id="company_area" name="company_area" class="required" title="지역 선택">
-			<option value="" selected>:선택:</option>
-			<option value='1/' >서울</option>
-<option value='2/' >부산</option>
-<option value='3/' >인천</option>
-<option value='4/' >대구</option>
-<option value='5/' >광주</option>
-<option value='6/' >대전</option>
-<option value='7/' >울산</option>
-<option value='8/' >경기</option>
-<option value='8/34/' >&nbsp;&nbsp;&nbsp;&nbsp;┖수원시</option>
-<option value='8/35/' >&nbsp;&nbsp;&nbsp;&nbsp;┖안양시</option>
-<option value='9/' >강원</option>
-<option value='9/32/' >&nbsp;&nbsp;&nbsp;&nbsp;┖춘천시</option>
-<option value='9/33/' >&nbsp;&nbsp;&nbsp;&nbsp;┖원주시</option>
-<option value='10/' >충남</option>
-<option value='10/30/' >&nbsp;&nbsp;&nbsp;&nbsp;┖천안시</option>
-<option value='10/31/' >&nbsp;&nbsp;&nbsp;&nbsp;┖공주시</option>
-<option value='11/' >충북</option>
-<option value='11/28/' >&nbsp;&nbsp;&nbsp;&nbsp;┖청주시</option>
-<option value='11/29/' >&nbsp;&nbsp;&nbsp;&nbsp;┖충주시</option>
-<option value='12/' >경남</option>
-<option value='12/26/' >&nbsp;&nbsp;&nbsp;&nbsp;┖창원시</option>
-<option value='12/27/' >&nbsp;&nbsp;&nbsp;&nbsp;┖진주시</option>
-<option value='13/' >경북</option>
-<option value='13/24/' >&nbsp;&nbsp;&nbsp;&nbsp;┖안동시</option>
-<option value='13/25/' >&nbsp;&nbsp;&nbsp;&nbsp;┖구미시</option>
-<option value='14/' >전남</option>
-<option value='14/20/' >&nbsp;&nbsp;&nbsp;&nbsp;┖여수시</option>
-<option value='14/21/' >&nbsp;&nbsp;&nbsp;&nbsp;┖목포시</option>
-<option value='15/' >전북</option>
-<option value='15/17/'>&nbsp;&nbsp;&nbsp;&nbsp;┖전주시</option>
-<option value='15/18/' >&nbsp;&nbsp;&nbsp;&nbsp;┖익산시</option>
-<option value='15/19/' >&nbsp;&nbsp;&nbsp;&nbsp;┖군산시</option>
-<option value='16/' >제주</option>
-<option value='16/22/' >&nbsp;&nbsp;&nbsp;&nbsp;┖제주시</option>
-<option value='16/23/' >&nbsp;&nbsp;&nbsp;&nbsp;┖서귀포시</option>
-		</select>
+		<div>${company.regionName}</div>
 	</td>
 </tr>
 <tr>
@@ -145,25 +93,27 @@
 
 <div class="file_box">
 	<div class="file_preview" id="file_preview_1">
-									
+									<c:choose>
+										<c:when test="${fn:contains(company.companyFileList[0].file.mimeType, 'image')}">
+											<img src="<c:url value='${company.companyFileList[0].file.filePath}' />" alt="${company.companyFileList[0].file.originalName}" />
+										</c:when>
+										<c:otherwise>
+											<i class="fas fa-save fa-3x"></i>
+										</c:otherwise>
+									</c:choose>									
 						</div>
-	<label for="gc_file_1"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="gc_file_1" name="gc_file[1]" class="up_files"  data-target="file_preview_1" data-checkid="gc_file_del_1"  /></label>
-		<div class="file_btn ab_red cursor del_files" data-previewid="file_preview_1" data-checkid="gc_file_del_1" title="파일삭제">삭제</div>
-	<input type="hidden" id="gc_file_del_1" name="gc_file_del[1]" value="" />
 	</div></td>
 </tr>
 <tr>
 	<th>소개 이미지</th>
     <td colspan="3">
-
-<div class="file_box">
-	<div class="file_preview" id="file_preview_2">
-									
-						</div>
-	<label for="gc_file_2"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="gc_file_2" name="gc_file[2]" class="up_files"  data-target="file_preview_2" data-checkid="gc_file_del_2" accept="image/*" /></label>
-		<div class="file_btn ab_red cursor del_files" data-previewid="file_preview_2" data-checkid="gc_file_del_2" title="파일삭제">삭제</div>
-	<input type="hidden" id="gc_file_del_2" name="gc_file_del[2]" value="" />
-	</div></td>
+		<div class="file_box">
+			<div class="file_preview" id="file_preview_2">
+				<img src="<c:url value='${company.companyFileList[1].file.filePath}' />" alt="${company.companyFileList[1].file.originalName}" />
+			</div>
+			
+		</div>
+	</td>
 </tr>
 <tr>
 	<th>협력사 소개</th>
@@ -185,6 +135,9 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+	
+</script>
 <script src="<c:url value='/resources/static/js/company.js' />"></script>
 <script src="<c:url value='/resources/static/js/jquery-ui.min.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/bootstrap.min.js' />"></script>

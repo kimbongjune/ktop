@@ -132,8 +132,54 @@ public class UserController {
    }
    
    @RequestMapping(value = "/company/edit", method = {RequestMethod.GET})
-   public String companyEdit() {
-      return "/user/companyedit";
+   public String companyEdit(Model model, @AuthenticationPrincipal CustomUserDetails user) {
+	   CompanyDto dto = null;
+	   if(user != null) {
+		   dto = companyService.getCompanyOne(user.getUsername());
+	   }
+	   
+	   System.out.println(dto);
+	   
+	   List<RegionDto> regionList = regionService.getAllRegion();
+	   
+	   model.addAttribute("regionList", regionList);
+	   
+	   model.addAttribute("company", dto);
+	   return "/user/companyedit";
+   }
+   
+   @RequestMapping(value = "/company/edit", method = {RequestMethod.POST})
+   public String companyEdit(Model model, @ModelAttribute CompanyDto dto,
+		    @RequestParam(value = "file1", required = false) MultipartFile file1,
+		    @RequestParam(value = "file2", required = false) MultipartFile file2,
+		    @RequestParam(value = "delFile1", required = false) String delFile1,
+		    @RequestParam(value = "delFile2", required = false) String delFile2,
+		    @AuthenticationPrincipal CustomUserDetails user) throws IOException {
+	   	if(user == null) {
+	   		//TODO 경고문구 flash Attribute로
+	   		return "redirect:/user/company";
+	   	}
+	   	
+	   	dto.setId(user.getUsername());
+	   	companyService.updateCompanyOne(dto);
+
+	   	List<CompanyFileDto> companyFileList = new ArrayList<>();
+
+	    if (file1 != null && !file1.isEmpty()) {
+	        FileDto fileDto = fileService.saveUploadedFile(file1);
+	        companyService.deleteCompanyFileOne(delFile1);
+	        companyFileList.add(new CompanyFileDto(dto.getId(), fileDto.getId(), 1));
+	    }
+
+	    if (file2 != null && !file2.isEmpty()) {
+	        FileDto fileDto = fileService.saveUploadedFile(file2);
+	        companyService.deleteCompanyFileOne(delFile2);
+	        companyFileList.add(new CompanyFileDto(dto.getId(), fileDto.getId(), 2));
+	    }
+   		if(companyFileList != null && !companyFileList.isEmpty()) {
+   			companyService.insertCompanyFiles(companyFileList);
+   		}
+   		return "redirect:/user/company";
    }
    
    @RequestMapping(value = "/company/write", method = {RequestMethod.GET})

@@ -10,4 +10,8 @@ public interface CompanyService {
 	int insertCompanyOne(CompanyDto dto);
 	
 	int insertCompanyFiles(List<CompanyFileDto> dto);
+	
+	int updateCompanyOne(CompanyDto dto);
+	
+	int deleteCompanyFileOne(String id);
 }

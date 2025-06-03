@@ -24,4 +24,8 @@ public class CategoryRepository {
 	public List<CategoryDto> selectCategoryById(int id) {
 		return template.selectList(MAPPER_NAME+"selectCategoryById", id);
 	}
+	
+	public boolean isTopLevelCategory(int id) {
+		return template.selectOne(MAPPER_NAME+"isTopLevelCategory", id);
+	}
 }

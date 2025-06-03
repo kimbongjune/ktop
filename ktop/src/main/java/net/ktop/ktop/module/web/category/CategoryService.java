@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface CategoryService {
 
-	public List<CategoryDto> getAllCategory();
+	List<CategoryDto> getAllCategory();
 	
-	public List<CategoryDto> selectCategoryById(int id);
+	List<CategoryDto> selectCategoryById(int id);
+	
+	boolean isTopLevelCategory(int id);
 }
