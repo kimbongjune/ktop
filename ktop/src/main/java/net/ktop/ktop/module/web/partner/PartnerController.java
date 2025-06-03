@@ -21,10 +21,12 @@ public class PartnerController {
 	
 	private final CompanyService companyService;
 	private final RegionService regionService;
+	private final PartnerCompanyService partnerCompanyService;
 
-	public PartnerController(CompanyService companyService, RegionService regionService) {
+	public PartnerController(CompanyService companyService, RegionService regionService, PartnerCompanyService partnerCompanyService) {
 		this.companyService = companyService;
 		this.regionService = regionService;
+		this.partnerCompanyService = partnerCompanyService;
 	}
 
 	@RequestMapping(value = "", method = {RequestMethod.GET})
@@ -48,7 +50,12 @@ public class PartnerController {
 	}
 	
 	@RequestMapping(value = "/join", method = {RequestMethod.GET})
-	public String partnerJoin() {
+	public String partnerJoin(Model model, @AuthenticationPrincipal CustomUserDetails user) {
+		PartnerCompanyDto dto = null;
+		if(user != null) {
+			dto = partnerCompanyService.getPartnerCompanyOne(user.getUsername());
+		}
+		System.out.println(dto);
 		return "partner/join";
 	}
 	

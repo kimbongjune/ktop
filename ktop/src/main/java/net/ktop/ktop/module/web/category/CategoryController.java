@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import net.ktop.ktop.module.security.CustomUserDetails;
 import net.ktop.ktop.module.web.company.CompanyDto;
 import net.ktop.ktop.module.web.company.CompanyService;
+import net.ktop.ktop.module.web.partner.PartnerCompanyDto;
+import net.ktop.ktop.module.web.partner.PartnerCompanyService;
 
 @Controller
 @RequestMapping("/category")
@@ -20,11 +22,13 @@ public class CategoryController {
 	
 	private final CategoryService categoryService; 
 	private final CompanyService companyService;
+	private final PartnerCompanyService partnerCompanyService;
 	
 	@Autowired
-	public CategoryController(CategoryService categoryService, CompanyService companyService) {
+	public CategoryController(CategoryService categoryService, CompanyService companyService, PartnerCompanyService partnerCompanyService) {
 		this.categoryService = categoryService;
 		this.companyService = companyService;
+		this.partnerCompanyService = partnerCompanyService;
 	}
 
 	@RequestMapping(value = "/{category}",  method = {RequestMethod.GET})
@@ -58,10 +62,16 @@ public class CategoryController {
 		}
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
 		
+		PartnerCompanyDto partnerDto = null;
+		if(user != null) {
+			partnerDto = partnerCompanyService.getPartnerCompanyOne(user.getUsername());
+		}
+		
 		model.addAttribute("menuCategory", "category");
 		model.addAttribute("categoryNum", category);
 		model.addAttribute("categorySubList", list);
 		model.addAttribute("company", dto);
+		model.addAttribute("partner", partnerDto);
 		return "category/join";
 	}
 }
