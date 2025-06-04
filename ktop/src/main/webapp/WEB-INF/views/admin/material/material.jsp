@@ -2,18 +2,18 @@
 <%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
 <div class="main_contents">
 	<div class="sub_top">
-		<h2>분야 관리</h2>
+		<h2>제품분류 관리</h2>
 	</div>
 
 
 	<div id="add_box" class="add_layer add_layer2">
 		<div class="tit">
-			<p>분야 생성</p>
+			<p>제품분류 생성</p>
 			<div class="close add_layer_close_btns" title="닫기"></div>
 		</div>
 		<div class="wrap">
 			<p>
-				<input type="text" id="menu_name" name="menu_name" class="input_form required" title="분야명" placeholder="분야명을 입력해주세요." />
+				<input type="text" id="menu_name" name="menu_name" class="input_form required" title="제품분류명" placeholder="제품분류명을 입력해주세요." />
 			</p>
 			<p class="btn">
 				<button type="button" class="ab_m ab_blue Fix_FormBtns" id="btn_subcat_add">생성</button>
@@ -68,9 +68,9 @@
 !-->
 
 <div class="gcontrol">
-	<input type="text" name="menu_name" class="input_form w200p required" title="새로운 분야명" placeholder="새로운 분야명" autofocus id="text_cat_add" />
+	<input type="text" name="menu_name" class="input_form w200p required" title="새로운 제품분류명" placeholder="새로운 제품분류명" autofocus id="text_cat_add" />
 	<button type="button" class="ab_m ab_blue" id="btn_cat_add">
-		<i class="fas fa-clone"></i>분야 생성
+		<i class="fas fa-clone"></i>새 제품분류 생성
 	</button>
 
 </div>
@@ -93,12 +93,12 @@
 			</tr>
 		</thead>
 		<tbody  id="table_body_cat">
-			<c:forEach var="workField" items="${workFieldList}">
-		        <tr bgcolor="#eff3f9" id="cat_${workField.id}" <%-- data-parent_id="${workField.parentId}" --%>>
-					<td class="center">${workField.id}</td>
+			<c:forEach var="material" items="${materialList}">
+		        <tr bgcolor="#eff3f9" id="cat_${material.id}" data-parent_id="${material.parentId}">
+					<td class="center">${material.id}</td>
 					<td>
 						<div class="input_list">
-							<span class="line"><input type="text" class="input_form" style="width: 100%" value="${workField.name}" /></span>
+							<span class="line"><input type="text" class="input_form" style="width: 100%" value="${material.name}" /></span>
 						</div>
 						<div class="arr_list">
 							<div class="ab_m ab_h alert_btns" data-txt="더 이상 하위 메뉴 생성이 불가능합니다.">+</div>
@@ -106,8 +106,8 @@
 					</td>
 					<td class="center">
 						<select style="width: 100%;">
-							<option value="true"  <c:if test="${workField.active == true}">selected</c:if>>사용</option>
-					    	<option value="false" <c:if test="${workField.active == false}">selected</c:if>>사용안함</option>
+							<option value="true"  <c:if test="${material.active == true}">selected</c:if>>사용</option>
+					    	<option value="false" <c:if test="${material.active == false}">selected</c:if>>사용안함</option>
 						</select>
 					</td>
 					<td class="center">
@@ -143,7 +143,7 @@
 			
 			try {
 				// 비동기 서버 요청
-				const response = await axios.post('<c:url value="/admin/workforce/category/add"/>', {
+				const response = await axios.post('<c:url value="/admin/site/category/add"/>', {
 				    name: menuName.val().trim(),
 				    active : true,
 				    parentId : parentIdEl.replace("cat_", "")
@@ -227,7 +227,7 @@
 		}
 		try {
 			// 비동기 서버 요청
-			const response = await axios.post('<c:url value="/admin/workforce/category/add"/>', {
+			const response = await axios.post('<c:url value="/admin/material/add"/>', {
 			    name: menuName.val().trim(),
 			    active : true
 			}, {
@@ -286,7 +286,7 @@
 			const parentId = $(e).parent().parent().attr('id')
 			console.log(parentId)
 			try {
-				const response = await axios.delete('<c:url value="/admin/workforce/category/del"/>', {
+				const response = await axios.delete('<c:url value="/admin/material/del"/>', {
 					params: {
 				        id: parentId.replace("cat_", "")
 				    }
@@ -332,7 +332,7 @@
 		}
 		
 		try {
-			const response = await axios.put('<c:url value="/admin/workforce/category/mod"/>', {
+			const response = await axios.put('<c:url value="/admin/material/mod"/>', {
 				id: parentId.replace("cat_", ""),
 		        name : menuName,
 		        active : activeVal

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="adminWorkFieldMapper">
+	
+	<resultMap id="categoryWithChildrenMap" type="net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto">
+        <id      property="id"        column="id"/>
+        <result  property="name"      column="name"/>
+        <result  property="isActive"  column="is_active"/>
+        <result  property="createdAt" column="created_at"/>
+        <result  property="updatedAt" column="updated_at"/>
+
+<!--         자식(중분류) 리스트 매핑 : depth=1 만 조회
+        <collection property="children"
+                    ofType="net.ktop.ktop.module.web.admin.category.AdminSiteCategoryDto"
+                    select="selectChildrenByParentId"
+                    column="id"/> -->
+    </resultMap>
+
+	<insert id="inserWorkField" parameterType="net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO work_field (
+	        name,
+	        is_active
+	    )
+	    VALUES (
+	        #{name},
+	        #{active}
+	    )
+	</insert>
+	
+	<delete id="deleteWorkFieldOne" parameterType="int">
+		DELETE FROM work_field WHERE id = #{id};
+	</delete>
+	
+	<select id="selectWorkFieldAll" resultMap="categoryWithChildrenMap">
+	    SELECT * FROM work_field ORDER BY created_at;
+	</select>
+	
+	<select id="selectChildrenByParentId" resultType="net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto">
+	    SELECT *
+	    FROM work_field
+	    WHERE parent_id = #{param1} ORDER BY created_at;
+	</select>
+	
+	<update id="updateWorkField" parameterType="net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto">
+	    UPDATE work_field
+	    SET
+	        name = #{name},
+	        is_active = #{active},
+	        updated_at = NOW()
+	    WHERE id = #{id}
+	</update>
+
+	<update id="updateChildActives" parameterType="net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto">
+	    UPDATE material_category
+	    SET is_active = #{active},
+	        updated_at = NOW()
+	    WHERE parent_id = #{id}
+	</update>
+</mapper>

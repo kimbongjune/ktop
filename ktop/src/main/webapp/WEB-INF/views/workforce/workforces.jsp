@@ -19,11 +19,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>인력 POOL</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/workforce' />" >인력</a></li>
-											<li><a href="<c:url value='/workforce' />" >인력 POOL</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 
@@ -40,46 +35,69 @@
 						 
 
 <div class="person_list_top_box_wrap"> 
-			<ul class="tabmenu04">
-				<li class="on"><a class="pgroup_select pgroup_all " data-ccode="" data-gc="644IMSJ" data-agroup="">전체</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="3" data-gc="644IMSJ" data-agroup="">목수</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="4" data-gc="644IMSJ" data-agroup="">철거</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="5" data-gc="644IMSJ" data-agroup="">설비</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="6" data-gc="644IMSJ" data-agroup="">전기</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="7" data-gc="644IMSJ" data-agroup="">도장</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="8" data-gc="644IMSJ" data-agroup="">미장</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="9" data-gc="644IMSJ" data-agroup="">조적</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="10" data-gc="644IMSJ" data-agroup="">도배</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="11" data-gc="644IMSJ" data-agroup="">장판</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="12" data-gc="644IMSJ" data-agroup="">타일</a></li>
-							<li class=""><a class="pgroup_select" data-ccode="13" data-gc="644IMSJ" data-agroup="">필름</a></li>
-						</ul>
+	<ul class="tabmenu04">
+		<li class="${empty cat ? 'on' : ''}">
+			<a class="pgroup_select" href="<c:url value='/workforce'>
+				<c:if test='${not empty param.region}'>
+					<c:param name='region' value='${param.region}'/>
+				</c:if>
+			</c:url>">전체</a>
+		</li>
+		
+		<c:forEach var="workField" items="${workFieldList}">
+			<c:choose>
+				<c:when test="${cat eq workField.id}">
+					<li class="on">
+						<a class="pgroup_select" href="<c:url value='/workforce'>
+							<c:param name='cat' value='${workField.id}'/>
+							<c:if test='${not empty param.region}'>
+								<c:param name='region' value='${param.region}'/>
+							</c:if>
+						</c:url>">${workField.name}</a>
+					</li>
+				</c:when>
+				<c:otherwise>
+					<li>
+						<a class="pgroup_select" href="<c:url value='/workforce'>
+							<c:param name='cat' value='${workField.id}'/>
+							<c:if test='${not empty param.region}'>
+								<c:param name='region' value='${param.region}'/>
+							</c:if>
+						</c:url>">${workField.name}</a>
+					</li>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	</ul>
 
 	<div class="person_list_top_box">
 		<div class="person_list_top_left">지역선택</div>
 		<div class="person_list_top_right">
 			<ul>
-				<li class="person_area_select person_area_all cursor on" data-ccode="" data-gc="644IMSJ" data-spgroup="">전국</li>
-						<li class="person_area_select cursor " data-ccode="1/" data-gc="644IMSJ" data-spgroup="">서울</li>
-						<li class="person_area_select cursor " data-ccode="2/" data-gc="644IMSJ" data-spgroup="">부산</li>
-						<li class="person_area_select cursor " data-ccode="3/" data-gc="644IMSJ" data-spgroup="">인천</li>
-						<li class="person_area_select cursor " data-ccode="4/" data-gc="644IMSJ" data-spgroup="">대구</li>
-						<li class="person_area_select cursor " data-ccode="5/" data-gc="644IMSJ" data-spgroup="">광주</li>
-						<li class="person_area_select cursor " data-ccode="6/" data-gc="644IMSJ" data-spgroup="">대전</li>
-						<li class="person_area_select cursor " data-ccode="7/" data-gc="644IMSJ" data-spgroup="">울산</li>
-						<li class="person_area_select cursor " data-ccode="8/" data-gc="644IMSJ" data-spgroup="">경기</li>
-						<li class="person_area_select cursor " data-ccode="9/" data-gc="644IMSJ" data-spgroup="">강원</li>
-						<li class="person_area_select cursor " data-ccode="10/" data-gc="644IMSJ" data-spgroup="">충남</li>
-						<li class="person_area_select cursor " data-ccode="11/" data-gc="644IMSJ" data-spgroup="">충북</li>
-						<li class="person_area_select cursor " data-ccode="12/" data-gc="644IMSJ" data-spgroup="">경남</li>
-						<li class="person_area_select cursor " data-ccode="13/" data-gc="644IMSJ" data-spgroup="">경북</li>
-						<li class="person_area_select cursor " data-ccode="14/" data-gc="644IMSJ" data-spgroup="">전남</li>
-						<li class="person_area_select cursor " data-ccode="15/" data-gc="644IMSJ" data-spgroup="">전북</li>
-						<li class="person_area_select cursor " data-ccode="16/" data-gc="644IMSJ" data-spgroup="">제주</li>
-					</ul>
+				<li class="person_area_select cursor ${empty region ? 'on' : ''}">
+					<a href="<c:url value='/workforce'>
+						<c:if test='${not empty param.cat}'>
+							<c:param name='cat' value='${param.cat}'/>
+						</c:if>
+					</c:url>">전국</a>
+				</li>
+				
+				<c:forEach var="region" items="${regionList}">
+					<li class="person_area_select cursor ${param.region eq region.id ? 'on' : ''}">
+						<a href="<c:url value='/workforce'>
+							<c:if test='${not empty param.cat}'>
+								<c:param name='cat' value='${param.cat}'/>
+							</c:if>
+							<c:param name='region' value='${region.id}'/>
+						</c:url>">${region.name}</a>
+					</li>
+				</c:forEach>
+			</ul>
 		</div>
-		</div>
+	</div>
 </div>
+
+
  
 
 <div class="person_listbox">

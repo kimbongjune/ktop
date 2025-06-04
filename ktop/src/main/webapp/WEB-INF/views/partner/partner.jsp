@@ -43,7 +43,7 @@
 		<img src="<c:url value='${partner.companyFileList[1].file.filePath}' />" alt="${partner.companyFileList[1].file.originalName}" />
 	</div>
 	<div class="company_overview_cont">
-		<div class="company_overview_name">레몬공방</div> 
+		<div class="company_overview_name">${partner.companyDto.companyName}</div> 
 
 		<ul>
 			<li>
