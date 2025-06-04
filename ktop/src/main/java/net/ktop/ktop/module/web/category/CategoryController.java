@@ -32,14 +32,22 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/{category}",  method = {RequestMethod.GET})
-	public String category(@PathVariable("category") int category, Model model) {
+	public String category(@PathVariable("category") int category, Model model, @AuthenticationPrincipal CustomUserDetails user) {
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
 		boolean isTopLevelCategory = categoryService.isTopLevelCategory(category);
+		
+		PartnerCompanyDto partnerCompanyDto = new PartnerCompanyDto();
+		partnerCompanyDto.setCategoryId(category+"");
+		partnerCompanyDto.setTopLevel(isTopLevelCategory);
+		partnerCompanyDto.setStatus("approved");
+		List<PartnerCompanyDto> partnerList = partnerCompanyService.getPartnerCompanyList(partnerCompanyDto);
+		System.out.println(partnerList.size());
 		
 		model.addAttribute("menuCategory", "category");
 		model.addAttribute("isTopLevelCategory", isTopLevelCategory);
 		model.addAttribute("categoryNum", category);
 		model.addAttribute("categorySubList", list);
+		model.addAttribute("partnerList", partnerList);
 		
 		return "category/category";
 	}
@@ -47,6 +55,9 @@ public class CategoryController {
 	@RequestMapping(value = "/{category}/guide",  method = {RequestMethod.GET})
 	public String categoryGuide(@PathVariable("category") int category, Model model) {
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
+		
+		boolean isTopLevelCategory = categoryService.isTopLevelCategory(category);
+		model.addAttribute("isTopLevelCategory", isTopLevelCategory);
 		
 		model.addAttribute("menuCategory", "category");
 		model.addAttribute("categoryNum", category);
@@ -64,7 +75,10 @@ public class CategoryController {
 		
 		PartnerCompanyDto partnerDto = null;
 		if(user != null) {
-			partnerDto = partnerCompanyService.getPartnerCompanyOne(user.getUsername());
+			PartnerCompanyDto partnerCompanyDto = new PartnerCompanyDto();
+			partnerCompanyDto.setCategoryId(category+"");
+			partnerCompanyDto.setId(user.getUsername());
+			partnerDto = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
 		}
 		
 		model.addAttribute("menuCategory", "category");

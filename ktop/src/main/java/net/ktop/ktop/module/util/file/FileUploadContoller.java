@@ -26,7 +26,7 @@ public class FileUploadContoller {
 		this.fileService = fileService;
 	}
 	
-	@RequestMapping(value="/editor", method=RequestMethod.POST)
+	@RequestMapping(value="/editor", method=RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String uploadEditorImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IllegalStateException, IOException {
 		return request.getContextPath() + fileService.saveUploadedFile(file).getFilePath();

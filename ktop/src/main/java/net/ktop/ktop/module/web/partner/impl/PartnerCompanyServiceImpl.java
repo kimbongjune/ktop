@@ -1,5 +1,7 @@
 package net.ktop.ktop.module.web.partner.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,23 @@ public class PartnerCompanyServiceImpl implements PartnerCompanyService {
 	}
 
 	@Override
-	public PartnerCompanyDto getPartnerCompanyOne(String id) {
-		return partnerCompanyRepository.getPartnerCompanyOne(id);
+	public PartnerCompanyDto getPartnerCompanyOne(PartnerCompanyDto dto) {
+		return partnerCompanyRepository.getPartnerCompanyOne(dto);
+	}
+
+	@Override
+	public int insertPartnerOne(PartnerCompanyDto dto) {
+		return partnerCompanyRepository.insertPartnerOne(dto);
+	}
+
+	@Override
+	public int updatePartnerCompany(PartnerCompanyDto dto) {
+		return partnerCompanyRepository.updatePartnerCompany(dto);
+	}
+
+	@Override
+	public List<PartnerCompanyDto> getPartnerCompanyList(PartnerCompanyDto dto) {
+		return partnerCompanyRepository.getPartnerCompanyList(dto);
 	}
 
 }

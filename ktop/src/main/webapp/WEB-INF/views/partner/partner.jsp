@@ -18,11 +18,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>협력사 소개</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/partner' />" >시공업체</a></li>
-											<li><a href="<c:url value='/partner' />" >협력사 소개</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 
@@ -38,13 +33,15 @@
 				<h3 class="sub_title">시공업체</h3>
 						
 <ul class="tabmenu01">
-		<li class="on"><a href="<c:url value='/partner/1' />">협력사 정보</a></li>
-		<li ><a href="<c:url value='/partner/1/products' />">등록상품</a></li>
+		<li class="on"><a href="<c:url value='/partner/${categoryNum}/${companyNum}' />">협력사 정보</a></li>
+		<li ><a href="<c:url value='/partner/${categoryNum}/${companyNum}/products' />">등록상품</a></li>
 	</ul>
 <div class="company_overview_wrap">
 
 <div class="company_overview_box">
-	<div class="company_overview_thum"><img src="<c:url value="/resources/static/image/1660111796_0da8673b962f1d3822409ff1ac95e88340dc8c14.jpg"/>" alt="레몬공방" /></div>
+	<div class="company_overview_thum">
+		<img src="<c:url value='${partner.companyFileList[1].file.filePath}' />" alt="${partner.companyFileList[1].file.originalName}" />
+	</div>
 	<div class="company_overview_cont">
 		<div class="company_overview_name">레몬공방</div> 
 
@@ -52,46 +49,70 @@
 			<li>
 				<dl>
 					<dt>대표자명</dt>
-					<dd>진승용</dd>
+					<dd>${partner.companyDto.ceoName}</dd>
 				</dl>
 			</li>
 			<li>
 				<dl>
 					<dt>홈페이지</dt>
-					<dd><a href="http://oranc.net" target="_blank">http://oranc.net</a></dd>
+					<dd>
+						<c:if test="${not empty partner.companyDto.homepage}">
+							<a href="${partner.companyDto.homepage}" target="_blank">${partner.companyDto.homepage}</a>
+						</c:if>
+					</dd>
 				</dl>
 			</li>
 			<li>
 				<dl>
 					<dt>연락처</dt>
-					<dd>회원가입 후 열람가능</dd>
+					<dd>
+						<sec:authorize access="isAnonymous()">
+							로그인 후 열람 가능
+						</sec:authorize>
+						<sec:authorize access="isAuthenticated()">
+							${partner.companyDto.phone} 
+						</sec:authorize>
+					</dd>
 				</dl>
 			</li>
 			<li>
 				<dl>
 					<dt>이메일</dt>
-					<dd>회원가입 후 열람가능</dd>
+					<dd>${partner.companyDto.email}</dd>
 				</dl>
 			</li>
 			<li>
 				<dl>
 					<dt>지역</dt>
-					<dd>전북 전주시</dd>
+					<dd>${partner.companyDto.regionName}</dd>
 				</dl>
 			</li>
 			<li>
 				<dl>
 					<dt>주소</dt>
-					<dd>전북 전주시 덕진구 가재미로 91 (인후동1가) 3층</dd>
+					<dd>[${partner.companyDto.zipcode}] ${partner.companyDto.address1} ${partner.companyDto.address2}</dd>
+				</dl>
+			</li>
+			<li>
+				<dl>
+					<dt>사업자등록증</dt>
+					<dd>
+						<a class="ahref_btns cursor" style="color: black;" href="<c:url value='/download?id=${partner.companyFileList[0].file.id}' />">
+							<i class="fas fa-paperclip"></i> 
+							<span class="fname">${partner.companyFileList[0].file.originalName}</span>
+							<span class="fsize">(${partner.companyFileList[0].file.fileSizeNumber}
+								<span class="fpilsu">${partner.companyFileList[0].file.fileSizeUnit}</span>)
+							</span>
+						</a>
+					</dd>
 				</dl>
 			</li>
 		</ul>
 	</div> 
 	</div> 
-		<div class="company_overview_cont_memo">
-			<p><span style="font-size: 14px;"><span style="font-size: 18px;"><b>전주 목재 툭수목 구입은 레몬공방에서!</b></span>
-</span></p><p><span style="font-size: 14px;">질 좋은 특수목과 집성목 판재를 저렴하게 구입하세요! </span></p><p><span style="font-size: 14px;">
-전주지역 지게차 무료배송합니다.</span></p><p><br></p><p style="text-align: left;"><img alt="editor_image" src="<c:url value="/resources/static/image/1660123917_c83d54901720db404c68ebf494dcd878e21ebd50.jpg"/>" style="width: 799.235px; height: 532.823px;"><br></p>		</div>
+	<div class="company_overview_cont_memo">
+		${partner.descriptionHtml}
+	</div>
 </div>
 
 <!-- 리뷰내역 -->
@@ -151,7 +172,7 @@
 
 <div class="h30p"></div>
 <div>
-<h4 class="fl">리뷰 현황</h4>
+<!-- <h4 class="fl">리뷰 현황</h4>
 
 <div class="review_list_wrap"> 
 	<div class="tit_wrap"> 
@@ -196,13 +217,13 @@
 	<div class="date">2022-08-05</div>
 </li>
 </ul>
-</div>
+</div> -->
 </div>
 <!-- 리뷰내역 -->
  
  
 <div class="pt40 center">
-	<a href="<c:url value='/partner' />"><div class="bbs_btn01">목록</div></a>
+	<a href="<c:url value='/category/${categoryNum}' />"><div class="bbs_btn01">목록</div></a>
 </div>
 
 

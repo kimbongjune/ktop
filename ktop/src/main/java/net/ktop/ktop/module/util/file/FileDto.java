@@ -78,9 +78,9 @@ public class FileDto {
 	@Override
 	public String toString() {
 		return "FileDto [id=" + id + ", filePath=" + filePath + ", originalName=" + originalName + ", fileName="
-				+ fileName + ", mimeType=" + mimeType + ", fileSize=" + fileSize + ", createdAt=" + createdAt + "]";
+				+ fileName + ", mimeType=" + mimeType + ", fileSize=" + fileSize + ", createdAt=" + createdAt
+				+ ", getFileSizeNumber()=" + getFileSizeNumber() + ", getFileSizeUnit()=" + getFileSizeUnit() + "]";
 	}
 	
-    
-    
+	
 }

@@ -27,7 +27,9 @@
 									<ul class="tabmenu01">
 								<li class=""><a href="<c:url value='/category/${categoryNum}' />" >협력사소개</a></li>
 								<li class="on"><a href="<c:url value='/category/${categoryNum}/guide' />" >협력사 가입안내</a></li>
-								<li class=""><a href="<c:url value='/category/${categoryNum}/join' />" >협력사 등록</a></li>
+								<c:if test="${not isTopLevelCategory}">
+									<li class=""><a href="<c:url value='/category/${categoryNum}/join' />" >협력사 등록</a></li>
+								</c:if>
 							</ul>
 			
 						

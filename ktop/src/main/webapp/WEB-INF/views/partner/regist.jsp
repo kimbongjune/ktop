@@ -39,7 +39,7 @@
 						
 <!-- <h4>업체정보 수정</h4> -->
 
-<form name="company_form" method="post" enctype="multipart/form-data" action="#">
+<form name="company_form" method="post" enctype="multipart/form-data" action="">
 
 <table class="gtable">
 <colgroup>
@@ -118,7 +118,7 @@
 <tr>
 	<th>협력사 소개</th>
     <td colspan="3">
-		<textarea id="company_content" name="company_content" class="textarea_form h100p required summernote" title="협력사 소개" data-table="sys_company_list" data-target="1"></textarea>
+		<textarea id="descriptionHtml" name="descriptionHtml" class="textarea_form h100p required summernote" title="협력사 소개" data-table="sys_company_list" data-target="1"></textarea>
 	</td>
 </tr>
 </tbody>

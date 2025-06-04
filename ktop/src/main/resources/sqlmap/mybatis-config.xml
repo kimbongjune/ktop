@@ -8,6 +8,7 @@
 	    <setting name="callSettersOnNulls" value="true"/>    
 	    <setting name="returnInstanceForEmptyRow" value="true"/>
 	    <setting name="mapUnderscoreToCamelCase" value="true"/>
+	    <setting name="logImpl" value="LOG4J2"/>
 	</settings>
 	<typeAliases>
 		<typeAlias alias="UserDto" type="net.ktop.ktop.module.web.user.UserDto"/>
@@ -15,5 +16,6 @@
 		<typeAlias alias="CompanyDto" type="net.ktop.ktop.module.web.company.CompanyDto"/>
 		<typeAlias alias="FileDto" type="net.ktop.ktop.module.util.file.FileDto"/>
 		<typeAlias alias="CompanyFileDto" type="net.ktop.ktop.module.web.company.file.CompanyFileDto"/>
+		<typeAlias alias="PartnerCompanyDto" type="net.ktop.ktop.module.web.partner.PartnerCompanyDto"/>
    	</typeAliases>
 </configuration>

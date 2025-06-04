@@ -5,6 +5,7 @@
 
     <resultMap id="partnerCompanyFullMap" type="net.ktop.ktop.module.web.partner.PartnerCompanyDto">
 	    <id property="id" column="pc_id"/>
+	    <id property="categoryId" column="category_id"/>
 	    <result property="descriptionHtml" column="description_html"/>
 	    <result property="status" column="status" />
 	    <result property="categoryId" column="category_id"/>
@@ -45,8 +46,8 @@
 
 
 
-	<select id="getPartnerCompanyOne" parameterType="String" resultMap="partnerCompanyFullMap">
-	    SELECT DISTINCT
+	<select id="getPartnerCompanyOne" parameterType="PartnerCompanyDto" resultMap="partnerCompanyFullMap">
+	    SELECT
 	        c.company_name,
 	        c.ceo_name,
 	        c.phone,
@@ -79,56 +80,97 @@
 	    LEFT JOIN company_file cf ON pc.id = cf.company_id
 	    LEFT JOIN file f ON cf.file_id = f.id
 	    LEFT JOIN region_category rc ON c.region_id = rc.id 
-	    WHERE pc.id = #{id}
+     	<where>
+		    <if test="id != null and id != ''">
+	            AND pc.id = #{id}
+	        </if>
+	        <if test="categoryId != null and categoryId != ''">
+	        	AND pc.category_id = #{categoryId}
+	        </if>
+        </where>
+	    ORDER BY cf.file_type ASC;
+	</select>
+	
+	<select id="getPartnerCompanyList" parameterType="PartnerCompanyDto" resultMap="partnerCompanyFullMap">
+	    SELECT
+	        c.company_name,
+	        c.ceo_name,
+	        c.phone,
+	        c.email,
+	        c.zipcode,
+	        c.address1,
+	        c.address2,
+	        c.homepage,
+	        c.region_id,
+	        pc.id AS pc_id,
+	        pc.description_html,
+	        pc.status,
+	        pc.category_id,
+	        pc.created_at AS partner_created_at,
+	        pc.updated_at AS partner_updated_at,
+	        pc.deleted_at AS partner_deleted_at,
+	        cf.id AS cf_id,
+	        cf.company_id,
+	        cf.file_id,
+	        f.id AS f_id,
+	        f.file_path,
+	        f.original_name,
+	        f.file_name,
+	        f.mime_type,
+	        f.file_size,
+	        f.created_at AS file_created_at,
+	        rc.name AS region_name
+	    FROM partner_company pc
+	    LEFT JOIN company c ON pc.id = c.id
+	    LEFT JOIN company_file cf ON pc.id = cf.company_id
+	    LEFT JOIN file f ON cf.file_id = f.id
+	    LEFT JOIN region_category rc ON c.region_id = rc.id 
+	    <where>
+	        <if test="id != null and id != ''">
+	            AND pc.id = #{id}
+	        </if>
+	        <if test="categoryId != null">
+	        	<choose>
+					<when test="topLevel != null and topLevel == true">
+						AND pc.category_id IN (
+						    SELECT id FROM category WHERE parent_id = #{categoryId}
+						)
+					</when>
+					<otherwise>
+			            AND pc.category_id = #{categoryId}
+					</otherwise>
+				</choose>
+	        </if>
+	        <if test="status != null and status != ''">
+	        	AND pc.status = #{status}
+	        </if>
+	    </where>
+	    ORDER BY cf.file_type ASC;
 	</select>
 
 
 	
-	<insert id="insertPartnerOne" parameterType="CompanyDto">
-	    INSERT INTO company (
-	        id,
-	        company_name,
-	        ceo_name,
-	        phone,
-	        email,
-	        zipcode,
-	        address1,
-	        address2,
-	        homepage,
-	        region_id,
-	        description_html
-	    ) VALUES (
-	        #{id},
-	        #{companyName},
-	        #{ceoName},
-	        #{phone},
-	        #{email},
-	        #{zipcode},
-	        #{address1},
-	        #{address2},
-	        #{homepage},
-	        #{regionId},
-	        #{descriptionHtml}
-	    )
+	<insert id="insertPartnerOne" parameterType="PartnerCompanyDto">
+	    INSERT INTO partner_company
+	    	(id, description_html, category_id) 
+    	VALUES
+    		(#{id}, #{descriptionHtml}, #{categoryId});
 	</insert>
 	
-	<update id="updatePartnerOne" parameterType="CompanyDto">
-	    UPDATE company
-	    SET
-	        company_name = #{companyName},
-	        ceo_name = #{ceoName},
-	        phone = #{phone},
-	        email = #{email},
-	        zipcode = #{zipcode},
-	        address1 = #{address1},
-	        address2 = #{address2},
-	        homepage = #{homepage},
-	        region_id = #{regionId},
-	        description_html = #{descriptionHtml},
-	        updated_at = NOW()
-	    WHERE id = #{id}
+	<update id="updatePartnerCompany" parameterType="PartnerCompanyDto">
+	    UPDATE partner_company
+	    <set>
+	        <if test="descriptionHtml != null and descriptionHtml != ''">
+	            description_html = #{descriptionHtml},
+	        </if>
+	        <if test="status != null">
+	            status = #{status},
+	        </if>
+	        <if test="deletedAt != null and deletedAt != ''">
+	            deleted_at = #{deletedAt},
+	        </if>
+	    </set>
+	    WHERE id = #{id} AND category_id = #{categoryId}
 	</update>
-		
-	
 	
 </mapper>

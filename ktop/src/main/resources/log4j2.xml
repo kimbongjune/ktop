@@ -46,6 +46,12 @@
 		    <AppenderRef ref="console" />
 		    <AppenderRef ref="rollingFile" />
 		</Logger>
+		<Logger name="org.apache.ibatis.logging" level="INFO" additivity="false">
+		    <AppenderRef ref="console" />
+		</Logger>
+		<Logger name="org.apache.ibatis.executor.statement" level="INFO" additivity="false">
+		    <AppenderRef ref="console" />
+		</Logger>
         <Root level="INFO">
             <AppenderRef ref="console" />
             <AppenderRef ref="rollingFile" />

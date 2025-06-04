@@ -2,6 +2,8 @@ package net.ktop.ktop.module.util.file.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -42,7 +44,11 @@ public class FileServiceImpl implements FileService {
 	    }
 
 	    String originalName = file.getOriginalFilename();
-	    String savedName = UUID.randomUUID() + "_" + originalName;
+
+		String normalizedName = Normalizer.normalize(originalName, Normalizer.Form.NFC);
+
+		String savedName = UUID.randomUUID().toString() + "_" + normalizedName;
+		
 	    File saveFile = new File(dir, savedName);
 	    file.transferTo(saveFile);
 

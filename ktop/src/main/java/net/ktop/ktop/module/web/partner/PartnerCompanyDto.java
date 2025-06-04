@@ -29,6 +29,9 @@ public class PartnerCompanyDto {
     /** 탈퇴일 */
     private String deletedAt;
     
+    /** 상위카테고리 여부 */
+    private boolean topLevel;
+    
     /** 회사 */
     private CompanyDto companyDto;
     
@@ -105,12 +108,21 @@ public class PartnerCompanyDto {
 	public void setCompanyFileList(List<CompanyFileDto> companyFileList) {
 		this.companyFileList = companyFileList;
 	}
+	
+	public boolean isTopLevel() {
+		return topLevel;
+	}
+
+	public void setTopLevel(boolean topLevel) {
+		this.topLevel = topLevel;
+	}
 
 	@Override
 	public String toString() {
 		return "PartnerCompanyDto [id=" + id + ", descriptionHtml=" + descriptionHtml + ", status=" + status
 				+ ", categoryId=" + categoryId + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", deletedAt=" + deletedAt + ", companyDto=" + companyDto + ", companyFileList=" + companyFileList
-				+ "]";
+				+ ", deletedAt=" + deletedAt + ", topLevel=" + topLevel + ", companyDto=" + companyDto
+				+ ", companyFileList=" + companyFileList + "]";
 	}
+	
 }
