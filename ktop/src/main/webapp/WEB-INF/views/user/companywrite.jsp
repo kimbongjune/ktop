@@ -202,17 +202,20 @@
 
 		if ($('#file1')[0].files.length < 1) {
 			alert("사업자등록증을 업로드 해주세요.");
+			e.preventDefault();
 			return;
 		}
 
 		if ($('#file2')[0].files.length < 1) {
 			alert("소개이미지를 업로드 해주세요.");
+			e.preventDefault();
 			return;
 		}
 		
-		if(isSummernoteContentEmpty(content)){
+		if(isSummernoteContentEmpty(descriptionHtml)){
 			alert("회사 소개문구를 작성해주세요");
 			$('#descriptionHtml').focus();
+			e.preventDefault();
 			return;
 		}
 	});

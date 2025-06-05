@@ -1,51 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-	<mapper namespace="workerMapper">
+<mapper namespace="workerMapper">
+
+	<resultMap id="workerWithFilesAndFieldsMap" type="net.ktop.ktop.module.web.workforce.WorkerDto">
+	    <id property="userId" column="w_id"/>
+	    <result property="regionId" column="region_id"/>
+	    <result property="name" column="name"/>
+	    <result property="regionName" column="region_name"/>
+	    <result property="introduction" column="introduction"/>
+	    <result property="status" column="status"/>
+	    <result property="createdAt" column="worker_created_at"/>
+	    <result property="updatedAt" column="worker_updated_at"/>
+	    <result property="deletedAt" column="worker_deleted_at"/>
+	    
+	    <association property="user" javaType="net.ktop.ktop.module.web.user.UserDto">
+	        <id property="id" column="u_id"/>
+	        <result property="name" column="u_name"/>
+	        <result property="phoneMobile" column="u_phone"/>
+	        <result property="email" column="u_email"/>
+	    </association>
 	
-		<resultMap id="workerMap" type="net.ktop.ktop.module.web.workforce.WorkerDto">
-		    <id property="userId" column="user_id"/>
-		    <result property="regionId" column="region_id"/>
-		    <result property="introduction" column="introduction"/>
-		    <result property="status" column="status"/>
-		    <result property="createdAt" column="created_at"/>
-		    <result property="updatedAt" column="updated_at"/>
-		    <result property="deletedAt" column="deleted_at"/>
-		
-		    <collection property="fieldList" ofType="net.ktop.ktop.module.web.workforce.WorkerFieldDto">
-		        <result property="userId" column="user_id"/>
-		        <result property="fieldId" column="field_id"/>
-		    </collection>
-		</resultMap>
-		
-		<select id="selectWorkerList" parameterType="net.ktop.ktop.module.web.workforce.WorkerDto" resultMap="workerMap">
-		    SELECT
-		        w.user_id,
-		        w.region_id,
-		        w.introduction,
-		        w.status,
-		        w.created_at,
-		        w.updated_at,
-		        w.deleted_at,
-		        wf.field_id
-		    FROM
-		        worker w
-		    JOIN
-		        worker_field wf ON w.user_id = wf.user_id
-		    <where>
-		        <if test="status != null and status != ''">
-		            AND w.status = #{status}
-		        </if>
-		        <if test="regionId != null">
-		            AND w.region_id = #{regionId}
-		        </if>
-		        <if test="fieldId != null">
-		            AND wf.field_id = #{fieldId}
-		        </if>
-		        <if test="userId != null">
-		            AND w.user_id = #{userId}
-		        </if>
-		    </where>
-		</select>
+	    <!-- 첨부 파일 -->
+	    <collection property="workerFileList" ofType="net.ktop.ktop.module.web.workforce.file.WorkerFileDto">
+	        <id property="id" column="wf_id"/>
+	        <result property="userId" column="wf_user_id"/>
+	        <result property="fileId" column="file_id"/>
+	        <result property="fileType" column="file_type"/>
+	        <association property="file" javaType="net.ktop.ktop.module.util.file.FileDto">
+	            <id property="id" column="f_id"/>
+	            <result property="filePath" column="file_path"/>
+	            <result property="originalName" column="original_name"/>
+	            <result property="fileName" column="file_name"/>
+	            <result property="mimeType" column="mime_type"/>
+	            <result property="fileSize" column="file_size"/>
+	            <result property="createdAt" column="file_created_at"/>
+	        </association>
+	    </collection>
+	
+	    <!-- 업무 분야 -->
+	    <collection property="fieldList" ofType="net.ktop.ktop.module.web.workforce.workerfield.WorkerFieldDto">
+	        <id property="fieldId" column="wf_field_id"/>
+	        <result property="userId" column="w_id"/>
+	        <result property="fieldName" column="work_field_name"/>
+	    </collection>
+	</resultMap>
+	
+	<select id="getWorkerOne" parameterType="String" resultMap="workerWithFilesAndFieldsMap">
+	    SELECT DISTINCT
+	        w.user_id AS w_id,
+	        w.region_id,
+	        w.name,
+	        rc.name AS region_name,
+	        w.introduction,
+	        w.status,
+	        w.created_at AS worker_created_at,
+	        w.updated_at AS worker_updated_at,
+	        w.deleted_at AS worker_deleted_at,
+	        u.id AS u_id,
+		    u.name AS u_name,
+		    u.phone_mobile AS u_phone,
+		    u.email AS u_email,
+	        wf.id AS wf_id,
+	        wf.user_id AS wf_user_id,
+	        wf.file_id,
+	        wf.file_type,
+	        f.id AS f_id,
+	        f.file_path,
+	        f.original_name,
+	        f.file_name,
+	        f.mime_type,
+	        f.file_size,
+	        f.created_at AS file_created_at,
+	        wfd.field_id AS wf_field_id,
+	        wf2.name AS work_field_name
+	    FROM worker w
+	    LEFT JOIN users u ON w.user_id = u.id
+	    LEFT JOIN region_category rc ON w.region_id = rc.id
+	    LEFT JOIN worker_file wf ON w.user_id = wf.user_id
+	    LEFT JOIN file f ON wf.file_id = f.id
+	    LEFT JOIN worker_field wfd ON w.user_id = wfd.user_id
+	    LEFT JOIN work_field wf2 ON wfd.field_id = wf2.id
+	    WHERE w.user_id = #{userId}
+	    ORDER BY wf.file_type ASC;
+	</select>
+	
+	<insert id="insertWorker" parameterType="net.ktop.ktop.module.web.workforce.WorkerDto">
+	    INSERT INTO worker (
+	        user_id,
+	        region_id,
+	        name,
+	        introduction
+	    ) VALUES (
+	        #{userId},
+	        #{regionId},
+	        #{name},
+	        #{introduction}
+	    );
+	</insert>
+	
+	<update id="updateWorker" parameterType="net.ktop.ktop.module.web.workforce.WorkerDto">
+	    UPDATE worker
+	    <set>
+	        <if test="introduction != null and introduction != ''">
+	            introduction = #{introduction},
+	        </if>
+	        <if test="regionId != null and regionId != ''">
+	            region_id = #{regionId},
+	        </if>
+	        <if test="name != null and name != ''">
+	            name = #{name},
+	        </if>
+	        <if test="status != null and status != ''">
+	            status = #{status},
+	        </if>
+	        <if test="deletedAt != null and deletedAt != ''">
+	            deleted_at = #{deletedAt},
+	        </if>
+	    </set>
+	    WHERE user_id = #{userId}
+	</update>
 
 </mapper>

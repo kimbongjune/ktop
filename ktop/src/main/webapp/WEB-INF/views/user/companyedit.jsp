@@ -210,8 +210,9 @@ $('form[name="company_form"]').on('submit', function(e) {
 	}
 
 	if($("#file_preview_1").children().length < 1){
-    	if ($('#file1')[0].files.length > 0) {
-	    	return true;
+		if ($('#file1')[0].files.length < 1) {
+			alert("사업자등록증을 업로드 해주세요.");
+	    	return false;
 	    }
     	alert("사업자등록증을 업로드 해주세요.");
         $('#file1').focus();
@@ -219,8 +220,9 @@ $('form[name="company_form"]').on('submit', function(e) {
         return;
     }
     if($("#file_preview_2").children().length < 1){
-    	if ($('#file2')[0].files.length > 0) {
-	    	return true;
+    	if ($('#file2')[0].files.length < 1) {
+    		alert("소개이미지를 업로드 해주세요.");
+	    	return false;
 	    }
     	alert("소개이미지를 업로드 해주세요.");
         $('#file2').focus();

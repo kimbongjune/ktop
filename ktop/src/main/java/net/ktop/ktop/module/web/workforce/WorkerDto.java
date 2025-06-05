@@ -2,6 +2,10 @@ package net.ktop.ktop.module.web.workforce;
 
 import java.util.List;
 
+import net.ktop.ktop.module.web.user.UserDto;
+import net.ktop.ktop.module.web.workforce.file.WorkerFileDto;
+import net.ktop.ktop.module.web.workforce.workerfield.WorkerFieldDto;
+
 public class WorkerDto {
     private String userId;
     private int regionId;
@@ -11,7 +15,11 @@ public class WorkerDto {
     private String updatedAt;
     private String deletedAt;
     private List<WorkerFieldDto> fieldList;
+    private List<WorkerFileDto> workerFileList;
     private int fieldId;
+    private String name;
+    private String regionName;
+    private UserDto user;
     
 	public String getUserId() {
 		return userId;
@@ -61,16 +69,42 @@ public class WorkerDto {
 	public void setFieldList(List<WorkerFieldDto> fieldList) {
 		this.fieldList = fieldList;
 	}
-    public int getFieldId() {
-        return fieldId;
-    }
-    public void setFieldId(int fieldId) {
-        this.fieldId = fieldId;
-    }
+	public List<WorkerFileDto> getWorkerFileList() {
+		return workerFileList;
+	}
+	public void setWorkerFileList(List<WorkerFileDto> workerFileList) {
+		this.workerFileList = workerFileList;
+	}
+	public int getFieldId() {
+		return fieldId;
+	}
+	public void setFieldId(int fieldId) {
+		this.fieldId = fieldId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getRegionName() {
+		return regionName;
+	}
+	public void setRegionName(String regionName) {
+		this.regionName = regionName;
+	}
+	public UserDto getUser() {
+		return user;
+	}
+	public void setUser(UserDto user) {
+		this.user = user;
+	}
 	@Override
 	public String toString() {
 		return "WorkerDto [userId=" + userId + ", regionId=" + regionId + ", introduction=" + introduction + ", status="
 				+ status + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt
-				+ ", fieldList=" + fieldList + "]";
+				+ ", fieldList=" + fieldList + ", workerFileList=" + workerFileList + ", fieldId=" + fieldId + ", name="
+				+ name + ", regionName=" + regionName + ", user=" + user + "]";
 	}
+	
 }

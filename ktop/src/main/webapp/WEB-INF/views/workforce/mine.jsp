@@ -68,36 +68,57 @@
 				<tbody>
 				<tr>
 					<th>이름</th>
-					<td class="left">멋쟁이목수</td>
+					<td class="left">${worker.name}</td>
 					<th>연락처</th>
-					<td class="left">010-2594-0104</td>
+					<td class="left">${worker.user.phoneMobile}</td>
 				</tr>
 				<tr>
 					<th>이메일</th>
-					<td class="left">sonoran@nate.com</td>
+					<td class="left">${worker.user.email}</td>
 					<th>활동분야</th>
-					<td class="left">목수</td>
+					<td class="left">
+					<c:forEach var="field" items="${worker.fieldList}" varStatus="status">
+						${field.fieldName}<c:if test="${!status.last}">, </c:if>
+					</c:forEach>
+					</td>
 				</tr>
 				<tr>
-					<th>소개</th>
-					<td colspan="3">멋쟁이 인테리어 목수팀이 일을 잘합니다.</td>
+					<th>활동지역</th>
+					<td colspan="3">
+						${worker.regionName}
+					</td>
 				</tr>
 				<tr>
 					<th>대표이미지</th>
 					<td colspan="3">
-						<div class="ahref_btns cursor" data-href="http://localhost:3000/main/?gc=645FAEH/download&file_id=2295"><i class="fas fa-paperclip"></i> <span class="fname">main_people03.jpg</span> <span class="fsize">(39.9 <span class="fpilsu">KB</span>)</span></div>
+						<a class="ahref_btns cursor" href="<c:url value='/download?id=${worker.workerFileList[0].file.id}' />"><i class="fas fa-paperclip"></i> <span class="fname">${worker.workerFileList[0].file.originalName}</span> <span class="fsize">(${worker.workerFileList[0].file.fileSizeNumber}<span class="fpilsu">${worker.workerFileList[0].file.fileSizeUnit}</span>)</span></a>
 					</td>
 				</tr>
 				<tr>
 					<th>포트폴리오</th>
 					<td colspan="3">
-						<div class="ahref_btns cursor" data-href="http://localhost:3000/main/?gc=645FAEH/download&file_id=2296"><i class="fas fa-paperclip"></i> <span class="fname">8eac171a649fa50a8b2e427945b5f47b.jpg</span> <span class="fsize">(90.5 <span class="fpilsu">KB</span>)</span></div>
+						<a class="ahref_btns cursor" href="<c:url value='/download?id=${worker.workerFileList[1].file.id}' />"><i class="fas fa-paperclip"></i> <span class="fname">${worker.workerFileList[1].file.originalName}</span> <span class="fsize">(${worker.workerFileList[1].file.fileSizeNumber} <span class="fpilsu">${worker.workerFileList[1].file.fileSizeUnit}</span>)</span></a>
 					</td>
 				</tr>
 				<tr>
 					<th>신청상황</th>
 					<td colspan="3">
-						승인	</td>
+						<c:choose>
+							<c:when test="${worker.status eq 'pending'}">
+								승인 대기
+							</c:when>
+							<c:when test="${worker.status eq 'approved'}">
+								승인
+							</c:when>
+							<c:when test="${worker.status eq 'rejected'}">
+								반려
+							</c:when>
+						</c:choose>
+					</td>
+				</tr>
+				<tr>
+					<th>소개</th>
+					<td colspan="3">${worker.introduction}</td>
 				</tr>
 				</tbody>
 			</table>

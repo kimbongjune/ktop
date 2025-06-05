@@ -18,15 +18,16 @@
 		<input type="password" id="password" name="password" class=""  title="비밀번호" placeholder="비밀번호" />
 		<i class="fas fa-eye-slash" title="비밀번호 보기"></i>
 	</div>
-
-	
 	<div class="btns"><input type="submit" value="로그인" /></div>
+	<div class="auto_login">
+	    <input type="checkbox" name="remember-me" id="rememberMe"/>
+	    <label for="rememberMe">자동 로그인</label>
+	</div>
 		<ul class="bottom"> 
-		<li><a href="<c:url value='/user/findid' />">아이디찾기</a></li>
-		<li><a href="<c:url value='/user/findpw' />">비밀번호찾기</a></li>
-		<li><a href="<c:url value='/user/signup' />">회원가입</a></li>
-	</ul>
-	
+			<li><a href="<c:url value='/user/findid' />">아이디찾기</a></li>
+			<li><a href="<c:url value='/user/findpw' />">비밀번호찾기</a></li>
+			<li><a href="<c:url value='/user/signup' />">회원가입</a></li>
+		</ul>
 	</div>
 </form>
 

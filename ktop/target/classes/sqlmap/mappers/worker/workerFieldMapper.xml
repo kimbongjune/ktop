@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="workerFieldMapper">
+	
+	<insert id="insertWorkerField" parameterType="net.ktop.ktop.module.web.workforce.workerfield.WorkerFieldDto">
+        INSERT INTO worker_field (user_id, field_id)
+        VALUES
+        <foreach collection="workFieldList" item="fieldId" separator=",">
+            (#{userId}, #{fieldId})
+        </foreach>
+    </insert>
+    
+    <delete id="deleteWorkerField" parameterType="String">
+    	DELETE FROM worker_field
+		WHERE user_id= #{userId}
+    </delete>
+
+</mapper>

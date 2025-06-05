@@ -37,7 +37,7 @@
 						
 <h4>인력 POOL 등록신청 신규입력</h4>
 
-<form name="person_form" method="post" enctype="multipart/form-data" action="#">
+<form name="person_form" method="post" enctype="multipart/form-data" action="">
 
 <table class="gtable">
 <colgroup>
@@ -48,9 +48,9 @@
 </colgroup>
 <tbody>
 <tr>
-	<th><label for="person_name">이름</label> <em class="fpilsu">*</em></th>
+	<th><label for="name">이름</label> <em class="fpilsu">*</em></th>
     <td>
-		<div><sec:authentication property="principal.name" /></div>
+		<input type="text" id="name" name="name" class="input_form w100p" title="이름" value="">
 	</td>
 	<th><label for="person_tel">연락처</label> <em class="fpilsu">*</em></th>
     <td>
@@ -67,7 +67,7 @@
 		<select id="regionId" name="regionId" class="" title="지역 선택">
 			<option value="">:선택:</option>
 			<c:forEach var="region" items="${regionList}">
-				<option value='${region.id}'>${region.name}</option>
+				<option value='${worker.id}'>${region.name}</option>
 				<c:forEach var="child" items="${region.children}">
 					<option value='${child.id}'>&nbsp;&nbsp;&nbsp;&nbsp;┖${child.name}</option>
 				</c:forEach>
@@ -90,7 +90,7 @@
 <div class="file_box">
 	<div class="file_preview" id="file_preview_1">
 			</div>
-	<label for="gc_file_1"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="gc_file_1" name="gc_file[1]" class="up_files"  data-target="file_preview_1" data-checkid="gc_file_del_1" accept="image/*" /></label>
+	<label for="file1"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="file1" name="file1" class="up_files"  data-target="file_preview_1" data-checkid="gc_file_del_1" accept="image/*" /></label>
 	</div></td>
 </tr>
 <tr>
@@ -100,13 +100,13 @@
 <div class="file_box">
 	<div class="file_preview" id="file_preview_2">
 			</div>
-	<label for="gc_file_2"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="gc_file_2" name="gc_file[2]" class="up_files"  data-target="file_preview_2" data-checkid="gc_file_del_2"  /></label>
+	<label for="file2"><div class="file_btn" title="파일첨부">첨부</div><input type="file" id="file2" name="file2" class="up_files"  data-target="file_preview_2" data-checkid="gc_file_del_2"  /></label>
 	</div></td>
 </tr>
 <tr>
 	<th>소개</th>
     <td colspan="3">
-		<textarea id="person_content" name="person_content" class="textarea_form h100p required summernote" title="소개" data-table="sys_person_list" data-target=""></textarea>
+		<textarea id="introduction" name="introduction" class="textarea_form h100p summernote" title="소개" data-table="sys_person_list" data-target=""></textarea>
 	</td>
 </tr>
 </tbody>
@@ -123,6 +123,66 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+$('form[name="person_form"]').on('submit', function(e) {
+	const regionId = $('#regionId').val().trim();
+	const name = $("#name").val().trim();
+	const introductionHtml = $('#introduction').summernote('code');
+	
+	if (name === "") {
+		alert("이름을 입력해 주세요.");
+		$('#name').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (regionId === "") {
+		alert("지역을 선택해 주세요.");
+		$('#regionId').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	const isWorkFieldChecked = $('input[name="workField"]:checked').length > 0;
+	if (!isWorkFieldChecked) {
+		alert("활동 분야를 한 개 이상 선택해 주세요.");
+		e.preventDefault();
+		return false;
+	}
+
+	if ($('#file1')[0].files.length < 1) {
+		alert("대표이미지를 업로드 해주세요.");
+		e.preventDefault();
+		return false;
+	}
+
+	if ($('#file2')[0].files.length < 1) {
+		alert("포트폴리오를 업로드 해주세요.");
+		e.preventDefault();
+		return false;
+	}
+	
+	if(isSummernoteContentEmpty(introductionHtml)){
+		alert("인력풀 소개문구를 작성해주세요");
+		$('#introduction').focus();
+		e.preventDefault();
+		return false;
+	}
+});
+
+function isSummernoteContentEmpty(html) {
+    const hasImage = /<img\b[^>]*>/i.test(html); // img 태그 하나라도 존재하면 true
+
+    // img 태그 제외한 모든 태그 제거 → 텍스트만 추출
+    const text = html
+        .replace(/<(?!img\b)[^>]*>/gi, '') // img 외 모든 태그 제거
+        .replace(/&nbsp;/gi, '')           // &nbsp; 제거
+        .replace(/\u200B/g, '')            // zero-width space 제거
+        .trim();
+
+    return !hasImage && text === '';
+}
+</script>
 <script src="<c:url value='/resources/static/js/person.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/bootstrap.min.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/summernote.min.js' />"></script>

@@ -18,8 +18,15 @@ public class WorkerRepository {
 		this.template = template;
 	}
 	
-	public WorkerDto getWorkerList(WorkerDto dto){
-		return template.selectOne(MAPPER_NAME + "selectWorkerList", dto);
+	public WorkerDto getWorkerOne(String id){
+		return template.selectOne(MAPPER_NAME + "getWorkerOne", id);
+	}
+	
+	public int insertWorker(WorkerDto dto){
+		return template.insert(MAPPER_NAME + "insertWorker", dto);
 	}
 
+	public int updateWorker(WorkerDto dto){
+		return template.update(MAPPER_NAME + "updateWorker", dto);
+	}
 }
