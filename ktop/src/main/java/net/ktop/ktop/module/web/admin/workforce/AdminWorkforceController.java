@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import net.ktop.ktop.module.web.admin.material.AdminMaterialDto;
-import net.ktop.ktop.module.web.admin.material.AdminMaterialService;
+import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldDto;
+import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldService;
 
 @Controller
 @RequestMapping("/admin/workforce")

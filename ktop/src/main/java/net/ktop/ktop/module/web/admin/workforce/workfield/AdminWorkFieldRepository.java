@@ -1,4 +1,4 @@
-package net.ktop.ktop.module.web.admin.workforce;
+package net.ktop.ktop.module.web.admin.workforce.workfield;
 
 import java.util.List;
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+	<mapper namespace="workerMapper">
+	
+		<resultMap id="workerMap" type="net.ktop.ktop.module.web.workforce.WorkerDto">
+		    <id property="userId" column="user_id"/>
+		    <result property="regionId" column="region_id"/>
+		    <result property="introduction" column="introduction"/>
+		    <result property="status" column="status"/>
+		    <result property="createdAt" column="created_at"/>
+		    <result property="updatedAt" column="updated_at"/>
+		    <result property="deletedAt" column="deleted_at"/>
+		
+		    <collection property="fieldList" ofType="net.ktop.ktop.module.web.workforce.WorkerFieldDto">
+		        <result property="userId" column="user_id"/>
+		        <result property="fieldId" column="field_id"/>
+		    </collection>
+		</resultMap>
+		
+		<select id="selectWorkerList" parameterType="net.ktop.ktop.module.web.workforce.WorkerDto" resultMap="workerMap">
+		    SELECT
+		        w.user_id,
+		        w.region_id,
+		        w.introduction,
+		        w.status,
+		        w.created_at,
+		        w.updated_at,
+		        w.deleted_at,
+		        wf.field_id
+		    FROM
+		        worker w
+		    JOIN
+		        worker_field wf ON w.user_id = wf.user_id
+		    <where>
+		        <if test="status != null and status != ''">
+		            AND w.status = #{status}
+		        </if>
+		        <if test="regionId != null">
+		            AND w.region_id = #{regionId}
+		        </if>
+		        <if test="fieldId != null">
+		            AND wf.field_id = #{fieldId}
+		        </if>
+		        <if test="userId != null">
+		            AND w.user_id = #{userId}
+		        </if>
+		    </where>
+		</select>
+
+</mapper>

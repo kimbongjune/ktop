@@ -3,7 +3,7 @@
 
 <mapper namespace="adminWorkFieldMapper">
 	
-	<resultMap id="categoryWithChildrenMap" type="net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto">
+	<resultMap id="categoryWithChildrenMap" type="net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldDto">
         <id      property="id"        column="id"/>
         <result  property="name"      column="name"/>
         <result  property="isActive"  column="is_active"/>
@@ -17,7 +17,7 @@
                     column="id"/> -->
     </resultMap>
 
-	<insert id="inserWorkField" parameterType="net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto" useGeneratedKeys="true" keyProperty="id">
+	<insert id="inserWorkField" parameterType="net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldDto" useGeneratedKeys="true" keyProperty="id">
 	    INSERT INTO work_field (
 	        name,
 	        is_active
@@ -36,13 +36,13 @@
 	    SELECT * FROM work_field ORDER BY created_at;
 	</select>
 	
-	<select id="selectChildrenByParentId" resultType="net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto">
+	<select id="selectChildrenByParentId" resultType="net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldDto">
 	    SELECT *
 	    FROM work_field
 	    WHERE parent_id = #{param1} ORDER BY created_at;
 	</select>
 	
-	<update id="updateWorkField" parameterType="net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto">
+	<update id="updateWorkField" parameterType="net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldDto">
 	    UPDATE work_field
 	    SET
 	        name = #{name},
@@ -51,7 +51,7 @@
 	    WHERE id = #{id}
 	</update>
 
-	<update id="updateChildActives" parameterType="net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto">
+	<update id="updateChildActives" parameterType="net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldDto">
 	    UPDATE material_category
 	    SET is_active = #{active},
 	        updated_at = NOW()

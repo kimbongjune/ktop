@@ -1,4 +1,4 @@
-package net.ktop.ktop.module.web.admin.workforce.impl;
+package net.ktop.ktop.module.web.admin.workforce.workfield.impl;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import net.ktop.ktop.module.web.admin.category.AdminSiteCategoryService;
 import net.ktop.ktop.module.web.admin.material.AdminMaterialDto;
 import net.ktop.ktop.module.web.admin.material.AdminMaterialRepository;
 import net.ktop.ktop.module.web.admin.material.AdminMaterialService;
-import net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldDto;
-import net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldRepository;
-import net.ktop.ktop.module.web.admin.workforce.AdminWorkFieldService;
+import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldDto;
+import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldRepository;
+import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldService;
 
 @Service
 public class AdminWorkFieldServiceImpl implements AdminWorkFieldService {
