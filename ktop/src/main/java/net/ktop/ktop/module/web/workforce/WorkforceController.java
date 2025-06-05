@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,6 +74,12 @@ public class WorkforceController {
 		model.addAttribute("workFieldList", workFieldList);
 		model.addAttribute("menuCategory", "workforce");
 		return "workforce/regist";
+	}
+	
+	@RequestMapping(value = "/regist", method = {RequestMethod.POST})
+	public String workforceRegist(Model model, @ModelAttribute WorkerDto workerDto) {
+		
+		return "redirect:/workforce/mine";
 	}
 	
 	@RequestMapping(value = "/edit", method = {RequestMethod.GET})
