@@ -8,7 +8,7 @@ import net.ktop.ktop.module.web.workforce.workerfield.WorkerFieldDto;
 
 public class WorkerDto {
     private String userId;
-    private int regionId;
+    private Integer regionId;
     private String introduction;
     private String status;
     private String createdAt;
@@ -16,7 +16,7 @@ public class WorkerDto {
     private String deletedAt;
     private List<WorkerFieldDto> fieldList;
     private List<WorkerFileDto> workerFileList;
-    private int fieldId;
+    private Integer fieldId;
     private String name;
     private String regionName;
     private UserDto user;
@@ -24,81 +24,133 @@ public class WorkerDto {
 	public String getUserId() {
 		return userId;
 	}
+
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public int getRegionId() {
+
+
+	public Integer getRegionId() {
 		return regionId;
 	}
-	public void setRegionId(int regionId) {
+
+
+	public void setRegionId(Integer regionId) {
 		this.regionId = regionId;
 	}
+
+
 	public String getIntroduction() {
 		return introduction;
 	}
+
+
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
 	}
+
+
 	public String getStatus() {
 		return status;
 	}
+
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+
 	public String getCreatedAt() {
 		return createdAt;
 	}
+
+
 	public void setCreatedAt(String createdAt) {
 		this.createdAt = createdAt;
 	}
+
+
 	public String getUpdatedAt() {
 		return updatedAt;
 	}
+
+
 	public void setUpdatedAt(String updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+
 	public String getDeletedAt() {
 		return deletedAt;
 	}
+
+
 	public void setDeletedAt(String deletedAt) {
 		this.deletedAt = deletedAt;
 	}
+
+
 	public List<WorkerFieldDto> getFieldList() {
 		return fieldList;
 	}
+
+
 	public void setFieldList(List<WorkerFieldDto> fieldList) {
 		this.fieldList = fieldList;
 	}
+
+
 	public List<WorkerFileDto> getWorkerFileList() {
 		return workerFileList;
 	}
+
+
 	public void setWorkerFileList(List<WorkerFileDto> workerFileList) {
 		this.workerFileList = workerFileList;
 	}
-	public int getFieldId() {
+
+
+	public Integer getFieldId() {
 		return fieldId;
 	}
-	public void setFieldId(int fieldId) {
+
+
+	public void setFieldId(Integer fieldId) {
 		this.fieldId = fieldId;
 	}
+
+
 	public String getName() {
 		return name;
 	}
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
 	public String getRegionName() {
 		return regionName;
 	}
+
+
 	public void setRegionName(String regionName) {
 		this.regionName = regionName;
 	}
+
+
 	public UserDto getUser() {
 		return user;
 	}
+
+
 	public void setUser(UserDto user) {
 		this.user = user;
 	}
+
+
 	@Override
 	public String toString() {
 		return "WorkerDto [userId=" + userId + ", regionId=" + regionId + ", introduction=" + introduction + ", status="

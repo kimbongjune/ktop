@@ -36,22 +36,22 @@
 
 <div class="person_list_top_box_wrap"> 
 	<ul class="tabmenu04">
-		<li class="${empty cat ? 'on' : ''}">
+		<li class="${empty fieldId ? 'on' : ''}">
 			<a class="pgroup_select" href="<c:url value='/workforce'>
-				<c:if test='${not empty param.region}'>
-					<c:param name='region' value='${param.region}'/>
+				<c:if test='${not empty param.regionId}'>
+					<c:param name='regionId' value='${param.regionId}'/>
 				</c:if>
 			</c:url>">전체</a>
 		</li>
 		
 		<c:forEach var="workField" items="${workFieldList}">
 			<c:choose>
-				<c:when test="${cat eq workField.id}">
+				<c:when test="${fieldId eq workField.id}">
 					<li class="on">
 						<a class="pgroup_select" href="<c:url value='/workforce'>
-							<c:param name='cat' value='${workField.id}'/>
-							<c:if test='${not empty param.region}'>
-								<c:param name='region' value='${param.region}'/>
+							<c:param name='fieldId' value='${workField.id}'/>
+							<c:if test='${not empty param.regionId}'>
+								<c:param name='regionId' value='${param.regionId}'/>
 							</c:if>
 						</c:url>">${workField.name}</a>
 					</li>
@@ -59,9 +59,9 @@
 				<c:otherwise>
 					<li>
 						<a class="pgroup_select" href="<c:url value='/workforce'>
-							<c:param name='cat' value='${workField.id}'/>
-							<c:if test='${not empty param.region}'>
-								<c:param name='region' value='${param.region}'/>
+							<c:param name='fieldId' value='${workField.id}'/>
+							<c:if test='${not empty param.regionId}'>
+								<c:param name='regionId' value='${param.regionId}'/>
 							</c:if>
 						</c:url>">${workField.name}</a>
 					</li>
@@ -74,21 +74,21 @@
 		<div class="person_list_top_left">지역선택</div>
 		<div class="person_list_top_right">
 			<ul>
-				<li class="person_area_select cursor ${empty region ? 'on' : ''}">
+				<li class="person_area_select cursor ${empty regionId ? 'on' : ''}">
 					<a href="<c:url value='/workforce'>
-						<c:if test='${not empty param.cat}'>
-							<c:param name='cat' value='${param.cat}'/>
+						<c:if test='${not empty param.fieldId}'>
+							<c:param name='fieldId' value='${param.fieldId}'/>
 						</c:if>
 					</c:url>">전국</a>
 				</li>
 				
 				<c:forEach var="region" items="${regionList}">
-					<li class="person_area_select cursor ${param.region eq region.id ? 'on' : ''}">
+					<li class="person_area_select cursor ${param.regionId eq region.id ? 'on' : ''}">
 						<a href="<c:url value='/workforce'>
-							<c:if test='${not empty param.cat}'>
-								<c:param name='cat' value='${param.cat}'/>
+							<c:if test='${not empty param.fieldId}'>
+								<c:param name='fieldId' value='${param.fieldId}'/>
 							</c:if>
-							<c:param name='region' value='${region.id}'/>
+							<c:param name='regionId' value='${region.id}'/>
 						</c:url>">${region.name}</a>
 					</li>
 				</c:forEach>
@@ -97,34 +97,28 @@
 	</div>
 </div>
 
-
- 
-
 <div class="person_listbox">
 	<ul>
+		<c:forEach var="worker" items="${workers}">
 			<li>
-			<a href="<c:url value='/workforce/1' />">
-			<figure><img src="<c:url value="/resources/static/image/1660119157_9cbcdc16f9b465f321e1b0b1ab3e27c71dbd1589.jpg"/>" alt="asdf" /></figure>
-						<div class="star"><div class="review_star"><div class="review_fill" style="width:50%;" title="2.5">&nbsp;</div></div></div>
-						<div class="subject">[목수, 철거, 미장, 조적] <p>asdf</p></div>
-			</a>
-		</li>
-			<li>
-			<a href="<c:url value='/workforce/2' />">
-			<figure><img src="<c:url value="/resources/static/image/3_34263ccb7f1cf298aa9bc1d88457782a.jpg"/>" alt="홍길동" /></figure>
-						<div class="star"><div class="review_star"><div class="review_fill" style="width:100%;" title="5">&nbsp;</div></div></div>
-						<div class="subject">[목수, 철거, 설비, 도장, 조적] <p>홍길동</p></div>
-			</a>
-		</li>
-			<li>
-			<a href="<c:url value='/workforce/3' />">
-			<figure><img src="<c:url value="/resources/static/image/4_2d8924abdbc7901b27c5a74098a40abe.jpg"/>" alt="멋쟁이목수" /></figure>
-						<div class="subject">[목수] <p>멋쟁이목수</p></div>
-			</a>
-		</li>
-		</ul>
+				<a href="<c:url value='/workforce/${worker.userId}' />">
+					<figure>
+						<img src="<c:url value="${worker.workerFileList[0].file.filePath}"/>" alt="${worker.workerFileList[0].file.originalName}" />
+					</figure>
+					<div class="subject">
+						[
+							<c:forEach var="field" items="${worker.fieldList}" varStatus="status">
+								${field.fieldName}<c:if test="${!status.last}">, </c:if>
+							</c:forEach>
+						]
+						<p>${worker.name}</p>
+					</div>
+				</a>
+			</li>
+		</c:forEach>
+	</ul>
 		<!-- <div class="personlist_nolist">자료가 없습니다.</div> -->
-	</div>		
+</div>		
 
 
 

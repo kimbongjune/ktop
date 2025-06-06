@@ -62,4 +62,14 @@ public class WorkerServiceImpl implements WorkerService {
 		return workerFieldRepository.deleteWorkerField(id);
 	}
 
+	@Override
+	public List<WorkerDto> selectWorkerList(WorkerDto dto) {
+		return workerRepository.selectWorkerList(dto);
+	}
+
+	@Override
+	public WorkerDto selectWorkerOne(WorkerDto dto) {
+		return workerRepository.selectWorkerOne(dto);
+	}
+
 }

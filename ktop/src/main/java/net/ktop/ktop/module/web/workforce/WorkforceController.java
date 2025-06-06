@@ -45,20 +45,28 @@ public class WorkforceController {
 	}
 
 	@RequestMapping(value = "", method = {RequestMethod.GET})
-	public String workforce(Model model, @RequestParam(name="cat", required=false) String cat, @RequestParam(name="region", required=false) String region) {
+	public String workforce(Model model, @ModelAttribute WorkerDto dto) {
 		List<AdminWorkFieldDto> workFieldList = adminWorkFieldService.getAllWorkField();
 		List<RegionDto> regionList = regionService.getAllRegion();
+		
+		dto.setStatus("approved");
+		List<WorkerDto> worker = workerService.selectWorkerList(dto);
 		
 		model.addAttribute("regionList", regionList);
 		model.addAttribute("workFieldList", workFieldList);
 		model.addAttribute("menuCategory", "workforce");
-		model.addAttribute("cat", cat);
-		model.addAttribute("region", region);
+		model.addAttribute("fieldId", dto.getFieldId());
+		model.addAttribute("regionId", dto.getRegionId());
+		model.addAttribute("workers", worker);
 		return "workforce/workforces";
 	}
 	
 	@RequestMapping(value = "/{id}", method = {RequestMethod.GET})
 	public String workforce(@PathVariable("id") String id, Model model) {
+		WorkerDto dto = new WorkerDto();
+		dto.setUserId(id);
+		WorkerDto worker = workerService.selectWorkerOne(dto);
+		model.addAttribute("worker", worker);
 		model.addAttribute("menuCategory", "workforce");
 		return "workforce/workforce";
 	}

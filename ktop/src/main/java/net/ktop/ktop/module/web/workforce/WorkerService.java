@@ -19,4 +19,8 @@ public interface WorkerService {
 	int updateWorker(WorkerDto dto);
 	
 	int deleteWorkerField(String id);
+	
+	List<WorkerDto> selectWorkerList(WorkerDto dto);
+	
+	WorkerDto selectWorkerOne(WorkerDto dto);
 }

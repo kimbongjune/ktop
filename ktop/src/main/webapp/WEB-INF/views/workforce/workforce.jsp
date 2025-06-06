@@ -20,11 +20,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>인력 POOL</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/workforce' />" >인력</a></li>
-											<li><a href="<c:url value='/workforce' />" >인력 POOL</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 
@@ -42,39 +37,43 @@
 <div class="person_info_wrap">
 <div class="person_info_box">
 	<div class="person_info_thum">
-		<img src="<c:url value="/resources/static/image/1660119157_9cbcdc16f9b465f321e1b0b1ab3e27c71dbd1589.jpg"/>" class="popimg_btns cursor" data-href="<c:url value="/resources/static/image/2_6c333a1c784ce2eba633064d02e1d19e.jpg"/>" alt="asdf" title="클릭시 새창으로 열립니다." />
+		<img src="<c:url value="${worker.workerFileList[0].file.filePath}"/>" class="popimg_btns cursor" data-href="<c:url value="${worker.workerFileList[0].file.filePath}"/>" alt="${worker.workerFileList[0].file.originalName}" title="클릭시 새창으로 열립니다." />
 	</div>
 	<div class="person_info_cont">
-		<div class="person_info_name">asdf</div>
+		<div class="person_info_name">${worker.name}</div>
 		<ul>
 			<li> 
 				<dl>
 					<dt>활동 분야</dt>
-					<dd>목수, 철거, 미장, 조적</dd>
+					<dd>
+						<c:forEach var="field" items="${worker.fieldList}" varStatus="status">
+							${field.fieldName}<c:if test="${!status.last}">, </c:if>
+						</c:forEach>
+					</dd>
 				</dl>
 			</li>
 			<li> 
 				<dl>
 					<dt>활동 지역</dt>
-					<dd>전북 전주시</dd>
+					<dd>${worker.regionName}</dd>
 				</dl>
 			</li>
 			<li> 
 				<dl>
 					<dt>연락처</dt>
-					<dd>010-1234-1234</dd>
+					<dd>${worker.user.phoneMobile}</dd>
 				</dl>
 			</li>
 			<li> 
 				<dl>
 					<dt>이메일</dt>
-					<dd>1234@1234.dom</dd>
+					<dd>${worker.user.email}</dd>
 				</dl>
 			</li>
 			<li class="grid_area"> 
 				<dl>
 					<dt>포트폴리오</dt>
-					<dd><div class="ahref_btns cursor" data-href="<c:url value="/resources/static/image/2_6c333a1c784ce2eba633064d02e1d19e.jpg"/>"><i class="fas fa-paperclip"></i> <span class="fname">쉐어라이프_직인.jpg</span> <span class="fsize">(56.7 <span class="fpilsu">KB</span>)</span></div>
+					<dd><a class="ahref_btns cursor" style="color:black;" href="<c:url value='/download?id=${worker.workerFileList[1].file.id}' />"><i class="fas fa-paperclip"></i> <span class="fname">${worker.workerFileList[1].file.originalName}</span> <span class="fsize">(${worker.workerFileList[1].file.fileSizeNumber} <span class="fpilsu">${worker.workerFileList[1].file.fileSizeUnit}</span>)</span></a>
 </dd>
 				</dl>
 			</li> 
@@ -83,14 +82,12 @@
 	</div>
 		
 <div class="person_info_memo">
-	<p>안녕하세요.</p><p><br></p><p>실내인테리어 20년 경력으로 완벽한 시공을 약속드립니다.</p><p><br></p><p><img style="" alt="editor_image" src="<c:url value="/resources/static/image/1660119157_9cbcdc16f9b465f321e1b0b1ab3e27c71dbd1589.jpg"/>"><br></p></div>
-
-
+	${worker.introduction}
 </div>
  
 
 <!-- 리뷰내역 -->
-<div>
+<%-- <div>
 
 <div id="review_layer">
 	<h4>리뷰 작성</h4>
@@ -184,7 +181,7 @@
  
 
 	 
-		</div>	<!-- web_size  -->
+</div> --%>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>

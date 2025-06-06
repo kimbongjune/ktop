@@ -46,6 +46,58 @@
 	    </collection>
 	</resultMap>
 	
+	<select id="selectWorkerList" parameterType="net.ktop.ktop.module.web.workforce.WorkerDto" resultMap="workerWithFilesAndFieldsMap">
+	   SELECT
+	        w.user_id AS w_id,
+	        w.region_id,
+	        w.name,
+	        rc.name AS region_name,
+	        w.introduction,
+	        w.status,
+	        w.created_at AS worker_created_at,
+	        w.updated_at AS worker_updated_at,
+	        w.deleted_at AS worker_deleted_at,
+	        u.id AS u_id,
+		    u.name AS u_name,
+		    u.phone_mobile AS u_phone,
+		    u.email AS u_email,
+	        wf.id AS wf_id,
+	        wf.user_id AS wf_user_id,
+	        wf.file_id,
+	        wf.file_type,
+	        f.id AS f_id,
+	        f.file_path,
+	        f.original_name,
+	        f.file_name,
+	        f.mime_type,
+	        f.file_size,
+	        f.created_at AS file_created_at,
+	        wfd.field_id AS wf_field_id,
+	        wf2.name AS work_field_name
+	    FROM worker w
+	    LEFT JOIN users u ON w.user_id = u.id
+	    LEFT JOIN region_category rc ON w.region_id = rc.id
+	    LEFT JOIN worker_file wf ON w.user_id = wf.user_id
+	    LEFT JOIN file f ON wf.file_id = f.id
+	    LEFT JOIN worker_field wfd ON w.user_id = wfd.user_id
+	    LEFT JOIN work_field wf2 ON wfd.field_id = wf2.id
+	    <where>
+	        <if test="status != null and status != ''">
+	            AND w.status = #{status}
+	        </if>
+	        <if test="regionId != null and regionId != 0">
+	            AND w.region_id = #{regionId}
+	        </if>
+	        <if test="fieldId != null and fieldId != 0">
+	            AND wfd.field_id = #{fieldId}
+	        </if>
+	        <if test="userId != null and userId != ''">
+	            AND w.user_id = #{userId}
+	        </if>
+	    </where>
+	    ORDER BY wf.file_type ASC;
+	</select>
+	
 	<select id="getWorkerOne" parameterType="String" resultMap="workerWithFilesAndFieldsMap">
 	    SELECT DISTINCT
 	        w.user_id AS w_id,

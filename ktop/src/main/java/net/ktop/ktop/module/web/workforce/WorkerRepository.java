@@ -29,4 +29,12 @@ public class WorkerRepository {
 	public int updateWorker(WorkerDto dto){
 		return template.update(MAPPER_NAME + "updateWorker", dto);
 	}
+	
+	public List<WorkerDto> selectWorkerList(WorkerDto dto) {
+		return template.selectList(MAPPER_NAME + "selectWorkerList", dto);
+	}
+	
+	public WorkerDto selectWorkerOne(WorkerDto dto) {
+		return template.selectOne(MAPPER_NAME + "selectWorkerList", dto);
+	}
 }
