@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="boardMapper">
+	
+	<resultMap id="BoardPostResultMap" type="net.ktop.ktop.module.web.board.BoardPostDto">
+        <id property="id" column="post_id" />
+        <result property="boardType" column="board_type" />
+        <result property="name" column="name" />
+        <result property="userId" column="user_id" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+        <result property="deletedAt" column="deleted_at" />
+        <result property="expireDate" column="expire_date" />
+        <result property="viewCount" column="view_count" />
+        <result property="prevPostId" column="prev_post_id" />
+        <result property="nextPostId" column="next_post_id" />
+        <result property="prevPostTitle" column="prev_post_title" />
+        <result property="nextPostTitle" column="next_post_title" />
+
+        <collection property="boardFileList" ofType="net.ktop.ktop.module.web.board.file.BoardPostFileDto" notNullColumn="board_file_id">
+            <id property="id" column="board_file_id" />
+            <result property="postId" column="post_id" />
+            <result property="fileId" column="file_id" />
+
+            <association property="file" javaType="net.ktop.ktop.module.util.file.FileDto">
+                <id property="id" column="file_id" />
+                <result property="filePath" column="file_path"/>
+	            <result property="originalName" column="original_name"/>
+	            <result property="fileName" column="file_name"/>
+	            <result property="mimeType" column="mime_type"/>
+	            <result property="fileSize" column="file_size"/>
+	            <result property="createdAt" column="file_created_at"/>
+            </association>
+        </collection>
+    </resultMap>
+	
+	<select id="selectBoardPostList" resultMap="BoardPostResultMap"
+            parameterType="net.ktop.ktop.module.web.board.BoardPostSearchDto">
+        SELECT 
+            bp.id AS post_id,
+            bp.board_type,
+            bp.user_id,
+            bp.title,
+            bp.content,
+            bp.created_at,
+            bp.updated_at,
+            bp.deleted_at,
+            bp.expire_date,
+            (select name from users where id = bp.user_id) as name,
+            IFNULL(vc.view_count, 0) AS view_count,
+            bpf.id AS board_file_id,
+            bpf.file_id,
+            f.id AS file_id,
+            f.original_name,
+            f.file_name,
+            f.file_path,
+            f.mime_type,
+            f.file_size,
+            f.created_at AS file_created_at
+        FROM board_post bp
+        LEFT JOIN (
+            SELECT post_id, COUNT(DISTINCT user_id) AS view_count
+            FROM board_post_view
+            GROUP BY post_id
+        ) vc ON bp.id = vc.post_id
+        LEFT JOIN board_post_file bpf ON bp.id = bpf.post_id
+        LEFT JOIN file f ON bpf.file_id = f.id
+        <where>
+            bp.deleted_at IS NULL
+            AND (bp.expire_date IS NULL OR bp.expire_date > NOW())
+            <choose>
+                <when test="searchType == 'title' and keyword != null and keyword != ''">
+                    AND bp.title LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="searchType == 'content' and keyword != null and keyword != ''">
+                    AND bp.content LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+            </choose>
+        </where>
+        ORDER BY bp.created_at DESC
+    </select>
+    
+    <select id="selectBoardPostById" parameterType="int" resultMap="BoardPostResultMap">
+	    SELECT 
+	        bp.id AS post_id,
+	        bp.board_type,
+	        bp.user_id,
+	        bp.title,
+	        bp.content,
+	        bp.created_at,
+	        bp.updated_at,
+	        bp.deleted_at,
+	        bp.expire_date,
+	        (SELECT name FROM users WHERE id = bp.user_id) AS name,
+	        IFNULL(vc.view_count, 0) AS view_count,
+	        prev.id AS prev_post_id,
+	        prev.title AS prev_post_title,
+	        next.id AS next_post_id,
+	        next.title AS next_post_title,
+	        bpf.id AS board_file_id,
+	        bpf.file_id,
+	        f.id AS file_id,
+	        f.original_name,
+	        f.file_name,
+	        f.file_path,
+	        f.mime_type,
+	        f.file_size,
+	        f.created_at AS file_created_at
+	    FROM board_post bp
+	    LEFT JOIN (
+	        SELECT post_id, COUNT(DISTINCT user_id) AS view_count
+	        FROM board_post_view
+	        GROUP BY post_id
+	    ) vc ON bp.id = vc.post_id
+	    LEFT JOIN board_post_file bpf ON bp.id = bpf.post_id
+	    LEFT JOIN file f ON bpf.file_id = f.id
+	    LEFT JOIN board_post prev ON prev.id = (
+		    SELECT MIN(id)
+		    FROM board_post
+		    WHERE id &gt; bp.id
+		      AND board_type = bp.board_type
+		      AND deleted_at IS NULL
+		      AND (expire_date IS NULL OR expire_date &gt; NOW())
+		)
+		LEFT JOIN board_post next ON next.id = (
+		    SELECT MAX(id)
+		    FROM board_post
+		    WHERE id &lt; bp.id
+		      AND board_type = bp.board_type
+		      AND deleted_at IS NULL
+		      AND (expire_date IS NULL OR expire_date &gt; NOW())
+		)
+	    WHERE bp.id = #{postId}
+	      AND bp.deleted_at IS NULL
+	</select>
+
+
+	    
+    
+    <insert id="insertBoardPost" parameterType="net.ktop.ktop.module.web.board.BoardPostDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO board_post (
+            board_type,
+            user_id,
+            title,
+            content,
+            expire_date
+        ) VALUES (
+            #{boardType},
+            #{userId},
+            #{title},
+            #{content},
+            #{expireDate}
+        )
+    </insert>
+</mapper>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="stylesheet" href="<c:url value='/resources/static/css/style.css' />">
 
 		<section class="sub_container"> 
@@ -45,20 +46,19 @@
 
 
 <div class="board_search">
-	<p class="ginfo">전체 <span>4</span>건</p>
+	<p class="ginfo">전체 <span>${fn:length(boards)}</span>건</p>
 
 	<dl>
-		<form name="search_form" method="post" action="#">
-		<input type="hidden" name="gc" value="NOTICE" >
+		<form name="search_form" method="get" action="">
 			<fieldset>
 				<dt>
-					<select name="sit" title="검색 옵션">
-						<option value="bwrite_title" >제목</option>
-						<option value="bwrite_content" >내용</option>
+					<select name="searchType" title="검색 옵션">
+						<option ${param.searchType eq 'title' ? 'selected' : ''} value="title" >제목</option>
+						<option ${param.searchType eq 'content' ? 'selected' : ''} value="content" >내용</option>
 					</select>
 				</dt>
 				<dd>
-					<input type="text" name="stx" class="input_form" title="검색어" value="" placeholder="검색어를 입력해주세요." >
+					<input type="text" name="keyword" class="input_form" title="검색어" value="${param.keyword}" placeholder="검색어를 입력해주세요." >
 					<input type="submit" value="검색" class="btn Fix_FormBtns" title="검색">
 				</dd>
 			</fieldset>
@@ -66,12 +66,11 @@
 	</dl>
 </div>
 
-
 <div class="board_list">
 
 	<div class="tit_wrap"> 
 		<p class="no">번호</p>
-				<p class="tit0">제목</p> 
+		<p class="tit0">제목</p> 
 		<p class="file">첨부</p>
 		<p class="named">작성자</p> 
 		<p class="date">작성일</p> 
@@ -79,63 +78,33 @@
 	</div>
 
 	<ul class="content_wrap">
-				<li>
-				<a href="<c:url value='/notice/4' />">				<p class="no">4</p>
-								<p class="tit0">
-										
-					홈페이지가 새롭게 오픈되었습니다					<span class="sfile"><i class="fas fa-paperclip" title="첨부"></i></span>
-					
-									</p>
-				<p class="file"><span><i class="fas fa-paperclip" title="첨부"></i></span></p>
-				<p class="named">관리자</p>
-				<p class="date">2022-08-05</p>
-				<p class="hit">13</p>
-				<p class="minfo">관리자 / 2022-08-05 / 조회 13</p>
+		<c:forEach var="board" items="${boards}">
+			<li>
+				<a href="<c:url value='/notice/${board.id}' />">
+					<p class="no">${board.id}</p>
+					<p class="tit0">${board.title}
+						<span class="sfile">
+							<c:if test="${not empty board.boardFileList}">
+								<i class="fas fa-paperclip" title="첨부"></i>
+							</c:if>
+						</span>
+					</p>
+					<p class="file">
+						<span>
+							<c:if test="${not empty board.boardFileList}">
+								<i class="fas fa-paperclip" title="첨부"></i>
+							</c:if>
+						</span>
+					</p>
+					<p class="named">${board.name}</p>
+					<p class="date">${fn:substring(board.createdAt, 0, 10)}</p>
+					<p class="hit">${board.viewCount}</p>
+					<p class="minfo">${board.name} / ${fn:substring(board.createdAt, 0, 10)} / 조회 ${board.viewCount}</p>
 				</a>
 			</li>
-					<li>
-				<a href="<c:url value='/notice/3' />">				<p class="no">3</p>
-								<p class="tit0">
-										
-					농어촌일자리플러스 교육 참가자 모집 및 채용한마당 공고					<span class="sfile"><i class="fas fa-paperclip" title="첨부"></i></span>
-					
-									</p>
-				<p class="file"><span><i class="fas fa-paperclip" title="첨부"></i></span></p>
-				<p class="named">관리자</p>
-				<p class="date">2022-05-20</p>
-				<p class="hit">69</p>
-				<p class="minfo">관리자 / 2022-05-20 / 조회 69</p>
-				</a>
-			</li>
-					<li>
-				<a href="<c:url value='/notice/2' />">				<p class="no">2</p>
-								<p class="tit0">
-										
-					2022년 도농상생형 완주군로컬잡(JOB)센터 일자리 체험 프로그램 참가자 모집					<span class="sfile"></span>
-					
-									</p>
-				<p class="file"><span></span></p>
-				<p class="named">관리자</p>
-				<p class="date">2022-05-20</p>
-				<p class="hit">24</p>
-				<p class="minfo">관리자 / 2022-05-20 / 조회 24</p>
-				</a>
-			</li>
-					<li>
-				<a href="<c:url value='/notice/1' />">				<p class="no">1</p>
-								<p class="tit0">
-										
-					장수군로컬job센터, 2022년도 고용복지플러스센터 출장소 운영					<span class="sfile"></span>
-					
-									</p>
-				<p class="file"><span></span></p>
-				<p class="named">관리자</p>
-				<p class="date">2022-05-20</p>
-				<p class="hit">26</p>
-				<p class="minfo">관리자 / 2022-05-20 / 조회 26</p>
-				</a>
-			</li>
-				</ul>
+		</c:forEach>
+				
+	</ul>
 				
 	
 	<div class="btn_wrap">

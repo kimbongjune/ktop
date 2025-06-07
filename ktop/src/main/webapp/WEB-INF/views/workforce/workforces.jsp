@@ -98,6 +98,9 @@
 </div>
 
 <div class="person_listbox">
+	<c:if test="${empty workers}">
+		<div class="personlist_nolist">조회 결과가 없습니다.</div>
+	</c:if>
 	<ul>
 		<c:forEach var="worker" items="${workers}">
 			<li>

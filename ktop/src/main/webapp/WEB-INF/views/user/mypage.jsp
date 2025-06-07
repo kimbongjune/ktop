@@ -19,11 +19,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>회원정보관리</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/user/mypage' />" >MYPAGE</a></li>
-											<li><a href="<c:url value='/user/mypage' />" >회원정보관리</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 
@@ -53,10 +48,10 @@
 
 
 		<p class="tit2">회원 구분 선택</p>
-	<ul class="tabs ">
-				<li  data-type="10"><div>일반</div></li>
-				<li  data-type="40"><div>협력사</div></li>
-			</ul>
+	<ul class="tabs tabauto" id="user_type">
+		<li class="on" data-type="ROLE_USER"><div>일반</div></li>
+		<li data-type="ROLE_PARTNER"><div>협력사</div></li>
+	</ul>
 	
 
 		
