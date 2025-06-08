@@ -50,6 +50,8 @@ public class PartnerController {
 	
 	@RequestMapping(value = "/{category}/{company}/products", method = {RequestMethod.GET})
 	public String partnerProducts(@PathVariable("company") String company, @PathVariable("category") int category, Model model) {
+		model.addAttribute("categoryNum", category);
+		model.addAttribute("companyNum", company);
 		return "partner/products";
 	}
 	

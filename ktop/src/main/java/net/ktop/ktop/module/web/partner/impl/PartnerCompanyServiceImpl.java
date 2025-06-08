@@ -39,4 +39,9 @@ public class PartnerCompanyServiceImpl implements PartnerCompanyService {
 		return partnerCompanyRepository.getPartnerCompanyList(dto);
 	}
 
+	@Override
+	public int getPartnerCompanyCount(PartnerCompanyDto dto) {
+		return partnerCompanyRepository.getPartnerCompanyCount(dto);
+	}
+
 }

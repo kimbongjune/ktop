@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="materialMapper">
+
+	<resultMap id="materialWithFileMap" type="net.ktop.ktop.module.web.material.MaterialDto">
+		<id property="id" column="m_id" />
+		<result property="name" column="name" />
+		<result property="categoryId" column="category_id" />
+		<result property="materialCategoryId" column="material_category_id" />
+		<result property="partnerId" column="partner_id" />
+		<result property="price" column="price" />
+		<result property="description" column="description" />
+		<result property="isActive" column="is_active" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+	
+		<association property="materialFile" javaType="net.ktop.ktop.module.web.material.file.MaterialFileDto">
+			<id property="id" column="mf_id" />
+			<result property="materialId" column="material_id" />
+			<result property="fileId" column="file_id" />
+	
+			<association property="file" javaType="net.ktop.ktop.module.util.file.FileDto">
+				<id property="id" column="f_id"/>
+				<result property="filePath" column="file_path"/>
+				<result property="originalName" column="original_name"/>
+				<result property="fileName" column="file_name"/>
+				<result property="mimeType" column="mime_type"/>
+				<result property="fileSize" column="file_size"/>
+				<result property="createdAt" column="file_created_at"/>
+			</association>
+		</association>
+	</resultMap>
+		
+	<!-- INSERT -->
+	<insert id="insertMaterial" parameterType="net.ktop.ktop.module.web.material.MaterialDto" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO material (
+			name, category_id, material_category_id, partner_id, price, description
+		) VALUES (
+			#{name}, #{categoryId}, #{materialCategoryId}, #{partnerId}, #{price}, #{description}
+		)
+	</insert>
+
+	<!-- SELECT: 다건 -->
+	<select id="selectMaterialList" parameterType="net.ktop.ktop.module.web.material.MaterialDto" resultMap="materialWithFileMap">
+		SELECT 
+			m.id AS m_id,
+			m.name,
+			m.category_id,
+			m.material_category_id,
+			m.partner_id,
+			m.price,
+			m.description,
+			m.is_active,
+			m.created_at,
+			m.updated_at,
+			mf.id AS mf_id,
+			mf.material_id,
+			mf.file_id,
+			f.id AS f_id,
+			f.file_path,
+			f.original_name,
+			f.file_name,
+			f.mime_type,
+			f.file_size,
+			f.created_at AS file_created_at
+		FROM material m
+		LEFT JOIN material_file mf ON m.id = mf.material_id
+		LEFT JOIN file f ON mf.file_id = f.id
+		<where>
+			m.deleted_at IS NULL
+			<if test="materialCategoryId != null and materialCategoryId != 0">
+				AND m.material_category_id = #{materialCategoryId}
+			</if>
+			<if test="partnerId != null and partnerId != ''">
+				AND m.partner_id = #{partnerId}
+			</if>
+			<if test="categoryId != null and categoryId != ''">
+				AND m.category_id = #{categoryId}
+			</if>
+		</where>
+	</select>
+
+	<!-- SELECT: 단건 -->
+	<select id="selectMaterialOne" parameterType="int" resultMap="materialWithFileMap">
+		SELECT 
+			m.id AS m_id,
+			m.name,
+			m.category_id,
+			m.material_category_id,
+			m.partner_id,
+			m.price,
+			m.description,
+			m.is_active,
+			m.created_at,
+			m.updated_at,
+			mf.id AS mf_id,
+			mf.material_id,
+			mf.file_id,
+			f.id AS f_id,
+			f.file_path,
+			f.original_name,
+			f.file_name,
+			f.mime_type,
+			f.file_size,
+			f.created_at AS file_created_at
+		FROM material m
+		LEFT JOIN material_file mf ON m.id = mf.material_id
+		LEFT JOIN file f ON mf.file_id = f.id
+		WHERE m.id = #{id}
+		AND m.deleted_at IS NULL
+	</select>
+
+	<!-- UPDATE -->
+	<update id="updateMaterial" parameterType="net.ktop.ktop.module.web.material.MaterialDto">
+		UPDATE material
+		<set>
+			<if test="name != null">name = #{name},</if>
+			<if test="categoryId != 0">category_id = #{categoryId},</if>
+			<if test="materialCategoryId != 0">material_category_id = #{materialCategoryId},</if>
+			<if test="partnerId != null">partner_id = #{partnerId},</if>
+			<if test="price != 0">price = #{price},</if>
+			<if test="description != null">description = #{description},</if>
+			<if test="isActive == true or isActive == false">is_active = #{isActive},</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!-- DELETE -->
+	<update id="deleteMaterial" parameterType="int">
+		UPDATE material
+		SET deleted_at = NOW()
+		WHERE id = #{id}
+	</update>
+
+</mapper>

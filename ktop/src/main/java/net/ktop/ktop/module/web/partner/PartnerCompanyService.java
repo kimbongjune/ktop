@@ -10,4 +10,6 @@ public interface PartnerCompanyService {
 	int updatePartnerCompany(PartnerCompanyDto dto);
 
 	List<PartnerCompanyDto> getPartnerCompanyList(PartnerCompanyDto dto);
+	
+	int getPartnerCompanyCount(PartnerCompanyDto dto);
 }

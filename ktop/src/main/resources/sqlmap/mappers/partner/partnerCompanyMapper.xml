@@ -43,7 +43,16 @@
 	</resultMap>
 
 
-
+	<select id="getPartnerCompanyCount" resultType="int" parameterType="PartnerCompanyDto">
+		SELECT 
+			COUNT(*)
+		FROM partner_company
+		<where>
+			AND id = #{id}
+			AND category_id = #{categoryId}
+			AND status = 'approved'
+		</where>
+	</select>
 
 
 	<select id="getPartnerCompanyOne" parameterType="PartnerCompanyDto" resultMap="partnerCompanyFullMap">

@@ -17,12 +17,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>협력사 소개</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/partner' />" >시공업체</a></li>
-											<li><a href="<c:url value='/partner/1' />" >레몬공방</a></li>
-											<li><a href="<c:url value='/partner/1/products' />" >등록상품</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 
@@ -38,8 +32,8 @@
 				<h3 class="sub_title">시공업체</h3>
 						
 <ul class="tabmenu01">
-		<li ><a href="<c:url value='/partner/1' />">협력사 정보</a></li>
-		<li class="on"><a href="<c:url value='/partner/1/products' />">등록상품</a></li>
+		<li ><a href="<c:url value='/partner/${categoryNum}/${companyNum}' />">협력사 정보</a></li>
+		<li class="on"><a href="<c:url value='/partner/${categoryNum}/${companyNum}/products' />">등록상품</a></li>
 	</ul>
  
 <div class="company_view_h4">
