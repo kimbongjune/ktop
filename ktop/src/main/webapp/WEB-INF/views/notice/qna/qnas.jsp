@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="stylesheet" href="<c:url value='/resources/static/css/style.css' />">
 
 		<section class="sub_container"> 
@@ -21,11 +22,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>질문과답변</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/notice' />" >고객센터</a></li>
-											<li><a href="<c:url value='/notice/qna' />" >질문과답변</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 
@@ -45,20 +41,19 @@
 
 
 <div class="board_search">
-	<p class="ginfo">전체 <span>1</span>건</p>
+	<p class="ginfo">전체 <span>${fn:length(boards)}</span>건</p>
 
 	<dl>
-		<form name="search_form" method="post" action="#">
-		<input type="hidden" name="gc" value="605LYJI" />
+		<form name="search_form" method="get" action="">
 			<fieldset>
 				<dt>
-					<select name="sit" title="검색 옵션">
-						<option value="bwrite_title" >제목</option>
-						<option value="bwrite_content" >내용</option>
+					<select name="searchType" title="검색 옵션">
+						<option ${param.searchType eq 'title' ? 'selected' : ''} value="title" >제목</option>
+						<option ${param.searchType eq 'content' ? 'selected' : ''} value="content" >내용</option>
 					</select>
 				</dt>
 				<dd>
-					<input type="text" name="stx" class="input_form" title="검색어" value="" placeholder="검색어를 입력해주세요." />
+					<input type="text" name="keyword" class="input_form" title="검색어" value="${param.keyword}" placeholder="검색어를 입력해주세요." >
 					<input type="submit" value="검색" class="btn Fix_FormBtns" title="검색">
 				</dd>
 			</fieldset>
@@ -66,12 +61,11 @@
 	</dl>
 </div>
 
-
 <div class="board_list">
 
 	<div class="tit_wrap"> 
 		<p class="no">번호</p>
-				<p class="tit0">제목</p> 
+		<p class="tit0">제목</p> 
 		<p class="file">첨부</p>
 		<p class="named">작성자</p> 
 		<p class="date">작성일</p> 
@@ -79,21 +73,34 @@
 	</div>
 
 	<ul class="content_wrap">
-				<li>
-				<a href="<c:url value='/notice/qna/1' />">				<p class="no">1</p>
-								<p class="tit0">
-										
-					상품 관련 질문드립니다					<span class="sfile"></span>
-					
-									</p>
-				<p class="file"><span></span></p>
-				<p class="named">기업회원테스트</p>
-				<p class="date">2022-07-28</p>
-				<p class="hit">9</p>
-				<p class="minfo">기업회원테스트 / 2022-07-28 / 조회 9</p>
+		<c:forEach var="board" items="${boards}">
+			<li>
+				<a href="<c:url value='/notice/qna/${board.id}' />">
+					<p class="no">${board.id}</p>
+					<p class="tit0">${board.title}
+						<span class="sfile">
+							<c:if test="${not empty board.boardFileList}">
+								<i class="fas fa-paperclip" title="첨부"></i>
+							</c:if>
+						</span>
+					</p>
+					<p class="file">
+						<span>
+							<c:if test="${not empty board.boardFileList}">
+								<i class="fas fa-paperclip" title="첨부"></i>
+							</c:if>
+						</span>
+					</p>
+					<p class="named">${board.name}</p>
+					<p class="date">${fn:substring(board.createdAt, 0, 10)}</p>
+					<p class="hit">${board.viewCount}</p>
+					<p class="minfo">${board.name} / ${fn:substring(board.createdAt, 0, 10)} / 조회 ${board.viewCount}</p>
 				</a>
 			</li>
-				</ul>
+		</c:forEach>
+				
+	</ul>
+				
 	
 	<div class="btn_wrap">
 		<div class="fl">
@@ -103,7 +110,7 @@
 				
 		<!--
 		<div class="fr board_listbox">
-			목록수 <select class="glist_rowsels minw40p" data-href="http://localhost:3000/main/?gc=605LYJI" data-gc="605LYJI" title="목록수"><option value="5" >5개</option><option value="10" >10개</option><option value="15"  selected="selected">15개</option><option value="20" >20개</option><option value="25" >25개</option><option value="30" >30개</option><option value="35" >35개</option><option value="40" >40개</option><option value="45" >45개</option><option value="50" >50개</option></select>		</div>
+			목록수 <select class="glist_rowsels minw40p" data-href="http://localhost:3000/main/?gc=NOTICE" data-gc="NOTICE" title="목록수"><option value="5" >5개</option><option value="10" >10개</option><option value="15"  selected="selected">15개</option><option value="20" >20개</option><option value="25" >25개</option><option value="30" >30개</option><option value="35" >35개</option><option value="40" >40개</option><option value="45" >45개</option><option value="50" >50개</option></select>		</div>
 		!-->
 	</div>
 

@@ -23,4 +23,8 @@ public class BoardFileRepository {
 	public int deleteBoardFileOne(String id) {
 		return template.delete(MAPPER_NAME + "deleteBoardFileOne", id);
 	}
+	
+	public int deleteBoardFileInList(List<Integer> ids) {
+		return template.delete(MAPPER_NAME + "deleteBoardFileInList", ids);
+	}
 }

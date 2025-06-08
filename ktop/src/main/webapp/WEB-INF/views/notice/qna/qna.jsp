@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="stylesheet" href="<c:url value='/resources/static/css/style.css' />">
 
 		<section class="sub_container"> 
@@ -21,11 +22,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>질문과답변</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/notice' />" >고객센터</a></li>
-											<li><a href="<c:url value='/notice/qna' />" >질문과답변</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 
@@ -44,27 +40,73 @@
 <div class="board_view">
 
 	<div class="tit_wrap">
-		<div class="tit">상품 관련 질문드립니다</div>
-		<div class="name"><span>기업회원테스트</span><span>2022-07-28</span><span>조회 11</span></div>
+		<div class="tit">
+			${board.title}
+		</div>
+		<div class="name">
+			<span>${board.name}</span>
+			<span>
+				${fn:substring(board.createdAt, 0, 10)}
+				<c:if test="${not empty board.updatedAt}">
+					(수정됨)
+				</c:if>
+			</span>
+			<span>${board.viewCount}</span>
+		</div>
 	</div>
 
 	<div class="content_wrap">
-				<p>상품 관련 질문드립니다<br></p>	</div>
+				<p><span style="color: rgb(42, 42, 42); font-size: 30px; letter-spacing: normal;">${board.content}</span><br></p>	</div>
 
+	<c:if test="${not empty board.boardFileList}">
+		<div class="file_wrap">
+			<div class="tit"><span>첨부파일</span></div>
+			<div class="txt">
+				<ul>
+					<c:forEach var="file" items="${board.boardFileList}">
+						<a class="ahref_btns cursor" style="color:#797979; display:block" href="<c:url value='/download?id=${file.file.id}' />">
+							<i class="fas fa-paperclip"></i> 
+							<span class="fname">${file.file.originalName}</span> 
+							<span class="fsize">(${file.file.fileSizeNumber} <span class="fpilsu">${file.file.fileSizeUnit}</span>)</span>
+						</a>
+					</c:forEach>
+				</ul>
+			</div>
+	</div>
+	</c:if>
 	
 
 	<!-- 링크 -->
 	<div class="btn_wrap">
-					<a href="<c:url value='/notice/qna/edit/1' />"><div class="fl bbs_btn02">수정</div></a>
-			<div class="fl bbs_btn02 delete_btns" data-href="<c:url value='/notice/qna/delete/1' />">삭제</div>
+					<a href="<c:url value='/notice/qna/edit/${board.id}' />"><div class="fl bbs_btn02">수정</div></a>
+			<form method="post" action="<c:url value='/notice/qna/delete/${board.id}' />" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+				<input type="hidden" value="${board.userId}" name="userId">
+			    <button type="submit" class="fl bbs_btn02 delete_btns">삭제</button>
+			</form>
 
 		
-		<a href="<c:url value='/notice/qna' />"><div class="bbs_btn01 w150p">목록보기</div></a>
+		<a href="<c:url value='/notice' />"><div class="bbs_btn01 w150p">목록보기</div></a>
 	</div>
 
 	<ul class="pn_wrap">
+		<c:if test="${not empty board.prevPostId}">
+			<li>
+				<a href="<c:url value='/notice/${board.prevPostId}' />" title="윗글 바로가기">
+					<span>▲ 윗글</span>
+					${board.prevPostTitle}			
+				</a>
+			</li>
+		</c:if>
+		<c:if test="${not empty board.nextPostId}">
+			<li>
+				<a href="<c:url value='/notice/${board.nextPostId}' />" title="아랫글 바로가기">
+					<span>▼ 아랫글</span>
+					${board.nextPostTitle}
+				</a>
+			</li>
+		</c:if>
 		
-			</ul>
+	</ul>
 </div>
 
 

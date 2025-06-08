@@ -82,7 +82,7 @@
 		<input type="submit" class="bbs_btn01" value="등록하기" />
 		<a href="<c:url value='/notice' />"><div class="bbs_btn02">목록</div></a>
 	</div>
-<div id="file_inputs_area"></div>
+	<div id="file_inputs_area"></div>
 	</form>
 
 </div>

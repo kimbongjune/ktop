@@ -86,7 +86,10 @@
 	            AND w.status = #{status}
 	        </if>
 	        <if test="regionId != null and regionId != 0">
-	            AND w.region_id = #{regionId}
+	            AND w.region_id IN (
+	                SELECT id FROM region_category
+	                WHERE id = #{regionId} OR parent_id = #{regionId}
+	            )
 	        </if>
 	        <if test="fieldId != null and fieldId != 0">
 	            AND wfd.field_id = #{fieldId}

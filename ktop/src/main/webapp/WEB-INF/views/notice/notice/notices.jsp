@@ -22,11 +22,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>공지사항</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/notice' />" >고객센터</a></li>
-											<li><a href="<c:url value='/notice' />" >공지사항</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 

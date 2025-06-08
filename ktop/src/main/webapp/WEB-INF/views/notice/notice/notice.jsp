@@ -40,8 +40,19 @@
 <div class="board_view">
 
 	<div class="tit_wrap">
-		<div class="tit">${board.title}</div>
-		<div class="name"><span>${board.name}</span><span>${fn:substring(board.createdAt, 0, 10)}</span><span>${board.viewCount}</span></div>
+		<div class="tit">
+			${board.title}
+		</div>
+		<div class="name">
+			<span>${board.name}</span>
+			<span>
+				${fn:substring(board.createdAt, 0, 10)}
+				<c:if test="${not empty board.updatedAt}">
+					(수정됨)
+				</c:if>
+			</span>
+			<span>${board.viewCount}</span>
+		</div>
 	</div>
 
 	<div class="content_wrap">
@@ -68,7 +79,10 @@
 	<!-- 링크 -->
 	<div class="btn_wrap">
 					<a href="<c:url value='/notice/edit/${board.id}' />"><div class="fl bbs_btn02">수정</div></a>
-			<div class="fl bbs_btn02 delete_btns" data-href="<c:url value='/notice/delete/1' />">삭제</div>
+			<form method="post" action="<c:url value='/notice/delete/${board.id}' />" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+				<input type="hidden" value="${board.userId}" name="userId">
+			    <button type="submit" class="fl bbs_btn02 delete_btns">삭제</button>
+			</form>
 
 		
 		<a href="<c:url value='/notice' />"><div class="bbs_btn01 w150p">목록보기</div></a>

@@ -39,6 +39,22 @@
         <!-- <beans:property name="maxInMemorySize" value="1048576"/> 1MB -->
     </beans:bean>
     <!-- fileUpload 끝 -->
+    
+   	<beans:bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+	    <beans:property name="cacheSeconds" value="0" />
+	    <beans:property name="useExpiresHeader" value="true" />
+	    <beans:property name="useCacheControlHeader" value="true" />
+	    <beans:property name="useCacheControlNoStore" value="true" />
+	</beans:bean>
+	
+	<mvc:interceptors>
+	    <mvc:interceptor>
+	        <mvc:mapping path="/**"/>
+	        <beans:ref bean="webContentInterceptor" />
+	    </mvc:interceptor>
+	</mvc:interceptors>
+
+    
 
     <!-- spring swagger 설정 -->
 	<beans:bean id="swagger2Config" class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration"/>

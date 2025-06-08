@@ -23,7 +23,6 @@ import net.ktop.ktop.module.web.board.BoardPostSearchDto;
 import net.ktop.ktop.module.web.board.BoardPostService;
 import net.ktop.ktop.module.web.board.file.BoardPostFileDto;
 import net.ktop.ktop.module.web.board.view.BoardPostViewDto;
-import net.ktop.ktop.module.web.company.file.CompanyFileDto;
 
 @Controller
 @RequestMapping("/notice")
@@ -40,6 +39,7 @@ public class NoticeController {
 
 	@RequestMapping(value = "", method = {RequestMethod.GET})
 	public String notice(Model model, BoardPostSearchDto dto) {
+		dto.setBoardType(1);
 		List<BoardPostDto> boards = boardPostService.selectBoardPostList(dto);
 		
 		model.addAttribute("boards", boards);
@@ -52,6 +52,9 @@ public class NoticeController {
 			boardPostService.insertBoardPostView(new BoardPostViewDto(id, user.getUsername()));
 		}
 		BoardPostDto board = boardPostService.selectBoardPostById(id);
+		if(board == null) {
+			return "redirect:/notice";
+		}
 		
 		model.addAttribute("board", board);
 		return "notice/notice/notice";
@@ -88,16 +91,59 @@ public class NoticeController {
 		System.out.println(postDto);
 		System.out.println(files.size());
 		
-		return "redirect:/notice";
+		return "redirect:/notice/"+postDto.getId();
 	}
 	
 	@RequestMapping(value = "/edit/{id}", method = {RequestMethod.GET})
-	public String noticeEdit(@PathVariable("id") String id) {
+	public String noticeEdit(@PathVariable("id") int id, Model model, @AuthenticationPrincipal CustomUserDetails user) {
+		if(user != null) {
+			boardPostService.insertBoardPostView(new BoardPostViewDto(id, user.getUsername()));
+		}
+		BoardPostDto board = boardPostService.selectBoardPostById(id);
+		
+		model.addAttribute("board", board);
 		return "notice/notice/edit";
 	}
 	
-	@RequestMapping(value = "/delete/{id}", method = {RequestMethod.GET})
-	public String noticeDelete(@PathVariable("id") String id) {
+	@RequestMapping(value = "/edit/{id}", method = {RequestMethod.POST})
+	public String noticeEdit(@PathVariable("id") int id, 
+			Model model, 
+			@AuthenticationPrincipal CustomUserDetails user,
+			@ModelAttribute BoardPostDto postDto,
+	        @RequestParam(value = "file", required = false) List<MultipartFile> files,
+	        @RequestParam(value = "deletedFileIds", required = false) List<Integer> deletedFileIds) throws IOException {
+		System.out.println(postDto);
+		System.out.println("추가 파일 : "+files.size());
+		System.out.println("삭제 파일 : "+deletedFileIds);
+		
+		if(deletedFileIds != null && !deletedFileIds.isEmpty()) {
+			boardPostService.deleteBoardFileInList(deletedFileIds);
+		}
+		
+		postDto.setId(id);
+		boardPostService.updateBoardPost(postDto);
+		
+		List<BoardPostFileDto> boardFileList = new ArrayList<>();
+		
+		if(files != null && files.size() > 0) {
+			for(MultipartFile file: files) {
+				FileDto fileDto = fileService.saveUploadedFile(file);
+				boardFileList.add(new BoardPostFileDto(postDto.getId(), fileDto.getId()));
+			}
+		}
+		
+		if(boardFileList != null && !boardFileList.isEmpty()) {
+			boardPostService.insertBoardFiles(boardFileList);
+   		}
+		
+		return "redirect:/notice/"+id;
+	}
+	
+	@RequestMapping(value = "/delete/{id}", method = {RequestMethod.POST})
+	public String noticeDelete(@PathVariable("id") int id, @RequestParam(value = "userId", required = true) String userId, @AuthenticationPrincipal CustomUserDetails user) {
+		if(user != null && userId.equals(user.getUsername())) {
+			boardPostService.deleteBoardPost(id);
+		}
 		return "redirect:/notice";
 	}
 }

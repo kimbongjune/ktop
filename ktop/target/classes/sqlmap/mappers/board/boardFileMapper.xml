@@ -22,5 +22,13 @@
 	    WHERE id = #{id}
 	</delete>
 		
+	
+	<delete id="deleteBoardFileInList" parameterType="list">
+	    DELETE FROM board_post_file
+	    WHERE file_id IN
+	    <foreach item="id" collection="list" open="(" separator="," close=")">
+	        #{id}
+	    </foreach>
+	</delete>
 
 </mapper>

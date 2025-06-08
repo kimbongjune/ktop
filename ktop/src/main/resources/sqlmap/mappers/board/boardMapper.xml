@@ -70,7 +70,10 @@
         LEFT JOIN file f ON bpf.file_id = f.id
         <where>
             bp.deleted_at IS NULL
-            AND (bp.expire_date IS NULL OR bp.expire_date > NOW())
+            AND bp.board_type = #{boardType}
+	        <if test="boardType == 1">
+	            AND (bp.expire_date IS NULL OR bp.expire_date > NOW())
+	        </if>
             <choose>
                 <when test="searchType == 'title' and keyword != null and keyword != ''">
                     AND bp.title LIKE CONCAT('%', #{keyword}, '%')
@@ -137,9 +140,6 @@
 	      AND bp.deleted_at IS NULL
 	</select>
 
-
-	    
-    
     <insert id="insertBoardPost" parameterType="net.ktop.ktop.module.web.board.BoardPostDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO board_post (
             board_type,
@@ -155,4 +155,26 @@
             #{expireDate}
         )
     </insert>
+    
+    <update id="updateBoardPost" parameterType="net.ktop.ktop.module.web.board.BoardPostDto">
+	    UPDATE board_post
+	    <set>
+	        <if test="title != null and title != ''">
+	        	title = #{title},
+	        </if>
+	        <if test="content != null and content != ''">
+	        	content = #{content},
+	        </if>
+	        <if test="expireDate != null and expireDate != ''">
+	        	expire_date = #{expireDate},
+	        </if>
+	    </set>
+	    WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteBoardPost" parameterType="int">
+		UPDATE board_post
+			set deleted_at = NOW()
+		WHERE id = #{id}
+	</delete>
 </mapper>

@@ -17,4 +17,10 @@ public interface BoardPostService {
 	int deleteBoardFileOne(String id);
 	
 	int insertBoardPostView(BoardPostViewDto dto);
+	
+	int deleteBoardFileInList(List<Integer> ids);
+	
+	int updateBoardPost(BoardPostDto dto);
+	
+	int deleteBoardPost(int id);
 }

@@ -58,4 +58,19 @@ public class BoardPostServiceImpl implements BoardPostService {
 		return boardPostViewRepository.insertBoardPostView(dto);
 	}
 
+	@Override
+	public int deleteBoardFileInList(List<Integer> ids) {
+		return boardFileRepository.deleteBoardFileInList(ids);
+	}
+
+	@Override
+	public int updateBoardPost(BoardPostDto dto) {
+		return boardPostRepository.updateBoardPost(dto);
+	}
+
+	@Override
+	public int deleteBoardPost(int id) {
+		return boardPostRepository.deleteBoardPost(id);
+	}
+
 }

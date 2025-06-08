@@ -4,6 +4,7 @@ public class BoardPostSearchDto {
 
     private String searchType;
     private String keyword;
+    private int boardType;
 
     public String getSearchType() {
         return searchType;
@@ -20,4 +21,12 @@ public class BoardPostSearchDto {
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
+
+	public int getBoardType() {
+		return boardType;
+	}
+
+	public void setBoardType(int boardType) {
+		this.boardType = boardType;
+	}
 }

@@ -28,4 +28,12 @@ public class BoardPostRepository {
 	public BoardPostDto selectBoardPostById(int id) {
 		return template.selectOne(MAPPER_NAME + "selectBoardPostById", id);
 	}
+	
+	public int updateBoardPost(BoardPostDto dto) {
+		return template.update(MAPPER_NAME + "updateBoardPost", dto);
+	}
+	
+	public int deleteBoardPost(int id) {
+		return template.update(MAPPER_NAME + "deleteBoardPost", id);
+	}
 }
