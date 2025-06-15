@@ -1,14 +1,17 @@
 package net.ktop.ktop.module.web.material;
 
+import net.ktop.ktop.module.util.SearchDto;
 import net.ktop.ktop.module.web.material.file.MaterialFileDto;
 
-public class MaterialDto {
+public class MaterialDto extends SearchDto {
     private int id;
     private String name;
     private int categoryId;
     private int materialCategoryId;
     private String partnerId;
     private String description;
+    private String materialName;
+    private String companyName;
     private boolean isActive;
     private String createdAt;
     private String updatedAt;
@@ -51,6 +54,18 @@ public class MaterialDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public String getMaterialName() {
+		return materialName;
+	}
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 	public boolean isActive() {
 		return isActive;
 	}
@@ -84,8 +99,8 @@ public class MaterialDto {
 	@Override
 	public String toString() {
 		return "MaterialDto [id=" + id + ", name=" + name + ", categoryId=" + categoryId + ", materialCategoryId="
-				+ materialCategoryId + ", partnerId=" + partnerId + ", description=" + description + ", isActive="
-				+ isActive + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", price=" + price
-				+ ", materialFile=" + materialFile + "]";
+				+ materialCategoryId + ", partnerId=" + partnerId + ", description=" + description + ", materialName="
+				+ materialName + ", companyName=" + companyName + ", isActive=" + isActive + ", createdAt=" + createdAt
+				+ ", updatedAt=" + updatedAt + ", price=" + price + ", materialFile=" + materialFile + "]";
 	}
 }

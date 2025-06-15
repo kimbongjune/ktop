@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+	
 	private UserRepository userRepository;
-
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
@@ -42,10 +42,6 @@ public class UserServiceImpl implements UserService {
 		return userRepository.emailCheck(email);
 	}
 
-	public UserDto updateUserInfo(UserDto dto) {
-		return null;
-	}
-
 	public int signUp(UserDto dto) {
 		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
 		return userRepository.signUp(dto);
@@ -53,5 +49,15 @@ public class UserServiceImpl implements UserService {
 
 	public int signOut(String id) {
 		return 0;
+	}
+
+	@Override
+	public UserDto findByUsername(String id) {
+		return userRepository.findByUsername(id);
+	}
+
+	@Override
+	public int updateUser(UserDto dto) {
+		return userRepository.updateUser(dto);
 	}
 }

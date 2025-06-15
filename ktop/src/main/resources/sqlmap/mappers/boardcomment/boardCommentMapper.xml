@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardCommentMapper">
+
+    <select id="selectCommentsByPostId" parameterType="int" resultType="net.ktop.ktop.module.web.boardcomment.BoardCommentDto">
+	    SELECT
+	        bc.id,
+	        bc.post_id,
+	        bc.user_id,
+	        (SELECT name FROM users u WHERE u.id = bc.user_id) AS user_name,
+	        bc.content,
+	        bc.created_at,
+	        bc.updated_at,
+	        bc.deleted_at
+	    FROM
+	        board_comment bc
+	    WHERE
+	        bc.post_id = #{postId}
+	        AND bc.deleted_at IS NULL
+	    ORDER BY
+	        bc.created_at DESC
+	</select>
+
+    <insert id="insertComment" parameterType="net.ktop.ktop.module.web.boardcomment.BoardCommentDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO board_comment (
+            post_id,
+            user_id,
+            content
+        ) VALUES (
+            #{postId},
+            #{userId},
+            #{content}
+        )
+    </insert>
+
+    <update id="deleteComment" parameterType="int">
+        UPDATE board_comment
+        SET deleted_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+</mapper>

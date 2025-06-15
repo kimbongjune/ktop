@@ -11,9 +11,11 @@ public interface UserService {
    
    int emailCheck(String email);
 
-   UserDto updateUserInfo(UserDto dto);
-
    int signUp(UserDto dto);
 
    int signOut(String id);
+   
+   UserDto findByUsername(String id);
+   
+   int updateUser(UserDto dto);
 }

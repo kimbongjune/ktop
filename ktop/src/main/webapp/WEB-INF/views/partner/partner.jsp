@@ -10,8 +10,10 @@
 									<div class="lnb">
 				<div class="web_size">  
 					<ul>	
-												<li class="on"><a href="<c:url value='/partner' />" >협력사 소개</a></li>
-											</ul>
+						<c:forEach var="category" items="${categorySubList}">
+							<li ${category.id eq categoryNum ? 'class="on"' : ''}><a href="<c:url value='/category/${category.id}' />">${category.name}</a></li>
+						</c:forEach>
+					</ul>
 				</div>
 			</div>
 			

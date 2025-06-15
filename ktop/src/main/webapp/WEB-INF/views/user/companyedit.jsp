@@ -16,7 +16,6 @@
 				<div class="web_size">  
 					<ul>	
 												<li class=""><a href="<c:url value='/user/mypage' />" >회원정보관리</a></li>
-												<li class=""><a href="<c:url value='/user/product' />" >상품관리</a></li>
 												<li class="on"><a href="<c:url value='/user/company' />" >업체정보관리</a></li>
 											</ul>
 				</div>

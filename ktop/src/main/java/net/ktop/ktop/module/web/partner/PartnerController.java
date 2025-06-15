@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import net.ktop.ktop.module.security.CustomUserDetails;
+import net.ktop.ktop.module.web.category.CategoryDto;
+import net.ktop.ktop.module.web.category.CategoryService;
 import net.ktop.ktop.module.web.company.CompanyDto;
 import net.ktop.ktop.module.web.company.CompanyService;
+import net.ktop.ktop.module.web.material.MaterialDto;
+import net.ktop.ktop.module.web.material.MaterialService;
 import net.ktop.ktop.module.web.region.RegionDto;
 import net.ktop.ktop.module.web.region.RegionService;
 
@@ -23,11 +27,15 @@ public class PartnerController {
 	private final CompanyService companyService;
 	private final RegionService regionService;
 	private final PartnerCompanyService partnerCompanyService;
+	private final CategoryService categoryService; 
+	private final MaterialService materialService;
 
-	public PartnerController(CompanyService companyService, RegionService regionService, PartnerCompanyService partnerCompanyService) {
+	public PartnerController(CompanyService companyService, RegionService regionService, PartnerCompanyService partnerCompanyService, CategoryService categoryService, MaterialService materialService) {
 		this.companyService = companyService;
 		this.regionService = regionService;
 		this.partnerCompanyService = partnerCompanyService;
+		this.categoryService = categoryService;
+		this.materialService = materialService;
 	}
 
 	@RequestMapping(value = "", method = {RequestMethod.GET})
@@ -42,6 +50,9 @@ public class PartnerController {
 		partnerCompanyDto.setId(company);
 		PartnerCompanyDto partnerDto = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
 		
+		List<CategoryDto> list = categoryService.selectCategoryById(category);
+		model.addAttribute("menuCategory", "category");
+		model.addAttribute("categorySubList", list);
 		model.addAttribute("partner", partnerDto);
 		model.addAttribute("categoryNum", category);
 		model.addAttribute("companyNum", company);
@@ -49,9 +60,17 @@ public class PartnerController {
 	}
 	
 	@RequestMapping(value = "/{category}/{company}/products", method = {RequestMethod.GET})
-	public String partnerProducts(@PathVariable("company") String company, @PathVariable("category") int category, Model model) {
+	public String partnerProducts(@PathVariable("company") String company, @PathVariable("category") int category, Model model, @AuthenticationPrincipal CustomUserDetails user, MaterialDto dto) {
+		List<CategoryDto> list = categoryService.selectCategoryById(category);
+		dto.setPartnerId(user.getUsername());
+		dto.setCategoryId(category);
+		List<MaterialDto> materials = materialService.selectMaterialList(dto);
+		
+		model.addAttribute("menuCategory", "category");
+		model.addAttribute("categorySubList", list);
 		model.addAttribute("categoryNum", category);
 		model.addAttribute("companyNum", company);
+		model.addAttribute("materials", materials);
 		return "partner/products";
 	}
 	

@@ -50,4 +50,8 @@ public class UserRepository {
    public int signOut(String id) {
       return 0;
    }
+   
+   public int updateUser(UserDto dto) {
+	   return template.update(MAPPER_NAME+"updateUser", dto);
+   }
 }

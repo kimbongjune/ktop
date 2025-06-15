@@ -190,7 +190,7 @@
 .board_comment .top .submit .btn				{border:1px solid #002f59; background:#002f59; height:80px; line-height:80px; width:100%; color:#fff; font-size:1.2em;}
 .board_comment .top .submit .btn:hover			{border-color:#000; background:#000;}
 
-.board_comment .replybox											{padding:20px; border-right:1px solid #ddd;border-bottom:1px solid #ddd;border-left:1px solid #ddd;}
+.board_comment .replybox											{padding:20px; border-right:1px solid #ddd;border-bottom:1px solid #ddd;border-left:1px solid #ddd; border-top: 1px solid #ddd;}
 .board_comment .replybox .replyinfo									{overflow:hidden; padding-bottom:15px; border-bottom:1px solid #ddd;}
 .board_comment .replybox .replyinfo .count							{float:left; color:#999; font-size:0.85em;}
 .board_comment .replybox .replyinfo .count span						{color:#4265fb; font-weight:500;}

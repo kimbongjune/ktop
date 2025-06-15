@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <link rel="stylesheet" href="<c:url value='/resources/static/css/product.css' />">
 
 		<section class="sub_container"> 
@@ -9,24 +10,10 @@
 		 
 									<div class="lnb">
 				<div class="web_size">  
-					<ul>	
-												<li class="on"><a href="<c:url value='/material/category/1' />" >루바</a></li>
-												<li class=""><a href="<c:url value='/material/category/2' />" >후로링</a></li>
-												<li class=""><a href="<c:url value='/partner' />" >협력사</a></li>
-											</ul>
 				</div>
 			</div>
 			
 		<div class="web_size">  
-					<div class="sub_top">  
-				<h2>루바</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/material' />" >자재</a></li>
-											<li><a href="<c:url value='/material/category/1' />" >루바</a></li>
-														</ul>
-			</div> 
-		
 			<div class="sub_cont"> 
 
 						
@@ -46,18 +33,20 @@
 
 <div class="product_info"> 
 	<div class="info_div">
-		<figure><img src="<c:url value='/resources/static/image/2_6c333a1c784ce2eba633064d02e1d19e.jpg' />" class="popimg_btns cursor" data-href="<c:url value='/resources/static/image/2_6c333a1c784ce2eba633064d02e1d19e.jpg' />" alt="목재루바" title="클릭시 새창으로 열립니다." /></figure> 
+		<figure><img src="<c:url value='${material.materialFile.file.filePath}' />" class="popimg_btns cursor" data-href="<c:url value='${material.materialFile.file.filePath}' />" alt="<c:url value='${material.materialFile.file.originalName}' />" title="클릭시 새창으로 열립니다." /></figure> 
 	</div>
 	<div class="other_div">
 
 	<div class="product_view_tit_wrap">
-		<div class="product_view_tit"><span>[루바]</span> 목재루바</div>
+		<div class="product_view_tit"><span>${material.materialName}</span> ${material.name}</div>
 		<div class="product_view_price_wrap">
-			<div class="product_view_price">최저 <span>71,500</span>원&nbsp;&nbsp;&nbsp;</div>
-			<div class="product_view_price_com">레몬공방 &nbsp;&nbsp;<div class="icon_free_ok">배송비포함</div> <div class="icon_return_no">반품불가</div></div>
+			<div class="product_view_price"><span><fmt:formatNumber value="${material.price}" /></span>원&nbsp;&nbsp;&nbsp;</div>
+			<div class="product_view_price_com">${material.companyName} &nbsp;&nbsp;
+			<!-- <div class="icon_free_ok">배송비포함</div> <div class="icon_return_no">반품불가</div> -->
 		</div>
-		<div class="product_view_tit_cont">
-						<dl>
+		</div>
+		<!-- <div class="product_view_tit_cont">
+			 			<dl>
 				<dt><p class="sub_list01">원재료</p></dt>
 				<dd>친환경 페인트</dd>
 			</dl>
@@ -65,7 +54,7 @@
 				<dt><p class="sub_list01">시공법</p></dt>
 				<dd>도포</dd>
 			</dl>
-					</div>
+					</div> -->
 	</div>
 
 

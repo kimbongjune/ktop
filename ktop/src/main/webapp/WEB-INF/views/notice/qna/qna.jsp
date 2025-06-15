@@ -114,24 +114,27 @@
 
 
 
-
 <div class="board_comment">
 
-	
-	<div class="top">
-		<div class="content">
-			<label><textarea name="comment_content" id="comment_content" readonly placeholder="로그인 후 이용가능합니다." class="textarea_form required" title="댓글내용"></textarea></label>
+	<sec:authorize access="isAuthenticated()">
+		<div class="top">
+			<div class="content">
+				<label>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<textarea name="comment" id="comment" placeholder="댓글을 입력해주세요" class="textarea_form" title="댓글내용"></textarea>
+					</sec:authorize>
+				</label>
+			</div>
+			<div class="submit">
+				<input type="button" id="btn_reply" class="btn Fix_FormBtns" value="등록">
+			</div>
 		</div>
-		<div class="submit">
-			<input type="submit" class="btn Fix_FormBtns" value="등록">
-		</div>
-	</div>
-
+	</sec:authorize>
 	
 	<div class="replybox">
 
 		<div class="replyinfo">
-			<div class="count">총 <span>1</span>개의 댓글이 있습니다.</div>
+			<div class="count">총 <span id="commentCount">${fn:length(commentList)}</span>개의 댓글이 있습니다.</div>
 			<ul class="tab">
 				<li class="on">최신순</li>
 				<li>과거순</li>
@@ -139,20 +142,24 @@
 		</div>
 
 
-		<ul class="replylists">
-							<li class="depth0">
-					<div class="img"><img src="<c:url value='/resources/static/image/info_bg.png' />" alt="profile image"></div>
+		<ul class="replylists" id="replylists">
+			<c:forEach var="comment" items="${commentList}">
+				<li class="depth0">
+					<div class="img">
+						<img src="<c:url value='/resources/static/image/info_bg.png' />" alt="profile image">
+					</div>
 					<div class="info">
-						<div class="name">관**</div>
-						<div>22-07-28 09:58</div>
+						<div class="name">${comment.userName}</div>
+						<div>${fn:substring(comment.createdAt, 0, 16)}</div>
 					</div>
-					<div class="content">111</div>
-
-										<div class="controls">
-						<button class="delete_btns Fix_FormBtns" data-href="<c:url value='/notice/qna/reply/delete/1' />">삭제</button>
+					<div class="content">${comment.content}</div>
+	
+					<div class="controls">
+						<button class="delete_btns Fix_FormBtns" onclick="deleteComment(${comment.id})">삭제</button>
 					</div>
-									</li>
-									</ul>
+				</li>
+			</c:forEach>
+		</ul>
 
 	</div>
 
@@ -168,4 +175,71 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+
+	function updateCommentCount() {
+		const count = document.querySelectorAll("#replylists > li.depth0").length;
+		document.getElementById("commentCount").textContent = count;
+	}
+
+	function deleteComment(commentId) {
+	    if (!confirm("댓글을 삭제하시겠습니까?")) return;
+	
+	    axios.post("<c:url value='/comment/delete/' />" + commentId)
+	        .then(() => {
+	            // 댓글 삭제 성공 시 해당 댓글 요소 제거
+	            // 버튼 기준 부모 li 찾아서 제거
+	            const button = document.querySelector('button[onclick="deleteComment(' + commentId + ')"]');
+	            const li = button.closest("li.depth0");
+	            li.remove();
+	            updateCommentCount();
+	        })
+	        .catch(err => {
+	            console.error("댓글 삭제 실패", err);
+	            alert("댓글 삭제 중 오류가 발생했습니다.");
+	        });
+	}
+	$("#btn_reply").click(async () => {
+	    const content = $("#comment").val().trim();
+	    const postId = "${board.id}";
+	    
+	    if (!content) {
+	        alert("댓글 내용을 입력하세요.");
+	        return;
+	    }
+
+	    try {
+	        const response = await axios.post("<c:url value='/comment/add' />", {
+	            postId: postId,
+	            content: content
+	        });
+
+	        const data = response.data;
+	        console.log(data)
+
+	        let html = '';
+	        html += '<li class="depth0">';
+	        html +=   '<div class="img">';
+	        html +=     '<img src="<c:url value='/resources/static/image/info_bg.png' />" alt="profile image">';
+	        html +=   '</div>';
+	        html +=   '<div class="info">';
+	        html +=     '<div class="name">' + data.userName + '</div>';
+	        html +=     '<div>' + data.createdAt + '</div>';
+	        html +=   '</div>';
+	        html +=   '<div class="content">' + data.content + '</div>';
+	        html +=   '<div class="controls">';
+	        html +=     '<button class="delete_btns Fix_FormBtns" onclick="deleteComment(' + data.id + ')">삭제</button>';
+	        html +=   '</div>';
+	        html += '</li>';
+
+	        $("#replylists").prepend(html);
+	        $("#comment").val('');
+	        updateCommentCount();
+	    } catch (e) {
+	        console.error("댓글 등록 실패", e);
+	        alert("댓글 등록 중 오류가 발생했습니다.");
+	    }
+	});
+</script>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

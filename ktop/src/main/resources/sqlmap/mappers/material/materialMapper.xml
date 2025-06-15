@@ -12,6 +12,8 @@
 		<result property="partnerId" column="partner_id" />
 		<result property="price" column="price" />
 		<result property="description" column="description" />
+		<result property="materialName" column="material_name" />
+		<result property="companyName" column="company_name" />
 		<result property="isActive" column="is_active" />
 		<result property="createdAt" column="created_at" />
 		<result property="updatedAt" column="updated_at" />
@@ -67,6 +69,7 @@
 			f.created_at AS file_created_at
 		FROM material m
 		LEFT JOIN material_file mf ON m.id = mf.material_id
+		LEFT JOIN users u on u.id = m.partner_id
 		LEFT JOIN file f ON mf.file_id = f.id
 		<where>
 			m.deleted_at IS NULL
@@ -79,6 +82,15 @@
 			<if test="categoryId != null and categoryId != ''">
 				AND m.category_id = #{categoryId}
 			</if>
+			<choose>
+                <when test="searchType == 'name' and keyword != null and keyword != ''">
+                    AND m.name LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="searchType == 'description' and keyword != null and keyword != ''">
+                    AND m.description LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+            </choose>
+            AND u.role = 2
 		</where>
 	</select>
 
@@ -95,6 +107,8 @@
 			m.is_active,
 			m.created_at,
 			m.updated_at,
+			(select name from material_category where id = #{id}) as material_name,
+			(select company_name from company where id = m.partner_id) as company_name,
 			mf.id AS mf_id,
 			mf.material_id,
 			mf.file_id,
@@ -108,7 +122,9 @@
 		FROM material m
 		LEFT JOIN material_file mf ON m.id = mf.material_id
 		LEFT JOIN file f ON mf.file_id = f.id
+		LEFT JOIN users u on u.id = m.partner_id
 		WHERE m.id = #{id}
+		AND u.role = 2
 		AND m.deleted_at IS NULL
 	</select>
 

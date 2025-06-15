@@ -12,18 +12,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import net.ktop.ktop.module.web.user.UserController;
 import net.ktop.ktop.module.web.user.UserDto;
 import net.ktop.ktop.module.web.user.UserRepository;
+import net.ktop.ktop.module.web.user.UserService;
 
 public class CustomUserDetailsService implements UserDetailsService {
 	
-	 private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
+	private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("CustomUserDetailsService called");
-        UserDto user = userRepository.findByUsername(username);
+        UserDto user = userService.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username);
         }

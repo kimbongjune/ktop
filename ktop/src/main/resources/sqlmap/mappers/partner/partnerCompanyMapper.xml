@@ -86,6 +86,7 @@
 	        rc.name AS region_name
 	    FROM partner_company pc
 	    LEFT JOIN company c ON pc.id = c.id
+	    LEFT join users u on c.id = u.id 
 	    LEFT JOIN company_file cf ON pc.id = cf.company_id
 	    LEFT JOIN file f ON cf.file_id = f.id
 	    LEFT JOIN region_category rc ON c.region_id = rc.id 
@@ -96,6 +97,7 @@
 	        <if test="categoryId != null and categoryId != ''">
 	        	AND pc.category_id = #{categoryId}
 	        </if>
+	        AND u.role = 2
         </where>
 	    ORDER BY cf.file_type ASC;
 	</select>
@@ -131,6 +133,7 @@
 	        rc.name AS region_name
 	    FROM partner_company pc
 	    LEFT JOIN company c ON pc.id = c.id
+	    LEFT join users u on c.id = u.id 
 	    LEFT JOIN company_file cf ON pc.id = cf.company_id
 	    LEFT JOIN file f ON cf.file_id = f.id
 	    LEFT JOIN region_category rc ON c.region_id = rc.id 
@@ -153,6 +156,7 @@
 	        <if test="status != null and status != ''">
 	        	AND pc.status = #{status}
 	        </if>
+	        AND u.role = 2
 	    </where>
 	    ORDER BY cf.file_type ASC;
 	</select>

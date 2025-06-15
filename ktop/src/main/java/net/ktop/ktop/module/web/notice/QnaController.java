@@ -24,6 +24,8 @@ import net.ktop.ktop.module.web.board.BoardPostSearchDto;
 import net.ktop.ktop.module.web.board.BoardPostService;
 import net.ktop.ktop.module.web.board.file.BoardPostFileDto;
 import net.ktop.ktop.module.web.board.view.BoardPostViewDto;
+import net.ktop.ktop.module.web.boardcomment.BoardCommentDto;
+import net.ktop.ktop.module.web.boardcomment.BoardCommentService;
 
 @Controller
 @RequestMapping("/notice")
@@ -31,11 +33,13 @@ public class QnaController {
 	
 	private final BoardPostService boardPostService;
 	private final FileService fileService;
+	private final BoardCommentService boardCommentService; 
 
 	@Autowired
-	public QnaController(BoardPostService boardPostService, FileService fileService) {
+	public QnaController(BoardPostService boardPostService, FileService fileService, BoardCommentService boardCommentService) {
 		this.boardPostService = boardPostService;
 		this.fileService = fileService;
+		this.boardCommentService = boardCommentService;
 	}
 
 	@RequestMapping(value = "/qna", method = {RequestMethod.GET})
@@ -57,7 +61,10 @@ public class QnaController {
 			return "redirect:/notice";
 		}
 		
+		List<BoardCommentDto> commentList = boardCommentService.selectCommentsByPostId(id);
+		
 		model.addAttribute("board", board);
+		model.addAttribute("commentList", commentList);
 		return "notice/qna/qna";
 	}
 	

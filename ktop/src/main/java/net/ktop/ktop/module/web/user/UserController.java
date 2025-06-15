@@ -12,7 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.ktop.ktop.module.security.CustomUserDetails;
+import net.ktop.ktop.module.security.CustomUserDetailsService;
 import net.ktop.ktop.module.util.EmailService;
 import net.ktop.ktop.module.util.file.FileDto;
 import net.ktop.ktop.module.util.file.FileService;
@@ -46,15 +51,17 @@ public class UserController {
    private final RegionService regionService;
    private final CompanyService companyService;
    private final FileService fileService;
+   private final CustomUserDetailsService customUserDetailsService;
 
    @Autowired
-   public UserController(UserService userService, EmailService emailService, SignupQuestionService signupQuestionService, RegionService regionService, CompanyService companyService, FileService fileService) {
+   public UserController(UserService userService, EmailService emailService, SignupQuestionService signupQuestionService, RegionService regionService, CompanyService companyService, FileService fileService, CustomUserDetailsService customUserDetailsService) {
       this.userService = userService;
       this.emailService = emailService;
       this.signupQuestionService = signupQuestionService;
       this.regionService = regionService;
       this.companyService = companyService;
       this.fileService = fileService;
+      this.customUserDetailsService = customUserDetailsService;
    }
 
    @RequestMapping(value = "/login", method = {RequestMethod.GET})
@@ -93,9 +100,32 @@ public class UserController {
    }
    
    @RequestMapping(value = "/mypage", method = {RequestMethod.GET})
-   public String mypage() {
-	  //return "redirect:/user/check";
+   public String mypage(@AuthenticationPrincipal CustomUserDetails user, Model model) {
+	  UserDto userInfo = userService.findByUsername(user.getUsername());
+	  
+	  List<SignupQuestionDto> questionList = signupQuestionService.findQuestionAll(); 
+	   
+	   //logger.info("signup question result : {}", list);
+	  model.addAttribute("questionList", questionList);
+	  model.addAttribute("user",userInfo);
       return "/user/mypage";
+   }
+   
+   @RequestMapping(value = "/mypage", method = {RequestMethod.POST})
+   public String mypage(@AuthenticationPrincipal CustomUserDetails user, @ModelAttribute UserDto dto) {
+	  
+	   	dto.setId(user.getUsername());
+	   	userService.updateUser(dto);
+	   	
+	   	UserDetails updatedUserDetails = customUserDetailsService.loadUserByUsername(dto.getId());
+	    UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(
+	        updatedUserDetails,
+	        updatedUserDetails.getPassword(),
+	        updatedUserDetails.getAuthorities()
+	    );
+	    SecurityContextHolder.getContext().setAuthentication(newAuth);
+	   	
+	   	return "redirect:/user/mypage";
    }
    
    @RequestMapping(value = "/product", method = {RequestMethod.GET})

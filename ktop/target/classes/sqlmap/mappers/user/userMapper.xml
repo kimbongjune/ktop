@@ -71,5 +71,48 @@
 	        </if>
 	    )
 	</insert>
+	
+	<update id="updateUser" parameterType="net.ktop.ktop.module.web.user.UserDto">
+	    UPDATE users
+	    <set>
+	        <if test="password != null and password != ''">
+	            password = #{password},
+	        </if>
+	        <if test="nickName != null and nickName != ''">
+	            nick_name = #{nickName},
+	        </if>
+	        <if test="phoneMobile != null and phoneMobile != ''">
+	            phone_mobile = #{phoneMobile},
+	        </if>
+	        <if test="phoneHome != null and phoneHome != ''">
+	            phone_home = #{phoneHome},
+	        </if>
+	        <if test="email != null and email != ''">
+	            email = #{email},
+	        </if>
+	        <if test="question1Id != 0">
+	            question1_id = #{question1Id},
+	        </if>
+	        <if test="answer1 != null and answer1 != ''">
+	            answer1 = #{answer1},
+	        </if>
+	        <if test="question2Id != 0">
+	            question2_id = #{question2Id},
+	        </if>
+	        <if test="answer2 != null and answer2 != ''">
+	            answer2 = #{answer2},
+	        </if>
+	        <if test="smsAgree != null">
+	            sms_agree = #{smsAgree},
+	        </if>
+	        <if test="emailAgree != null">
+	            email_agree = #{emailAgree},
+	        </if>
+	        <if test="role != 0">
+	            role = #{role},
+	        </if>
+	    </set>
+	    WHERE id = #{id}
+	</update>
 
 </mapper>
