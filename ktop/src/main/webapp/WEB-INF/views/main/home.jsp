@@ -15,45 +15,40 @@
 		</dl>
 	</section>
 
-
 	<section class="cont01">
 		<div class="web_size">
 			<div class="main_search_wrap">
 				<div class="main_search_tit">어떤 자재를 찾으시나요?</div>
-					 
 <div class="main_search_box">
 	<form method="get" name="search" action="<c:url value='/search' />" >
-				<input type="hidden" name="sit" value="product_title" />
-		<input type="hidden" name="company_area_arr" id="company_area_arr" value="" />
 		<ul class="main_search_category">
-			<li class="area_select area_all select" data-ccode="">전체</li>
-					<li class="area_select " data-ccode="1/">서울</li>
-					<li class="area_select " data-ccode="2/">부산</li>
-					<li class="area_select " data-ccode="3/">인천</li>
-					<li class="area_select " data-ccode="4/">대구</li>
-					<li class="area_select " data-ccode="5/">광주</li>
-					<li class="area_select " data-ccode="6/">대전</li>
-					<li class="area_select " data-ccode="7/">울산</li>
-					<li class="area_select " data-ccode="8/">경기</li>
-					<li class="area_select " data-ccode="9/">강원</li>
-					<li class="area_select " data-ccode="10/">충남</li>
-					<li class="area_select " data-ccode="11/">충북</li>
-					<li class="area_select " data-ccode="12/">경남</li>
-					<li class="area_select " data-ccode="13/">경북</li>
-					<li class="area_select " data-ccode="14/">전남</li>
-					<li class="area_select " data-ccode="15/">전북</li>
-					<li class="area_select " data-ccode="16/">제주</li>
-				</ul>
+		    <li class="select">
+		        <input type="checkbox" id="region_all" class="area_checkbox" name="region" value="" checked />
+		        <label for="region_all" class="area_label">전체</label>
+		    </li>
+		    <c:forEach var="region" items="${regionList}">
+		        <li>
+		            <input type="checkbox" id="region_${region.id}" class="area_checkbox" name="region" value="${region.id}" />
+		            <label for="region_${region.id}" class="area_label">${region.name}</label>
+		        </li>
+		    </c:forEach>
+		</ul>
+
 		<div class="main_search_form_box"> 
-			<div class="main_search_form_left"><select name="s_mgroup" title="검색 옵션" class="main_search_select"><option value="">카테고리 전체</option> 
-							<option value="1" >목재</option>
-							<option value="2" >실내 마감재</option>
-							<option value="3" >실외 마감재</option>
-							<option value="4" >석고</option>
-							<option value="5" >단열재</option>
-						</select>
+			<div class="main_search_form_left">
+				<select name="materialCategoryIdList" title="검색 옵션" class="main_search_select">
+					<option value="">카테고리 전체</option> 
+					<c:forEach var="material" items="${materialList}">
+						<option value="${material.id}" >${material.name}</option>
+					</c:forEach>
+				</select>
 			</div>
-			<div class="main_search_form_center"><span class="input_clear_wrap"><input type="text" name="stx" class="main_search_input" title="검색어" value="" placeholder="ex) 샌드위치판넬, 석고보드" /><a href="<c:url value='/search' />"><i class="fas fa-times-circle"></i></a></span></div>
+			<div class="main_search_form_center">
+				<span class="input_clear_wrap">
+					<input type="text" name="keyword" class="main_search_input" id="search" title="검색어" value="" placeholder="ex) 샌드위치판넬, 석고보드" />
+					<i class="fas fa-times-circle" id="cleanSearch"></i>
+				</span>
+			</div>
 			<div class="main_search_form_right"><input type="submit" class="main_search_btn  Fix_FormBtns" value="검색하기" /></div>
 		</div>
 	</form>
@@ -322,7 +317,12 @@
 		</div>
 	</section>
 </div>
-
+<script>
+	$("#cleanSearch").click(function () {
+	    $(this).css("visibility", "hidden");
+	    $("#search").val("");
+	});
+</script>
 <link rel="stylesheet" href="<c:url value='/resources/static/css/bxslider.css' />" >
 <link rel="stylesheet" href="<c:url value='/resources/static/css/slickslider.css' />" >
 <script src="<c:url value='/resources/static/js/bxslider.js' />"></script>

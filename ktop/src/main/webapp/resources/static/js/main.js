@@ -97,40 +97,32 @@ $(function() {
 	});
 
 	// 메인 검색 지역선택 제어
-	$('.area_select').on('click', function(){
-		var ccode = $(this).attr('data-ccode');
-
-		if(ccode == '') {
-			$('#company_area_arr').val('');
-			$('.area_select').removeClass('select');
-			$(this).addClass('select');
-		} else {
-			var company_area = $('#company_area_arr').val();
-			if(company_area != '') {
-				if(company_area.indexOf('[:]'+ccode) > -1) { // 있으면 지우고 클래스 빼줌
-					var company_area_new = company_area.replace('[:]'+ccode, '');
-					$('#company_area_arr').val(company_area_new);
-					$(this).removeClass('select');
-				} else {
-					$('#company_area_arr').val(company_area+'[:]'+ccode);
-					$(this).addClass('select');
-				}
-			} else {
-				$('#company_area_arr').val('[:]'+ccode);
-				$('.area_select').removeClass('select');
-				$(this).addClass('select');
-			}
-			// 체크한게 하나도 없으면 전체에 on 해줌
-			var select_cnt = 0;
-			$('.area_select').each(function(){
-				if($(this).hasClass('select') !== false) {
-					select_cnt++;
-				}
-			});
-			if(select_cnt == 0) {
-				$('.area_all').addClass('select');
-			}
-		}
+	$('.area_checkbox').on('change', function () {
+	    const isAll = $(this).val() === '';
+	
+	    if (isAll) {
+	        if ($(this).is(':checked')) {
+	            $('.area_checkbox').not(this).prop('checked', false);
+	        }
+	    } else {
+	        $('#region_all').prop('checked', false);
+	    }
+	
+	    // 아무것도 선택되지 않았으면 전체 체크
+	    if ($('.area_checkbox:checked').length === 0) {
+	        $('#region_all').prop('checked', true);
+	    }
+	
+	    // 모든 li에서 select 클래스 제거 후, 체크된 항목의 부모 li에만 select 추가
+	    $('.area_checkbox').each(function () {
+	        const $li = $(this).closest('li');
+	        if ($(this).is(':checked')) {
+	            $li.addClass('select');
+	        } else {
+	            $li.removeClass('select');
+	        }
+	    });
 	});
+
 
 });

@@ -53,9 +53,8 @@
 									<legend class="hidden">검색 입력 폼</legend>
 									<div class="search_group">
 										<form method="get" name="search" action="<c:url value='/search' />">
-											<input type="hidden" name="sit" value="product_title" />
 											<div>
-												<input type="text" id="" name="" title="검색어 입력" placeholder="검색어를 입력하세요" />
+												<input type="text" id="" name="keyword" title="검색어 입력" placeholder="검색어를 입력하세요" value="${param.keyword}" />
 												<button type="submit" class="btn_search" id="searchBtn">검색</button>
 											</div>
 										</form>
@@ -104,9 +103,8 @@
 								<legend class="hidden">검색 입력 폼</legend>
 								<div class="search_group">
 									<form method="get" name="search" action="<c:url value='/search' />">
-										<input type="hidden" name="sit" value="product_title" />
 										<div>
-											<input type="text" name="stx" title="검색어 입력" placeholder="검색어를 입력하세요" value="" />
+											<input type="text" name="keyword" title="검색어 입력" placeholder="검색어를 입력하세요" value="${param.keyword}" />
 											<button type="submit" class="btn_search" id="searchBtn">검색</button>
 										</div>
 									</form>

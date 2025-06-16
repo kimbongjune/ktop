@@ -66,33 +66,65 @@
 			f.file_name,
 			f.mime_type,
 			f.file_size,
-			f.created_at AS file_created_at
+			f.created_at AS file_created_at,
+			(select name from material_category where id = m.material_category_id) as material_name,
+			u.id AS u_id,
+			u.name AS u_name,
+			c.company_name,
+			c.region_id
 		FROM material m
 		LEFT JOIN material_file mf ON m.id = mf.material_id
-		LEFT JOIN users u on u.id = m.partner_id
 		LEFT JOIN file f ON mf.file_id = f.id
+		LEFT JOIN users u ON u.id = m.partner_id
+		LEFT JOIN company c ON c.id = m.partner_id
+		LEFT JOIN region_category rc ON rc.id = c.region_id
+		LEFT JOIN region_category rc_parent ON rc.parent_id = rc_parent.id
 		<where>
 			m.deleted_at IS NULL
-			<if test="materialCategoryId != null and materialCategoryId != 0">
-				AND m.material_category_id = #{materialCategoryId}
-			</if>
+			AND u.role = 2
+	
+			<choose>
+				<when test="materialCategoryIdList != null and materialCategoryIdList.size() > 0">
+					AND m.material_category_id IN
+					<foreach item="id" collection="materialCategoryIdList" open="(" separator="," close=")">
+						#{id}
+					</foreach>
+				</when>
+				<when test="materialCategoryId != null and materialCategoryId != 0">
+					AND m.material_category_id = #{materialCategoryId}
+				</when>
+			</choose>
+	
 			<if test="partnerId != null and partnerId != ''">
 				AND m.partner_id = #{partnerId}
 			</if>
+	
 			<if test="categoryId != null and categoryId != ''">
 				AND m.category_id = #{categoryId}
 			</if>
-			<choose>
-                <when test="searchType == 'name' and keyword != null and keyword != ''">
-                    AND m.name LIKE CONCAT('%', #{keyword}, '%')
-                </when>
-                <when test="searchType == 'description' and keyword != null and keyword != ''">
-                    AND m.description LIKE CONCAT('%', #{keyword}, '%')
-                </when>
-            </choose>
-            AND u.role = 2
+	
+			<if test="keyword != null and keyword != ''">
+				AND (
+					m.name LIKE CONCAT('%', #{keyword}, '%')
+					OR m.description LIKE CONCAT('%', #{keyword}, '%')
+				)
+			</if>
+	
+			<if test="region != null and region.size() > 0">
+			AND (
+				c.region_id IN
+				<foreach item="regionId" collection="region" open="(" separator="," close=")">
+					#{regionId}
+				</foreach>
+				OR rc.parent_id IN
+				<foreach item="regionId" collection="region" open="(" separator="," close=")">
+					#{regionId}
+				</foreach>
+			)
+		</if>
 		</where>
 	</select>
+
 
 	<!-- SELECT: 단건 -->
 	<select id="selectMaterialOne" parameterType="int" resultMap="materialWithFileMap">
@@ -107,7 +139,7 @@
 			m.is_active,
 			m.created_at,
 			m.updated_at,
-			(select name from material_category where id = #{id}) as material_name,
+			(select name from material_category where id = m.material_category_id) as material_name,
 			(select company_name from company where id = m.partner_id) as company_name,
 			mf.id AS mf_id,
 			mf.material_id,

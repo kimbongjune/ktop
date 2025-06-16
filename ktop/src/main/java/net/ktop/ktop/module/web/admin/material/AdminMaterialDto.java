@@ -1,5 +1,10 @@
 package net.ktop.ktop.module.web.admin.material;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.ktop.ktop.module.web.admin.region.AdminRegionDto;
+
 public class AdminMaterialDto {
 
 	/* 카테고리 고유 id */
@@ -23,6 +28,8 @@ public class AdminMaterialDto {
 
 	/* 카테고리 수정일 */
 	private String updatedAt;
+	
+	private List<AdminMaterialDto> children = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -88,11 +95,21 @@ public class AdminMaterialDto {
 		this.updatedAt = updatedAt;
 	}
 
+	public List<AdminMaterialDto> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<AdminMaterialDto> children) {
+		this.children = children;
+	}
+
 	@Override
 	public String toString() {
 		return "AdminMaterialDto [id=" + id + ", name=" + name + ", parentId=" + parentId + ", isActive=" + isActive
 				+ ", depth=" + depth + ", displayOrder=" + displayOrder + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
+				+ updatedAt + ", children=" + children + "]";
 	}
+	
+	
 	
 }

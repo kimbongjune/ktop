@@ -44,10 +44,10 @@
 	<div class="company_list_top_txt">총 <strong>${fn:length(materials)}</strong>개의 상품이 있습니다.</div>
 	<div class="company_view_product_search"> 
 		<form method="get" name="search" action="<c:url value='' />" >
-			<select name="searchType" title="검색 옵션">
+			<%-- <select name="searchType" title="검색 옵션">
 				<option ${param.searchType eq 'name' ? 'selected' : ''} value="name" >이름</option>
 				<option ${param.searchType eq 'description' ? 'selected' : ''} value="description" >내용</option>
-			</select>
+			</select> --%>
 			<input type="text" name="keyword" title="검색어 입력" placeholder="검색어를 입력하세요" value="${param.keyword }" />	
 			<button type="submit" id="searchBtn">검색</button>	
 		</form>

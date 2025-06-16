@@ -75,8 +75,6 @@
 
 </div>
 
-	<input type="hidden" name="gc" value="100ARPF" /> <input type="hidden" name="do" value="update" /> <input type="hidden" name="action" value="listupdate" />
-
 	<table class="gtable gmtable">
 		<colgroup>
 			<col style="width: 100px;" />
@@ -94,14 +92,14 @@
 		</thead>
 		<tbody  id="table_body_cat">
 			<c:forEach var="material" items="${materialList}">
-		        <tr bgcolor="#eff3f9" id="cat_${material.id}" data-parent_id="${material.parentId}">
+		        <tr bgcolor="#eff3f9" id="cat_${material.id}">
 					<td class="center">${material.id}</td>
 					<td>
 						<div class="input_list">
 							<span class="line"><input type="text" class="input_form" style="width: 100%" value="${material.name}" /></span>
 						</div>
 						<div class="arr_list">
-							<div class="ab_m ab_h alert_btns" data-txt="더 이상 하위 메뉴 생성이 불가능합니다.">+</div>
+							<div class="ab_m ab_blue cate_subadd_btns"  onclick="addSubCategory(this)">+</div>
 						</div>
 					</td>
 					<td class="center">
@@ -111,10 +109,33 @@
 						</select>
 					</td>
 					<td class="center">
-						<div class="ab_m delete_btns Fix_FormBtns" onclick="updateCategory(this)">변경</div>
-						<div class="ab_m delete_btns Fix_FormBtns" onclick="removeCategory(this)">삭제</div>
+						<div class="ab_m delete_btns Fix_FormBtns" onclick="updateCategory(this, ${material.id})">변경</div>
+						<div class="ab_m delete_btns Fix_FormBtns" onclick="removeCategory(this, ${material.id})">삭제</div>
 					</td>
 				</tr>
+				<c:forEach var="child" items="${material.children}">
+			        <tr  id="cat_${child.id}" data-parent_id="${child.parentId}">
+						<td class="center ">${child.id}</td>
+						<td>
+							<div class="input_list2">
+								<span class="line"><input type="text" class="input_form" style="width: 95%;" value="${child.name}" /></span>
+							</div>
+							<div class="arr_list">
+								<div class="ab_m ab_h alert_btns" data-txt="더 이상 하위 메뉴 생성이 불가능합니다.">+</div>
+							</div>
+						</td>
+						<td class="center">
+							<select style="width: 100%;">
+								<option value="true"  <c:if test="${child.active == true}">selected</c:if>>사용</option>
+					    		<option value="false" <c:if test="${child.active == false}">selected</c:if>>사용안함</option>
+							</select>
+						</td>
+						<td class="center">
+							<div class="ab_m delete_btns Fix_FormBtns" onclick="updateCategory(this)">변경</div>
+							<div class="ab_m delete_btns Fix_FormBtns" onclick="removeCategory(this)">삭제</div>
+						</td>
+					</tr>
+			    </c:forEach>
 		    </c:forEach>
 		<tbody/>
 	</table>
@@ -143,7 +164,7 @@
 			
 			try {
 				// 비동기 서버 요청
-				const response = await axios.post('<c:url value="/admin/site/category/add"/>', {
+				const response = await axios.post('<c:url value="/admin/material/add"/>', {
 				    name: menuName.val().trim(),
 				    active : true,
 				    parentId : parentIdEl.replace("cat_", "")
@@ -163,7 +184,7 @@
 
 				// 행 추가
 				let text = '';
-				text += '<tr bgcolor="#eff3f9" id="cat_' + id + '" data-parent_id="'+parentId+'">';
+				text += '<tr id="cat_' + id + '" data-parent_id="'+parentId+'">';
 				text +=     '<td class="center">' + id + '</td>';
 				text +=     '<td>';
 				text +=         '<div class="input_list2">';
@@ -246,7 +267,7 @@
 
 			// 행 추가
 			let text = '';
-			text += '<tr bgcolor="#eff3f9" id="cat_' + id + '" data-parent_id="'+parentId+'">';
+			text += '<tr bgcolor="#eff3f9" id="cat_' + id + '">';
 			text +=     '<td class="center">' + id + '</td>';
 			text +=     '<td>';
 			text +=         '<div class="input_list">';
@@ -255,18 +276,18 @@
 			text +=             '</span>';
 			text +=         '</div>';
 			text +=         '<div class="arr_list">';
-			text +=             '<div class="ab_m ab_h alert_btns" data-txt="더 이상 하위 메뉴 생성이 불가능합니다.">+</div>';
+			text +=             '<div class="ab_m ab_blue cate_subadd_btns" onclick="addSubCategory(this)">+</div>';
 			text +=         '</div>';
 			text +=     '</td>';
 			text +=     '<td class="center">';
 			text +=         '<select style="width: 100%;">';
-			text +=             '<option value="false" ' + (active ? '' : 'selected') + '>사용안함</option>';
 			text +=             '<option value="true" ' + (active ? 'selected' : '') + '>사용</option>';
+			text +=             '<option value="false" ' + (!active ? 'selected' : '') + '>사용안함</option>';
 			text +=         '</select>';
 			text +=     '</td>';
 			text +=     '<td class="center">';
-			text += 		'<div class="ab_m delete_btns Fix_FormBtns" onclick="updateCategory(this)">변경</div>'
-			text += 		'<div class="ab_m delete_btns Fix_FormBtns" onclick="removeCategory(this)">삭제</div>';
+			text +=         '<div class="ab_m delete_btns Fix_FormBtns" onclick="updateCategory(this, ' + id + ')">변경</div>';
+			text +=         '<div class="ab_m delete_btns Fix_FormBtns" onclick="removeCategory(this, ' + id + ')">삭제</div>';
 			text +=     '</td>';
 			text += '</tr>';
 

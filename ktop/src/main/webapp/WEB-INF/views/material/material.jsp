@@ -58,7 +58,7 @@
 	</div>
 
 
-		<table class="gtable02">
+		<%-- <table class="gtable02">
 		<colgroup>
 			<col />
 			<col style="width:18%;" />
@@ -119,10 +119,10 @@
 			</td>
 		</tr>
 						</tbody>
-		</table>		
+		</table>		 --%>
 	</div>
 </div>
-<div class="product_other_item_wrap"> 
+<!-- <div class="product_other_item_wrap"> 
 	<div class="product_other_item_tit">가격 비교 </div>
 	<ul>
 			<a href="#">
@@ -154,8 +154,8 @@
 		</li>
 		</a>
 		</ul>
-</div>
-<div class="product_view_comlist"> 
+</div> -->
+<%-- <div class="product_view_comlist"> 
 <ul>
 		<li>
 		
@@ -200,17 +200,16 @@
 		</div>
 	</li>
 	 </ul>
-	</div>
+	</div> --%>
 
 
 
 <h4>상품소개</h4>
 <div class="product_cont">
-	<p>실내 인테리어에 많이 쓰이는 목재루바입니다.</p><p><br></p><p>피톤치드 함유량이 높아서 실내를 한결 쾌적하게 합니다.</p><p><br></p><p><img alt="editor_image" src="http://222.236.210.58/~cms/_data/sys_product_list/1657182218_4217fad34c40b89e7829e59bf252c461d871aa24.png" style=""><br></p></div>
-
-<div class="pt30 center">
+	${material.description}
+<%-- <div class="pt30 center">
 	<a href="<c:url value='/material/category/1' />"><div class="bbs_btn01"> 목록보기</div></a>
-</div>
+</div> --%>
 
 
 

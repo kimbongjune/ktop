@@ -101,6 +101,9 @@ public class MaterialDto extends SearchDto {
 		return "MaterialDto [id=" + id + ", name=" + name + ", categoryId=" + categoryId + ", materialCategoryId="
 				+ materialCategoryId + ", partnerId=" + partnerId + ", description=" + description + ", materialName="
 				+ materialName + ", companyName=" + companyName + ", isActive=" + isActive + ", createdAt=" + createdAt
-				+ ", updatedAt=" + updatedAt + ", price=" + price + ", materialFile=" + materialFile + "]";
+				+ ", updatedAt=" + updatedAt + ", price=" + price + ", materialFile=" + materialFile + ", toString()="
+				+ super.toString() + "]";
 	}
+	
+	
 }

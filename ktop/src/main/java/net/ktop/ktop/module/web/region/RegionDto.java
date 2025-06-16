@@ -103,7 +103,7 @@ public class RegionDto {
 
 	@Override
 	public String toString() {
-		return "AdminSiteCategoryDto [id=" + id + ", name=" + name + ", parentId=" + parentId + ", isActive=" + isActive
+		return "RegionDto [id=" + id + ", name=" + name + ", parentId=" + parentId + ", isActive=" + isActive
 				+ ", depth=" + depth + ", displayOrder=" + displayOrder + ", createdAt=" + createdAt + ", updatedAt="
 				+ updatedAt + ", children=" + children + "]";
 	}

@@ -466,7 +466,7 @@ a:link, a:visited, a:hover, a:focus, a:active					{text-decoration:none; }
 select:focus				{border-color:#333;}
 
 .input_clear_wrap			{position:relative;}
-.input_clear_wrap i			{position:absolute; top:5px; right:5px; cursor:pointer; visibility:hidden;}
+.input_clear_wrap i			{position:absolute; top:5.5px; right:11px; cursor:pointer; visibility:hidden;}
 
 #add_box,
 #add_box2					{display:none;position:absolute;z-index:2;background:#fff;}

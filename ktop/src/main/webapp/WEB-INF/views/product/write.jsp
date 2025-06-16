@@ -91,7 +91,6 @@
 </div>
 
 -->
- 
 <form name="material_form" method="post" enctype="multipart/form-data" action="">
 
 <table class="gtable">
@@ -116,12 +115,19 @@
 <tr>
 	<th><label for="materialCategoryId">카테고리</label> <em class="fpilsu">*</em></th>
     <td colspan="3">
-		<c:forEach var="material" items="${materialList}">
-			<label>
-				<input type="radio" name="materialCategoryId" value="${material.id}" 
-				       <c:if test="${param.categoryId eq material.id}">checked</c:if> />
-				${material.name}
-			</label>
+		<c:forEach var="parent" items="${materialList}">
+			<div class="category-section">
+				<div class="category-title">${parent.name}</div>
+				<div class="category-options">
+					<c:forEach var="child" items="${parent.children}">
+						<label class="radio-label">
+							<input type="radio" name="materialCategoryId" value="${child.id}" 
+								<c:if test="${param.materialCategoryId eq child.id}">checked</c:if> />
+							<span>${child.name}</span>
+						</label>
+					</c:forEach>
+				</div>
+			</div>
 		</c:forEach>
 	</td>
 </tr>
