@@ -19,4 +19,6 @@ public interface MaterialService {
     int insertMaterialFiles(List<MaterialFileDto> list);
     
     int deleteMaterialFileOne(String id);
+    
+    List<Integer> selectMaterialCategoryIdsIncludingChildren(List<Integer> materialCategoryIdList);
 }

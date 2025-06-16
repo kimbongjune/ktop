@@ -2,7 +2,54 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <link rel="stylesheet" href="<c:url value='/resources/static/css/product.css' />">
+<style>
+.category-container {
+	padding: 15px;
+}
 
+.parent-category-list {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 12px;
+}
+
+.parent-btn {
+	border: 1px solid #ccc;
+	background-color: #fff;
+	padding: 6px 14px;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	font-weight: 500;
+}
+
+.parent-btn[data-selected="true"],
+.parent-btn:hover {
+	background-color: #007acc;
+	color: white;
+	border-color: #007acc;
+}
+
+.child-category-list .child-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 10px;
+}
+
+.radio-option {
+	border: 1px solid #ccc;
+	padding: 6px 12px;
+	border-radius: 4px;
+	background: white;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.radio-option input[type="radio"] {
+	margin-right: 6px;
+}
+</style>
 		<section class="sub_container"> 
 		<h6>서브 콘텐츠</h6> 
 			<div class="sub_category_box">  
@@ -116,13 +163,49 @@
 <tr>
 	<th><label for="materialCategoryId">카테고리</label> <em class="fpilsu">*</em></th>
     <td colspan="3">
-		<c:forEach var="materials" items="${materialList}">
-			<label>
-				<input type="radio" name="materialCategoryId" value="${materials.id}" <c:if test="${material.materialCategoryId eq materials.id}">checked</c:if> />
-				${materials.name}
-			</label>
-		</c:forEach>
-	</td>
+	<div class="category-container">
+		<div class="parent-category-list">
+			<c:forEach var="parent" items="${materialList}">
+				<c:set var="isParentSelected" value="false" />
+				<c:forEach var="child" items="${parent.children}">
+					<c:if test="${material.materialCategoryId eq child.id}">
+						<c:set var="isParentSelected" value="true" />
+					</c:if>
+				</c:forEach>
+
+				<button type="button"
+				        class="parent-btn"
+				        data-parent-id="${parent.id}"
+				        onclick="selectParent(this)"
+				        <c:if test="${isParentSelected}">data-selected="true"</c:if>>
+					${parent.name}
+				</button>
+			</c:forEach>
+		</div>
+
+		<div class="child-category-list">
+			<c:forEach var="parent" items="${materialList}">
+				<c:set var="childVisible" value="none" />
+				<c:forEach var="child" items="${parent.children}">
+					<c:if test="${material.materialCategoryId eq child.id}">
+						<c:set var="childVisible" value="flex" />
+					</c:if>
+				</c:forEach>
+
+				<div class="child-group" id="child-${parent.id}" style="display: ${childVisible};">
+					<c:forEach var="child" items="${parent.children}">
+						<label class="radio-option">
+							<input type="radio" name="materialCategoryId" value="${child.id}"
+								<c:if test="${material.materialCategoryId eq child.id}">checked</c:if> />
+							${child.name}
+						</label>
+					</c:forEach>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+</td>
+
 </tr>
 <tr>
 	<th><label for="active">판매여부</label> <em class="fpilsu">*</em></th>
@@ -166,5 +249,18 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+function selectParent(btn) {
+	const parentId = btn.getAttribute('data-parent-id');
+
+	// 탭 버튼 활성화 표시
+	document.querySelectorAll('.parent-btn').forEach(el => el.removeAttribute('data-selected'));
+	btn.setAttribute('data-selected', 'true');
+
+	// 하위 카테고리 전환
+	document.querySelectorAll('.child-group').forEach(group => group.style.display = 'none');
+	document.getElementById('child-' + parentId).style.display = 'flex';
+}
+</script>
 <script src="<c:url value='/resources/static/js/product.js' />"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

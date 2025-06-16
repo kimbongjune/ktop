@@ -107,19 +107,63 @@
 </div>
 
 -->
- 
 <ul class="mypro_tab01">
-	<li class="${empty param.materialCategoryId ? 'on' : ''}">
-		<a href="<c:url value='/category/${categoryNum}/material' />">전체</a>
-	</li>
-	<c:forEach var="material" items="${materialList}">
-		<li class="${param.materialCategoryId eq material.id ? 'on' : ''}">
-			<a href="<c:url value='/category/${categoryNum}/material'>
-				<c:param name='materialCategoryId' value='${material.id}' />
-			</c:url>">${material.name}</a>
-		</li>
-	</c:forEach>
+    <li class="${empty param.materialCategoryId ? 'on' : ''}">
+        <a href="<c:url value='/category/${categoryNum}/material' />">전체</a>
+    </li>
+    <c:forEach var="material" items="${materialList}">
+        <c:set var="isActive" value="${param.materialCategoryId eq material.id}" />
+        <c:forEach var="child" items="${material.children}">
+            <c:if test="${param.materialCategoryId eq child.id}">
+                <c:set var="isActive" value="true" />
+            </c:if>
+        </c:forEach>
+
+        <li class="${isActive ? 'on' : ''}">
+            <a href="<c:url value='/category/${categoryNum}/material'>
+                <c:param name='materialCategoryId' value='${material.id}' />
+            </c:url>">${material.name}</a>
+        </li>
+    </c:forEach>
 </ul>
+
+
+<!-- 하위 카테고리 탭 -->
+<c:if test="${not empty param.materialCategoryId}">
+	<div class="mypro_tab02_wrap">
+	    <ul class="mypro_tab02">
+	        <c:forEach var="material" items="${materialList}">
+	            <c:set var="isParentSelected" value="${param.materialCategoryId eq material.id}" />
+	
+	            <c:set var="isChildSelected" value="false" />
+	            <c:forEach var="child" items="${material.children}">
+	                <c:if test="${param.materialCategoryId eq child.id}">
+	                    <c:set var="isChildSelected" value="true" />
+	                </c:if>
+	            </c:forEach>
+	
+	            <c:if test="${isParentSelected or isChildSelected}">
+	                <!-- 하위 '전체' -->
+	                <li class="${isParentSelected ? 'on' : ''}">
+	                    <a href="<c:url value='/category/${categoryNum}/material'>
+	                        <c:param name='materialCategoryId' value='${material.id}' />
+	                    </c:url>">전체</a>
+	                </li>
+	
+	                <!-- 하위 자식 목록 -->
+	                <c:forEach var="child" items="${material.children}">
+	                    <li class="${param.materialCategoryId eq child.id ? 'on' : ''}">
+	                        <a href="<c:url value='/category/${categoryNum}/material'>
+	                            <c:param name='materialCategoryId' value='${child.id}' />
+	                        </c:url>">${child.name}</a>
+	                    </li>
+	                </c:forEach>
+	            </c:if>
+	        </c:forEach>
+	    </ul>
+	</div>
+</c:if>
+
 
 <div class="h30p"></div>
 

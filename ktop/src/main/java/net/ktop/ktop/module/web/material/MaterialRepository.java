@@ -23,6 +23,10 @@ public class MaterialRepository {
     }
 
     public List<MaterialDto> selectMaterialList(MaterialDto dto) {
+    	List<Integer> ids = dto.getMaterialCategoryIdList();
+        if (ids != null && !ids.isEmpty()) {
+            dto.setMaterialCategoryIdList(selectMaterialCategoryIdsIncludingChildren(ids));
+        }
         return template.selectList(MAPPER_NAME + "selectMaterialList", dto);
     }
 
@@ -36,5 +40,9 @@ public class MaterialRepository {
 
     public int deleteMaterial(int id) {
         return template.update(MAPPER_NAME + "deleteMaterial", id);
+    }
+    
+    public List<Integer> selectMaterialCategoryIdsIncludingChildren(List<Integer> materialCategoryIdList){
+    	return template.selectList(MAPPER_NAME + "selectMaterialCategoryIdsIncludingChildren", materialCategoryIdList);
     }
 }

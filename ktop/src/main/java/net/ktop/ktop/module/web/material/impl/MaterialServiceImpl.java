@@ -57,4 +57,9 @@ public class MaterialServiceImpl implements MaterialService {
 	public int deleteMaterialFileOne(String id) {
 		return materialFileRepository.deleteMaterialFileOne(id);
 	}
+	
+	@Override
+	public List<Integer> selectMaterialCategoryIdsIncludingChildren(List<Integer> materialCategoryIdList){
+		return materialRepository.selectMaterialCategoryIdsIncludingChildren(materialCategoryIdList);
+    }
 }
