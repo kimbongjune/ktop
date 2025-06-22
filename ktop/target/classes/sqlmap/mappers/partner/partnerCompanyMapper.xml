@@ -8,6 +8,9 @@
 	    <id property="categoryId" column="category_id"/>
 	    <result property="descriptionHtml" column="description_html"/>
 	    <result property="status" column="status" />
+	    <result property="materialCount" column="material_count"/>
+	    <result property="categoryName" column="category_name"/>
+	    <result property="userName" column="user_name"/>
 	    <result property="categoryId" column="category_id"/>
 	    <result property="createdAt" column="partner_created_at"/>
 	    <result property="updatedAt" column="partner_updated_at"/>
@@ -66,6 +69,7 @@
 	        c.address2,
 	        c.homepage,
 	        c.region_id,
+	        (select name from users where id = pc.id) as user_name,
 	        pc.id AS pc_id,
 	        pc.description_html,
 	        pc.status,
@@ -113,6 +117,8 @@
 	        c.address2,
 	        c.homepage,
 	        c.region_id,
+	        (select count(*) from material where partner_id = pc.id and category_id = pc.category_id) as material_count,
+	        (select name from category where id = pc.category_id) as category_name,
 	        pc.id AS pc_id,
 	        pc.description_html,
 	        pc.status,
@@ -153,6 +159,11 @@
 					</otherwise>
 				</choose>
 	        </if>
+	        <choose>
+                <when test="searchType == 'companyName' and keyword != null and keyword != ''">
+                    AND c.company_name LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+            </choose>
 	        <if test="status != null and status != ''">
 	        	AND pc.status = #{status}
 	        </if>

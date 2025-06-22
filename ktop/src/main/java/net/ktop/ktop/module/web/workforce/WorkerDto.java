@@ -2,11 +2,12 @@ package net.ktop.ktop.module.web.workforce;
 
 import java.util.List;
 
+import net.ktop.ktop.module.util.SearchDto;
 import net.ktop.ktop.module.web.user.UserDto;
 import net.ktop.ktop.module.web.workforce.file.WorkerFileDto;
 import net.ktop.ktop.module.web.workforce.workerfield.WorkerFieldDto;
 
-public class WorkerDto {
+public class WorkerDto extends SearchDto{
     private String userId;
     private Integer regionId;
     private String introduction;

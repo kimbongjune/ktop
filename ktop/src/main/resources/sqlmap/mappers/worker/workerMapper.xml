@@ -97,6 +97,11 @@
 	        <if test="userId != null and userId != ''">
 	            AND w.user_id = #{userId}
 	        </if>
+	        <choose>
+                <when test="searchType == 'name' and keyword != null and keyword != ''">
+                    AND w.name LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+            </choose>
 	    </where>
 	    ORDER BY wf.file_type ASC;
 	</select>

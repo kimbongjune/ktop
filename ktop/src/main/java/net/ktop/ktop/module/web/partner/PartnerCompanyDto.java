@@ -2,11 +2,12 @@ package net.ktop.ktop.module.web.partner;
 
 import java.util.List;
 
+import net.ktop.ktop.module.util.SearchDto;
 import net.ktop.ktop.module.web.company.CompanyDto;
 import net.ktop.ktop.module.web.company.file.CompanyFileDto;
 import net.ktop.ktop.module.web.partner.file.PartnerCompanyFileDto;
 
-public class PartnerCompanyDto {
+public class PartnerCompanyDto extends SearchDto{
 
     /** 협력사 고유 ID */
     private String id;
@@ -31,6 +32,15 @@ public class PartnerCompanyDto {
     
     /** 상위카테고리 여부 */
     private boolean topLevel;
+    
+    /** 등록제품 수 */
+    private int materialCount;
+    
+    /** 카테고리 이름 */
+    private String categoryName;
+    
+    /** 회원 이름 */
+    private String userName;
     
     /** 회사 */
     private CompanyDto companyDto;
@@ -92,6 +102,30 @@ public class PartnerCompanyDto {
 	public void setDeletedAt(String deletedAt) {
 		this.deletedAt = deletedAt;
 	}
+	
+	public int getMaterialCount() {
+		return materialCount;
+	}
+
+	public void setMaterialCount(int materialCount) {
+		this.materialCount = materialCount;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public CompanyDto getCompanyDto() {
 		return companyDto;
@@ -121,8 +155,10 @@ public class PartnerCompanyDto {
 	public String toString() {
 		return "PartnerCompanyDto [id=" + id + ", descriptionHtml=" + descriptionHtml + ", status=" + status
 				+ ", categoryId=" + categoryId + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", deletedAt=" + deletedAt + ", topLevel=" + topLevel + ", companyDto=" + companyDto
+				+ ", deletedAt=" + deletedAt + ", topLevel=" + topLevel + ", materialCount=" + materialCount
+				+ ", categoryName=" + categoryName + ", userName=" + userName + ", companyDto=" + companyDto
 				+ ", companyFileList=" + companyFileList + "]";
 	}
+	
 	
 }

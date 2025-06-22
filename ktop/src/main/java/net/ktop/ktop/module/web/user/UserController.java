@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,9 +95,28 @@ public class UserController {
       return "/user/findid";
    }
    
+   @RequestMapping(value = "/findid", method = {RequestMethod.POST})
+   @ResponseBody
+   public ResponseEntity<?> findId(@RequestBody  UserDto user) {
+	   return ResponseEntity
+	            .ok()
+	            .header("Content-Type", "text/plain; charset=UTF-8")
+	            .body(userService.findId(user));
+   }
+   
    @RequestMapping(value = "/findpw", method = {RequestMethod.GET})
    public String findPw() {
       return "/user/findpw";
+   }
+   
+   @RequestMapping(value = "/findpw", method = {RequestMethod.POST})
+   @ResponseBody
+   public ResponseEntity<?> findPw(@RequestBody  UserDto user) {
+	   System.out.println(user);
+	   return ResponseEntity
+	            .ok()
+	            .header("Content-Type", "text/plain; charset=UTF-8")
+	            .body(userService.findPw(user));
    }
    
    @RequestMapping(value = "/mypage", method = {RequestMethod.GET})
@@ -280,7 +300,7 @@ public class UserController {
    @RequestMapping(value = "/email/send", method = {RequestMethod.GET})
    @ResponseBody
    public ResponseEntity<?> emailSend(@RequestParam("email") String email, HttpSession session) {
-	   String code = emailService.sendCode(email);
+	   String code = emailService.sendSignUpMail(email);
 	   session.setAttribute("EMAIL_AUTH_CODE", code);
        return ResponseEntity.ok(code);
    }

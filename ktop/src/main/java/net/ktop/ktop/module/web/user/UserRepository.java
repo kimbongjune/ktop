@@ -54,4 +54,12 @@ public class UserRepository {
    public int updateUser(UserDto dto) {
 	   return template.update(MAPPER_NAME+"updateUser", dto);
    }
+   
+   public String findId(UserDto dto) {
+	   return template.selectOne(MAPPER_NAME+"findId", dto);
+   	}
+
+   public int findPw(UserDto dto) {
+	   return template.selectOne(MAPPER_NAME+"findPw", dto);
+   }
 }

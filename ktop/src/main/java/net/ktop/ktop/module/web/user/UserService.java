@@ -18,4 +18,8 @@ public interface UserService {
    UserDto findByUsername(String id);
    
    int updateUser(UserDto dto);
+   
+   String findId(UserDto dto);
+   
+   String findPw(UserDto dto);
 }

@@ -60,6 +60,7 @@ public class MainController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search(Locale locale, Model model, @AuthenticationPrincipal UserDetails user, MaterialDto dto) {
 		
+		System.out.println("search : "+dto);
 		List<MaterialDto> materials = materialService.selectMaterialList(dto);
 		//model.addAttribute("serverTime", formattedDate );
 		List<AdminMaterialDto> materialList = adminMaterialService.getAllMaterial();

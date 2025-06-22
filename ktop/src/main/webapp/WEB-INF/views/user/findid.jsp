@@ -21,10 +21,6 @@
 						
 
 
-	<form name="idsearch_form" method="post" action="#" onsubmit="return idsearch_form_submit();">
-	<input type="hidden" name="gc" value="MA" />
-	<input type="hidden" name="do" value="idsearch" />
-	<input type="hidden" name="user_idinfo" id="user_idinfo" />
 
 	<div id="login_box">
 		<div class="login_box_tit">아이디 찾기</div>
@@ -33,13 +29,12 @@
 		</div>
 		<fieldset>
 		<div class="field">
-			<input type="text" id="user_name" name="user_name" class="required" maxlength="20" title="성명" autofocus placeholder="성명" />
-			<input type="tel" id="user_hp" name="user_hp" class="hpnum required hypenauto" title="휴대폰번호" minlength="12" maxlength="13" placeholder="휴대폰번호(숫자만 입력)" />
+			<input type="text" id="id" name="user_name" title="성명" autofocus placeholder="성명" />
+			<input type="text" id="email" name="user_hp" title="이메일" placeholder="이메일" />
 		</div>
-		<div class="btns"><input type="submit" value="아이디 찾기" /></div>
+		<div class="btns"><input type="button" value="아이디 찾기" /></div>
 		</fieldset>
 	</div>
-	</form>
 
 
 
@@ -48,4 +43,38 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+	$('.btns input[type="button"]').on('click', function () {
+	    const name = $('#id').val().trim();
+	    const email = $('#email').val().trim();
+	
+	    // 빈값 검증
+	    if (name === "") {
+	        alert("성명을 입력하세요.");
+	        $('#id').focus();
+	        return;
+	    }
+	
+	    if (email === "") {
+	        alert("이메일을 입력하세요.");
+	        $('#email').focus();
+	        return;
+	    }
+	
+	    axios.post("<c:url value='/user/findid' />", {
+	        name: name,
+	        email: email
+	    })
+	    .then(function (response) {
+	        alert(response.data);
+	    })
+	    .catch(function (error) {
+	        if (error.response && error.response.data) {
+	            alert(error.response.data);
+	        } else {
+	            alert("요청 중 오류가 발생했습니다.");
+	        }
+	    });
+	});
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

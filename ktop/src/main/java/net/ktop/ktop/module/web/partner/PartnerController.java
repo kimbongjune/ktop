@@ -92,8 +92,11 @@ public class PartnerController {
 		}
 		
 		List<RegionDto> regionList = regionService.getAllRegion();
+		List<CategoryDto> list = categoryService.selectCategoryById(category);
+		model.addAttribute("menuCategory", "category");
+		model.addAttribute("categoryNum", category);
+		model.addAttribute("categorySubList", list);
 		model.addAttribute("regionList", regionList);
-	   
 		model.addAttribute("company", dto);
 		return "partner/regist";
 	}
@@ -118,6 +121,10 @@ public class PartnerController {
 			partnerCompanyDto.setId(user.getUsername());
 			partnerDto = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
 		}
+		List<CategoryDto> list = categoryService.selectCategoryById(category);
+		model.addAttribute("menuCategory", "category");
+		model.addAttribute("categoryNum", category);
+		model.addAttribute("categorySubList", list);
 		model.addAttribute("categoryNum", category);
 		model.addAttribute("partner", partnerDto);
 		return "partner/edit";

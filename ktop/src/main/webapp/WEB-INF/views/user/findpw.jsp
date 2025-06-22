@@ -19,14 +19,6 @@
 			
   
 						
-
-
-	<form name="pwsearch_form" method="post" action="#" onsubmit="return pwsearch_form_submit1();">
-	<input type="hidden" name="gc" value="MA" />
-	<input type="hidden" name="do" value="pwsearch" />
-	<input type="hidden" name="user_pwstep" value="1" />
-	<input type="hidden" name="user_pwinfo" id="user_pwinfo" />
-
 	<div id="login_box">
 		<div class="login_box_tit">비밀번호 찾기</div>
 		<div class="login_box_txt">
@@ -34,14 +26,13 @@
 		</div>
 		<fieldset>
 		<div class="field">
-			<input type="text" id="user_id" name="user_id" class="required" maxlength="50" title="아이디" autofocus placeholder="아이디" />
-			<input type="text" id="user_name" name="user_name" class="required" maxlength="20" title="성명" placeholder="성명" />
-			<input type="tel" id="user_hp" name="user_hp" class="hpnum required hypenauto" title="휴대폰번호" minlength="12" maxlength="13" placeholder="휴대폰번호(숫자만 입력)" />
+			<input type="text" id="id" name="id" class="" title="아이디" autofocus placeholder="아이디" />
+			<input type="text" id="name" name="name" class="" title="성명" placeholder="성명" />
+			<input type="text" id="email" name="email" class="" title="이메일"  placeholder="이메일" />
 		</div>
-		<div class="btns"><input type="submit" value="비밀번호 찾기" /></div>
+		<div class="btns"><input type="button" value="비밀번호 찾기" /></div>
 		</fieldset>
 	</div>
-	</form>
 
 
 
@@ -50,4 +41,40 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+	$(".btns input[type='button']").click(function () {
+	    const id = $("#id").val().trim();
+	    const name = $("#name").val().trim();
+	    const email = $("#email").val().trim();
+	
+	    if (!id) {
+	        alert("아이디를 입력해주세요.");
+	        return;
+	    }
+	    if (!name) {
+	        alert("이름을 입력해주세요.");
+	        return;
+	    }
+	    if (!email) {
+	        alert("이메일을 입력해주세요.");
+	        return;
+	    }
+	
+	    axios.post("<c:url value='/user/findpw' />", {
+	        id: id,
+	        name: name,
+	        email: email
+	    })
+	    .then(function (response) {
+	        alert(response.data);
+	    })
+	    .catch(function (error) {
+	        if (error.response && error.response.data) {
+	            alert(error.response.data);
+	        } else {
+	            alert("오류가 발생했습니다.");
+	        }
+	    });
+	});
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

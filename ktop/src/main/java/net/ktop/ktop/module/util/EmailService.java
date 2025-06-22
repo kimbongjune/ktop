@@ -26,7 +26,7 @@ public class EmailService {
 		this.egovMessageSource = egovMessageSource;
 	}
 
-	public String sendCode(String to){
+	public String sendSignUpMail(String to){
         String code = generateCode();
         
         String mail = egovMessageSource.getMessage("email.sender");
@@ -46,8 +46,44 @@ public class EmailService {
 		}
         return code;
     }
+	
+	public void sendIdFindMail(String to, String id){
+        String mail = egovMessageSource.getMessage("email.sender");
 
-    private String generateCode() {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+			helper.setTo(to);
+			helper.setFrom(mail);
+	        helper.setSubject("[건축자재포털] 아이디 찾기 안내");
+	        helper.setText("찾으시는 아이디는 " + id + " 입니다.", false);
+
+	        mailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+	
+	public void sendPwFindMail(String to, String pw){
+        String mail = egovMessageSource.getMessage("email.sender");
+
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+			helper.setTo(to);
+			helper.setFrom(mail);
+	        helper.setSubject("[건축자재포털] 비밀번호 찾기 안내");
+	        helper.setText("임시 비밀번호는 " + pw + " 입니다.", false);
+
+	        mailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
+    public String generateCode() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb = new StringBuilder();
         SecureRandom random = new SecureRandom();

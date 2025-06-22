@@ -114,5 +114,22 @@
 	    </set>
 	    WHERE id = #{id}
 	</update>
+	
+	<select id="findId" resultType="string" parameterType="UserDto">
+        SELECT id
+        FROM users
+        WHERE name = #{name}
+          AND email = #{email}
+          AND deleted_at IS NULL
+    </select>
+    
+    <select id="findPw" resultType="int" parameterType="UserDto">
+        SELECT COUNT(*)
+        FROM users
+        WHERE name = #{name}
+          AND email = #{email}
+          AND id = #{id}
+          AND deleted_at IS NULL
+    </select>
 
 </mapper>
