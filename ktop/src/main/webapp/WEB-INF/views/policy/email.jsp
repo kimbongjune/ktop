@@ -19,11 +19,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>이메일무단수집거부</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/policy' />" >약관</a></li>
-											<li><a href="<c:url value='/policy/email' />" >이메일무단수집거부</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 

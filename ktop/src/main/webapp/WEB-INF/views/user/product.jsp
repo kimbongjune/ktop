@@ -20,12 +20,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>상품관리</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/user/mypage' />" >MYPAGE</a></li>
-											<li><a href="<c:url value='/user/product' />" >상품관리</a></li>
-											<li><a href="<c:url value='/user/product' />" >등록상품관리</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 

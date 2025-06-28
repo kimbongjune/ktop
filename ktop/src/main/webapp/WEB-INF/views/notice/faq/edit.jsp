@@ -81,6 +81,38 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+$('form[name="bwrite_form"]').on('submit', function (e) {
+    const title = $('#title').val().trim();
+    const answer = $('#answer').summernote('code');
+    
+    if (title === "") {
+        alert("질문을 입력해 주세요.");
+        $('#title').focus();
+        e.preventDefault();
+        return false;
+    }
+    
+    if (isSummernoteContentEmpty(answer)) {
+        alert("답변을 입력해 주세요.");
+        $('#answer').focus();
+        e.preventDefault();
+        return false;
+    }
+    
+    return true;
+});
+
+function isSummernoteContentEmpty(html) {
+    const hasImage = /<img\b[^>]*>/i.test(html);
+    const text = html
+        .replace(/<[^>]*>/gi, '')
+        .replace(/&nbsp;/gi, '')
+        .replace(/\u200B/g, '')
+        .trim();
+    return !hasImage && text === '';
+}
+</script>
 <script src="<c:url value='/resources/static/js/jquery-ui.min.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/bootstrap.min.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/summernote.min.js' />"></script>

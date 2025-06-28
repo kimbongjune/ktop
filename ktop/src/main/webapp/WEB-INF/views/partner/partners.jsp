@@ -18,11 +18,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>협력사</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/partner' />" >협력사</a></li>
-											<li><a href="<c:url value='/partner' />" >협력사소개</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 

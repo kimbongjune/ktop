@@ -21,6 +21,15 @@
 	    <mvc:argument-resolvers>
 	        <bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver" />
 	    </mvc:argument-resolvers>
+	    <mvc:message-converters>
+	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	            <property name="supportedMediaTypes">
+	                <list>
+	                    <value>application/json;charset=UTF-8</value>
+	                </list>
+	            </property>
+	        </bean>
+	    </mvc:message-converters>
 	</mvc:annotation-driven>
 	
 	<context:annotation-config/>

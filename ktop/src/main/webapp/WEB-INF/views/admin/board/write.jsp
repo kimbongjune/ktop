@@ -196,6 +196,46 @@
 
 
 		</div> <!-- main_contents -->
+<script>
+$('form[name="admin_bwrite_form"]').on('submit', function(e) {
+	const boardId = $('#board_id').val();
+	const title = $('#bwrite_title').val().trim();
+	const content = $('#bwrite_content').summernote('code');
+	
+	if (boardId === "") {
+		alert("게시판을 선택해 주세요.");
+		$('#board_id').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (title === "") {
+		alert("제목을 입력해 주세요.");
+		$('#bwrite_title').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (isSummernoteContentEmpty(content)) {
+		alert("내용을 입력해 주세요.");
+		$('#bwrite_content').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	return true;
+});
+
+function isSummernoteContentEmpty(html) {
+	const hasImage = /<img\b[^>]*>/i.test(html);
+	const text = html
+		.replace(/<[^>]*>/gi, '')
+		.replace(/&nbsp;/gi, '')
+		.replace(/\u200B/g, '')
+		.trim();
+	return !hasImage && text === '';
+}
+</script>
 <script src="<c:url value='/resources/static/js/jquery-ui.min.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/bootstrap.min.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/summernote.min.js' />"></script>

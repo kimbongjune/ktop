@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="adBannerMapper">
+
+    <resultMap id="AdBannerResultMap" type="net.ktop.ktop.module.web.admin.ad.AdBannerDto">
+        <id property="id" column="id"/>
+        <result property="position" column="position"/>
+        <result property="title" column="title"/>
+        <result property="mediaType" column="media_type"/>
+        <result property="linkUrl" column="link_url"/>
+        <result property="isActive" column="is_active"/>
+        <result property="startAt" column="start_at"/>
+        <result property="endAt" column="end_at"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="fileId" column="file_id"/>
+        <association property="file" javaType="net.ktop.ktop.module.util.file.FileDto">
+            <id property="id" column="file_id"/>
+            <result property="filePath" column="file_path"/>
+            <result property="originalName" column="original_name"/>
+            <result property="fileName" column="file_name"/>
+            <result property="mimeType" column="mime_type"/>
+            <result property="fileSize" column="file_size"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertAdBanner" parameterType="net.ktop.ktop.module.web.admin.ad.AdBannerDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ad_banner (
+            position,
+            title,
+            media_type,
+            link_url,
+            is_active,
+            start_at,
+            end_at,
+            file_id
+        ) VALUES (
+            #{position},
+            #{title},
+            #{mediaType},
+            #{linkUrl},
+            #{isActive},
+            #{startAt},
+            #{endAt},
+            <if test="fileId > 0">#{fileId}</if>
+            <if test="fileId == 0">NULL</if>
+        )
+    </insert>
+
+    <select id="selectAdBannerList" parameterType="net.ktop.ktop.module.web.admin.ad.AdBannerDto" resultMap="AdBannerResultMap">
+        SELECT 
+            ab.id,
+            ab.position,
+            ab.title,
+            ab.media_type,
+            ab.link_url,
+            ab.is_active,
+            ab.start_at,
+            ab.end_at,
+            ab.created_at,
+            ab.updated_at,
+            ab.file_id,
+            f.file_path,
+            f.original_name,
+            f.file_name,
+            f.mime_type,
+            f.file_size
+        FROM ad_banner ab
+        LEFT JOIN file f ON ab.file_id = f.id
+        WHERE ab.position = #{position}
+        <if test="isActive == true">
+        AND ab.is_active = 1
+        AND CURDATE() BETWEEN DATE(ab.start_at) AND DATE(ab.end_at)
+        </if>
+        ORDER BY ab.created_at DESC
+    </select>
+
+    <select id="selectAdBannerOne" parameterType="Long" resultMap="AdBannerResultMap">
+        SELECT 
+            ab.id,
+            ab.position,
+            ab.title,
+            ab.media_type,
+            ab.link_url,
+            ab.is_active,
+            ab.start_at,
+            ab.end_at,
+            ab.created_at,
+            ab.updated_at,
+            ab.file_id,
+            f.file_path,
+            f.original_name,
+            f.file_name,
+            f.mime_type,
+            f.file_size
+        FROM ad_banner ab
+        LEFT JOIN file f ON ab.file_id = f.id
+        WHERE ab.id = #{id}
+    </select>
+
+    <update id="updateAdBanner" parameterType="net.ktop.ktop.module.web.admin.ad.AdBannerDto">
+        UPDATE ad_banner SET
+            position = #{position},
+            title = #{title},
+            link_url = #{linkUrl},
+            is_active = #{isActive},
+            start_at = #{startAt},
+            end_at = #{endAt},
+            <if test="fileId > 0">
+            file_id = #{fileId},
+            </if>
+            <if test="mediaType != null and mediaType != ''">
+            media_type = #{mediaType},
+            </if>
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteAdBanner" parameterType="Long">
+        DELETE FROM ad_banner WHERE id = #{id}
+    </delete>
+
+</mapper> 

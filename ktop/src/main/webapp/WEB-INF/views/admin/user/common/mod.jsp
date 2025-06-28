@@ -112,4 +112,40 @@
 
 
 		</div> <!-- main_contents -->
+<script>
+$('form[name="admin_user_form"]').on('submit', function(e) {
+	const password = $('#user_passwd').val().trim();
+	const name = $('#user_name').val().trim();
+	
+	if (password === "") {
+		alert("비밀번호를 입력해 주세요.");
+		$('#user_passwd').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (password.length > 20) {
+		alert("비밀번호는 20자 이하로 입력해 주세요.");
+		$('#user_passwd').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (name === "") {
+		alert("성명을 입력해 주세요.");
+		$('#user_name').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (name.length > 20) {
+		alert("성명은 20자 이하로 입력해 주세요.");
+		$('#user_name').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	return true;
+});
+</script>
 <%@ include file="/WEB-INF/views/admin/common/footer.jsp" %>

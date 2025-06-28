@@ -2,10 +2,12 @@ package net.ktop.ktop;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import net.ktop.ktop.module.security.CustomUserDetails;
+import net.ktop.ktop.module.web.admin.ad.AdBannerDto;
+import net.ktop.ktop.module.web.admin.ad.AdBannerService;
 
 /**
  * Handles requests for the application home page.
@@ -22,6 +26,9 @@ import net.ktop.ktop.module.security.CustomUserDetails;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	
+	@Autowired
+	private AdBannerService adBannerService;
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -37,6 +44,30 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
+		
+		// 광고 배너 데이터 추가 (사용자용 - 활성화된 것만)
+		try {
+			AdBannerDto mainSearchDto = new AdBannerDto();
+			mainSearchDto.setPosition("main");
+			mainSearchDto.setActive(true);
+			List<AdBannerDto> mainBanners = adBannerService.selectAdBannerList(mainSearchDto);
+			
+			AdBannerDto middleSearchDto = new AdBannerDto();
+			middleSearchDto.setPosition("middle");
+			middleSearchDto.setActive(true);
+			List<AdBannerDto> middleBanners = adBannerService.selectAdBannerList(middleSearchDto);
+			
+			AdBannerDto bottomSearchDto = new AdBannerDto();
+			bottomSearchDto.setPosition("bottom");
+			bottomSearchDto.setActive(true);
+			List<AdBannerDto> bottomBanners = adBannerService.selectAdBannerList(bottomSearchDto);
+			
+			model.addAttribute("mainBanners", mainBanners);
+			model.addAttribute("middleBanners", middleBanners);
+			model.addAttribute("bottomBanners", bottomBanners);
+		} catch (Exception e) {
+			logger.error("광고 배너 조회 중 오류 발생", e);
+		}
 		
 		return "home";
 	}

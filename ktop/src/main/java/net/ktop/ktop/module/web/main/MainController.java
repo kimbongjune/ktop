@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import net.ktop.ktop.module.security.CustomUserDetails;
+import net.ktop.ktop.module.web.admin.ad.AdBannerDto;
+import net.ktop.ktop.module.web.admin.ad.AdBannerService;
 import net.ktop.ktop.module.web.admin.material.AdminMaterialDto;
 import net.ktop.ktop.module.web.admin.material.AdminMaterialService;
 import net.ktop.ktop.module.web.material.MaterialDto;
@@ -33,12 +35,14 @@ public class MainController {
 	private final RegionService regionService;
 	private final AdminMaterialService adminMaterialService;
 	private final MaterialService materialService;
+	private final AdBannerService adBannerService;
 	
 	@Autowired
-	public MainController(RegionService regionService, AdminMaterialService adminMaterialService, MaterialService materialService) {
+	public MainController(RegionService regionService, AdminMaterialService adminMaterialService, MaterialService materialService, AdBannerService adBannerService) {
 		this.regionService = regionService;
 		this.adminMaterialService = adminMaterialService;
 		this.materialService = materialService;
+		this.adBannerService = adBannerService;
 	}
 
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
@@ -54,6 +58,31 @@ public class MainController {
 		
 		model.addAttribute("regionList", regionList);
 		model.addAttribute("materialList", materialList);
+		
+		// 광고 배너 데이터 추가 (사용자용 - 활성화된 것만)
+		try {
+			AdBannerDto mainSearchDto = new AdBannerDto();
+			mainSearchDto.setPosition("main");
+			mainSearchDto.setActive(true);
+			List<AdBannerDto> mainBanners = adBannerService.selectAdBannerList(mainSearchDto);
+			
+			AdBannerDto middleSearchDto = new AdBannerDto();
+			middleSearchDto.setPosition("middle");
+			middleSearchDto.setActive(true);
+			List<AdBannerDto> middleBanners = adBannerService.selectAdBannerList(middleSearchDto);
+			
+			AdBannerDto bottomSearchDto = new AdBannerDto();
+			bottomSearchDto.setPosition("bottom");
+			bottomSearchDto.setActive(true);
+			List<AdBannerDto> bottomBanners = adBannerService.selectAdBannerList(bottomSearchDto);
+			
+			model.addAttribute("mainBanners", mainBanners);
+			model.addAttribute("middleBanners", middleBanners);
+			model.addAttribute("bottomBanners", bottomBanners);
+		} catch (Exception e) {
+			logger.error("광고 배너 조회 중 오류 발생", e);
+		}
+		
 		return "main/home";
 	}
 	

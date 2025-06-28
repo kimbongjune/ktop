@@ -93,4 +93,60 @@ public class EmailService {
         }
         return sb.toString();
     }
+
+    /**
+     * 협력사 반려 이메일 전송
+     */
+    public void sendPartnerRejectionEmail(String toEmail, String companyName, String rejectionReason) {
+        String mail = egovMessageSource.getMessage("email.sender");
+        
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            helper.setTo(toEmail);
+            helper.setFrom(mail);
+            helper.setSubject("[KTOP] 협력사 신청 반려 안내");
+            
+            StringBuilder content = new StringBuilder();
+            content.append("안녕하세요, ").append(companyName).append(" 담당자님.\n\n");
+            content.append("협력사 신청이 반려되었습니다.\n\n");
+            content.append("반려 사유: ").append(rejectionReason).append("\n\n");
+            content.append("반려 사유를 확인하시고 수정 후 재신청해 주시기 바랍니다.\n\n");
+            content.append("감사합니다.\n");
+            content.append("KTOP 관리팀");
+            
+            helper.setText(content.toString(), false);
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * 인력풀 반려 이메일 전송
+     */
+    public void sendWorkerRejectionEmail(String toEmail, String workerName, String rejectionReason) {
+        String mail = egovMessageSource.getMessage("email.sender");
+        
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            helper.setTo(toEmail);
+            helper.setFrom(mail);
+            helper.setSubject("[KTOP] 인력풀 신청 반려 안내");
+            
+            StringBuilder content = new StringBuilder();
+            content.append("안녕하세요, ").append(workerName).append("님.\n\n");
+            content.append("인력풀 신청이 반려되었습니다.\n\n");
+            content.append("반려 사유: ").append(rejectionReason).append("\n\n");
+            content.append("반려 사유를 확인하시고 수정 후 재신청해 주시기 바랍니다.\n\n");
+            content.append("감사합니다.\n");
+            content.append("KTOP 관리팀");
+            
+            helper.setText(content.toString(), false);
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }

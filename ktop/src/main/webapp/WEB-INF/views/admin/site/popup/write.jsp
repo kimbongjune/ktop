@@ -161,6 +161,58 @@
 
 
 		</div> <!-- main_contents -->
+<script>
+$('form[name="admin_popup_form"]').on('submit', function(e) {
+	const title = $('#popup_title').val().trim();
+	const width = $('#popup_width').val().trim();
+	const height = $('#popup_height').val().trim();
+	const top = $('#popup_top').val().trim();
+	const left = $('#popup_left').val().trim();
+	const content = $('#popup_content').summernote('code');
+	
+	if (title === "") {
+		alert("제목을 입력해 주세요.");
+		$('#popup_title').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (width === "" || height === "") {
+		alert("팝업 크기를 입력해 주세요.");
+		if (width === "") $('#popup_width').focus();
+		else $('#popup_height').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (top === "" || left === "") {
+		alert("팝업 위치를 입력해 주세요.");
+		if (top === "") $('#popup_top').focus();
+		else $('#popup_left').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (isSummernoteContentEmpty(content)) {
+		alert("팝업 내용을 입력해 주세요.");
+		$('#popup_content').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	return true;
+});
+
+function isSummernoteContentEmpty(html) {
+	const hasImage = /<img\b[^>]*>/i.test(html);
+	const text = html
+		.replace(/<[^>]*>/gi, '')
+		.replace(/&nbsp;/gi, '')
+		.replace(/\u200B/g, '')
+		.trim();
+	return !hasImage && text === '';
+}
+</script>
 <script src="<c:url value='/resources/static/js/jquery-ui.min.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/bootstrap.min.js' />"></script>
 <script src="<c:url value='/resources/static/plugin/editor/summernote.min.js' />"></script>

@@ -26,8 +26,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2></h2>
-				<ul class="location">
-									</ul>
 			</div> 
 		
 			<div class="sub_cont"> 

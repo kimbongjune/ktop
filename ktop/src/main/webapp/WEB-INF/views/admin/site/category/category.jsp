@@ -324,7 +324,12 @@
 				console.log(response.data);
 			} catch (error) {
 				console.error("카테고리 삭제 실패:", error);
-				alert("카테고리 삭제 중 오류가 발생했습니다.");
+				if (error.response && error.response.status === 409) {
+					alert(error.response.data); // 서버에서 내려준 메시지
+				} else {
+					alert("카테고리 삭제 중 오류가 발생했습니다.");
+				}
+				return;
 			}
 			if (parent) {
 			    const elements = $('[data-parent_id="' + parent + '"]');

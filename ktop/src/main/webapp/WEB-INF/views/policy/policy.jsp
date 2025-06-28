@@ -19,11 +19,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>개인정보처리방침</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/policy' />" >약관</a></li>
-											<li><a href="<c:url value='/policy' />" >개인정보처리방침</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 

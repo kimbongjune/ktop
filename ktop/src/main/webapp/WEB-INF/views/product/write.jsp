@@ -236,6 +236,58 @@ function selectParent(btn) {
 	document.querySelectorAll('.child-group').forEach(group => group.style.display = 'none');
 	document.getElementById('child-' + parentId).style.display = 'flex';
 }
+
+$('form[name="material_form"]').on('submit', function(e) {
+	const name = $('#name').val().trim();
+	const price = $('#price').val().trim();
+	const materialCategoryId = $('input[name="materialCategoryId"]:checked').val();
+	const descriptionHtml = $('#description').summernote('code');
+	
+	if (name === "") {
+		alert("자재이름을 입력해 주세요.");
+		$('#name').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (price === "") {
+		alert("가격을 입력해 주세요.");
+		$('#price').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (!materialCategoryId) {
+		alert("카테고리를 선택해 주세요.");
+		e.preventDefault();
+		return false;
+	}
+	
+	if ($('#file')[0].files.length < 1) {
+		alert("썸네일 이미지를 업로드 해주세요.");
+		e.preventDefault();
+		return false;
+	}
+	
+	if (isSummernoteContentEmpty(descriptionHtml)) {
+		alert("자재 설명을 입력해 주세요.");
+		$('#description').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	return true;
+});
+
+function isSummernoteContentEmpty(html) {
+	const hasImage = /<img\b[^>]*>/i.test(html);
+	const text = html
+		.replace(/<[^>]*>/gi, '')
+		.replace(/&nbsp;/gi, '')
+		.replace(/\u200B/g, '')
+		.trim();
+	return !hasImage && text === '';
+}
 </script>
 
 

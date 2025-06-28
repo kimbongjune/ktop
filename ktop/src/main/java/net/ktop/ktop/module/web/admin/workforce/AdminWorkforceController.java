@@ -12,6 +12,7 @@ import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldDto;
 import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldService;
 import net.ktop.ktop.module.web.workforce.WorkerDto;
 import net.ktop.ktop.module.web.workforce.WorkerService;
+import net.ktop.ktop.module.util.EmailService;
 
 @Controller
 @RequestMapping("/admin/workforce")
@@ -19,11 +20,13 @@ public class AdminWorkforceController {
 	
 	private final AdminWorkFieldService adminWorkFieldService;
 	private final WorkerService workerService;
+	private final EmailService emailService;
 	
 	@Autowired
-    public AdminWorkforceController(AdminWorkFieldService adminWorkFieldService, WorkerService workerService) {
+    public AdminWorkforceController(AdminWorkFieldService adminWorkFieldService, WorkerService workerService, EmailService emailService) {
 		this.adminWorkFieldService = adminWorkFieldService;
 		this.workerService = workerService;
+		this.emailService = emailService;
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -49,10 +52,29 @@ public class AdminWorkforceController {
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public String workforceDetail(Model model, @PathVariable String id, @RequestParam(value="alarmText", required=false) String alarmText, @RequestParam("status") String status) {
     	
+    	// 기존 인력풀 정보 조회 (이메일 전송을 위해)
+    	WorkerDto existingWorker = workerService.getWorkerOne(id);
+    	
+    	// 상태 업데이트
     	WorkerDto dto = new WorkerDto();
     	dto.setUserId(id);
     	dto.setStatus(status);
     	workerService.updateWorker(dto);
+    	
+    	// 반려 상태일 때 이메일 전송
+    	if ("rejected".equals(status) && alarmText != null && !alarmText.trim().isEmpty()) {
+    		try {
+    			emailService.sendWorkerRejectionEmail(
+    				existingWorker.getUser().getEmail(),
+    				existingWorker.getName(),
+    				alarmText
+    			);
+    		} catch (Exception e) {
+    			// 이메일 전송 실패 시 로그 출력 (실제 운영에서는 로거 사용)
+    			e.printStackTrace();
+    		}
+    	}
+    	
         model.addAttribute("activeMenu", "workforce");
         model.addAttribute("activeSubMenu", "workforceMain");
         return "redirect:/admin/workforce/"+id;

@@ -80,4 +80,25 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+$('form[name="register_check"]').on('submit', function(e) {
+	const password = $('#user_passwd').val().trim();
+	
+	if (password === "") {
+		alert("비밀번호를 입력해 주세요.");
+		$('#user_passwd').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (password.length < 6 || password.length > 16) {
+		alert("비밀번호는 6~16자로 입력해 주세요.");
+		$('#user_passwd').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	return true;
+});
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

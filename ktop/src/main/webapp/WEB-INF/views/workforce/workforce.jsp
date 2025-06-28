@@ -185,6 +185,29 @@
 		</div>	<!-- web_size  -->
 		</div>	<!-- web_size  -->
 	</section>
+<script>
+// 인력풀 리뷰 폼이 활성화될 경우를 대비한 밸리데이션
+$(document).on('submit', 'form[name="review_form"]', function(e) {
+	const title = $('input[name="review_title"]').val().trim();
+	const content = $('textarea[name="review_content"]').val().trim();
+	
+	if (title === "") {
+		alert("리뷰 제목을 입력해 주세요.");
+		$('input[name="review_title"]').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	if (content === "") {
+		alert("리뷰 내용을 입력해 주세요.");
+		$('textarea[name="review_content"]').focus();
+		e.preventDefault();
+		return false;
+	}
+	
+	return true;
+});
+</script>
 <script src="<c:url value='/resources/static/js/person.js' />"></script>
 <script src="<c:url value='/resources/static/js/review.js' />"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

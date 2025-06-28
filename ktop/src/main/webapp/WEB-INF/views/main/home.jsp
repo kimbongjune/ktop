@@ -4,9 +4,26 @@
 <div class="main_container">
 	<section class="main_visual">
 		<ul class="bxslider">
-							<li class="item" style="background: url('<c:url value='/resources/static/image/1660028378_efcef7338de5286d9153caf8f4a903ae4cf29bc6.jpg' />') no-repeat center 0; background-size: cover;"></li>
-
-					</ul>
+			<c:forEach var="banner" items="${mainBanners}">
+				<c:if test="${banner.active}">
+					<c:choose>
+						<c:when test="${banner.mediaType == 'image'}">
+							<li class="item" style="background: url('<c:url value='${banner.file.filePath}' />') no-repeat center 0; background-size: contain;" onclick="<c:if test='${not empty banner.linkUrl}'>window.open('${banner.linkUrl}');</c:if>"></li>
+						</c:when>
+						<c:otherwise>
+							<li class="item" onclick="<c:if test='${not empty banner.linkUrl}'>window.open('${banner.linkUrl}');</c:if>">
+								<video style="width: 100%; height: 100%; object-fit: cover;" autoplay muted loop>
+									<source src="<c:url value='${banner.file.filePath}' />" type="video/mp4">
+								</video>
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</c:if>
+			</c:forEach>
+			<c:if test="${empty mainBanners}">
+				<li class="item" style="background: url('<c:url value='/resources/static/image/1660028378_efcef7338de5286d9153caf8f4a903ae4cf29bc6.jpg' />') no-repeat center 0; background-size: contain;"></li>
+			</c:if>
+		</ul>
 		<dl class="visual_txt">
 			<div class="web_size">
 				<p>건축자재 최저가 선언!</p>
@@ -61,12 +78,32 @@
 		<div class="web_size">
 		<div class="main_link">
 			<ul class="middle_slickslider">
-								<li style="cursor:pointer;" onclick="javascript:location.href='<c:url value='/' />'"><img src="<c:url value='/resources/static/image/1659596373_e29b841ad27033ab7d7a7dd2fc23b6c40f6f7860.jpg' />" alt="mm1" /></li>
-								<li style="cursor:pointer;" onclick="javascript:location.href='<c:url value='/' />'"><img src="<c:url value='/resources/static/image/1659596390_cc2309e861529a9c0e02af2f37f0fe5ffff20b17.jpg' />" alt="mm2" /></li>
-								<li style="cursor:pointer;" onclick="javascript:location.href='<c:url value='/' />'"><img src="<c:url value='/resources/static/image/1659596407_281a7cd46245b94a819bf352758ec19afc5a766e.jpg' />" alt="mm3" /></li>
-								<li style="cursor:pointer;" onclick="javascript:location.href='<c:url value='/' />'"><img src="<c:url value='/resources/static/image/1659596420_ab3b2f73c74d18480529a4a06bc3fe270d70302d.jpg' />" alt="mm4" /></li>
-								<li style="cursor:pointer;" onclick="javascript:location.href='<c:url value='/' />'"><img src="<c:url value='/resources/static/image/1659596479_0f4834546415c1f4a6efe7b18217ee7148d7189c.jpg' />" alt="mm5" /></li>
-							</ul>
+				<c:forEach var="banner" items="${middleBanners}">
+					<c:if test="${banner.active}">
+						<c:choose>
+							<c:when test="${banner.mediaType == 'image'}">
+								<li style="cursor:pointer;" onclick="<c:if test='${not empty banner.linkUrl}'>window.open('${banner.linkUrl}');</c:if>">
+									<img src="<c:url value='${banner.file.filePath}' />" alt="${banner.title}" />
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li style="cursor:pointer;" onclick="<c:if test='${not empty banner.linkUrl}'>window.open('${banner.linkUrl}');</c:if>">
+									<video style="width: 100%; height: 100%; object-fit: cover;" autoplay muted loop>
+										<source src="<c:url value='${banner.file.filePath}' />" type="video/mp4">
+									</video>
+								</li>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+				</c:forEach>
+				<c:if test="${empty middleBanners}">
+					<li style="cursor:pointer;" onclick="javascript:location.href='<c:url value='/' />'"><img src="<c:url value='/resources/static/image/1659596373_e29b841ad27033ab7d7a7dd2fc23b6c40f6f7860.jpg' />" alt="mm1" /></li>
+					<li style="cursor:pointer;" onclick="javascript:location.href='<c:url value='/' />'"><img src="<c:url value='/resources/static/image/1659596390_cc2309e861529a9c0e02af2f37f0fe5ffff20b17.jpg' />" alt="mm2" /></li>
+					<li style="cursor:pointer;" onclick="javascript:location.href='<c:url value='/' />'"><img src="<c:url value='/resources/static/image/1659596407_281a7cd46245b94a819bf352758ec19afc5a766e.jpg' />" alt="mm3" /></li>
+					<li style="cursor:pointer;" onclick="javascript:location.href='<c:url value='/' />'"><img src="<c:url value='/resources/static/image/1659596420_ab3b2f73c74d18480529a4a06bc3fe270d70302d.jpg' />" alt="mm4" /></li>
+					<li style="cursor:pointer;" onclick="javascript:location.href='<c:url value='/' />'"><img src="<c:url value='/resources/static/image/1659596479_0f4834546415c1f4a6efe7b18217ee7148d7189c.jpg' />" alt="mm5" /></li>
+				</c:if>
+			</ul>
 			<div class="arrow">
 				<p class="prev" id="middle_slick_prev_btn"><span></span></p>
 				<p class="next" id="middle_slick_next_btn"><span></span></p>
@@ -303,13 +340,33 @@
 	<section class="foot_bn">
 		<div class="web_size">
 			<ul class="bottom_slickslider">
-								<li style="cursor:pointer;" onclick="javascript:window.open('https://uujj.co.kr/')"><img src="<c:url value='/resources/static/image/91_4ae4aa98549da64b395a1da5a5e8d54d.jpg' />" alt="완주군로컬잡센터" /></li>
-								<li style="cursor:pointer;" onclick="javascript:window.open('http://kwca.or.kr/')"><img src="<c:url value='/resources/static/image/99_3e4efb7dff3237bce19af1349eb27a71.jpg' />" alt="한국목조건축협회" /></li>
-								<li style="cursor:pointer;" onclick="javascript:window.open('http://www.phiko.kr/')"><img src="<c:url value='/resources/static/image/100_3f4cd2354ef6bf8781aee07cb4b8eb7a.jpg' />" alt="한국패시브협회" /></li>
-								<li style="cursor:pointer;" onclick="javascript:window.open('https://www.greendongwha.com/')"><img src="<c:url value='/resources/static/image/101_06282a19a2f989917ac497690986ede9.jpg' />" alt="동화자연마루" /></li>
-								<li style="cursor:pointer;" onclick="javascript:window.open('http://kwca.or.kr/')"><img src="<c:url value='/resources/static/image/102_020fd1226c2b0216b32b0350bff1ee85.jpg' />" alt="대한목조건축협회" /></li>
-								<li style="cursor:pointer;" onclick="javascript:window.open('https://www.jeonbuk.go.kr/')"><img src="<c:url value='/resources/static/image/102_020fd1226c2b0216b32b0350bff1ee85.jpg' />" alt="전라북도" /></li>
-							</ul>
+				<c:forEach var="banner" items="${bottomBanners}">
+					<c:if test="${banner.active}">
+						<c:choose>
+							<c:when test="${banner.mediaType == 'image'}">
+								<li style="cursor:pointer;" onclick="<c:if test='${not empty banner.linkUrl}'>window.open('${banner.linkUrl}');</c:if>">
+									<img src="<c:url value='${banner.file.filePath}' />" alt="${banner.title}" />
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li style="cursor:pointer;" onclick="<c:if test='${not empty banner.linkUrl}'>window.open('${banner.linkUrl}');</c:if>">
+									<video style="width: 100%; height: 100%; object-fit: cover;" autoplay muted loop>
+										<source src="<c:url value='${banner.file.filePath}' />" type="video/mp4">
+									</video>
+								</li>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+				</c:forEach>
+				<c:if test="${empty bottomBanners}">
+					<li style="cursor:pointer;" onclick="javascript:window.open('https://uujj.co.kr/')"><img src="<c:url value='/resources/static/image/91_4ae4aa98549da64b395a1da5a5e8d54d.jpg' />" alt="완주군로컬잡센터" /></li>
+					<li style="cursor:pointer;" onclick="javascript:window.open('http://kwca.or.kr/')"><img src="<c:url value='/resources/static/image/99_3e4efb7dff3237bce19af1349eb27a71.jpg' />" alt="한국목조건축협회" /></li>
+					<li style="cursor:pointer;" onclick="javascript:window.open('http://www.phiko.kr/')"><img src="<c:url value='/resources/static/image/100_3f4cd2354ef6bf8781aee07cb4b8eb7a.jpg' />" alt="한국패시브협회" /></li>
+					<li style="cursor:pointer;" onclick="javascript:window.open('https://www.greendongwha.com/')"><img src="<c:url value='/resources/static/image/101_06282a19a2f989917ac497690986ede9.jpg' />" alt="동화자연마루" /></li>
+					<li style="cursor:pointer;" onclick="javascript:window.open('http://kwca.or.kr/')"><img src="<c:url value='/resources/static/image/102_020fd1226c2b0216b32b0350bff1ee85.jpg' />" alt="대한목조건축협회" /></li>
+					<li style="cursor:pointer;" onclick="javascript:window.open('https://www.jeonbuk.go.kr/')"><img src="<c:url value='/resources/static/image/102_020fd1226c2b0216b32b0350bff1ee85.jpg' />" alt="전라북도" /></li>
+				</c:if>
+			</ul>
 			<div class="arrow">
 				<p class="prev" id="bottom_slick_prev_btn"><span></span></p>
 				<p class="next" id="bottom_slick_next_btn"><span></span></p>

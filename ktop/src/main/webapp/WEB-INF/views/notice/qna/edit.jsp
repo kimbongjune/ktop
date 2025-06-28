@@ -186,10 +186,37 @@
 	 redrawAllFileRows();
 	});
 	
-	$('form[name="bwrite_form"]').on('submit', function () {
-	 $('#upload_input_hidden').remove();
-	 return true;
+	$('form[name="bwrite_form"]').on('submit', function (e) {
+	    const title = $('#title').val().trim();
+	    const content = $('#content').summernote('code');
+	    
+	    if (title === "") {
+	        alert("제목을 입력해 주세요.");
+	        $('#title').focus();
+	        e.preventDefault();
+	        return false;
+	    }
+	    
+	    if (isSummernoteContentEmpty(content)) {
+	        alert("내용을 입력해 주세요.");
+	        $('#content').focus();
+	        e.preventDefault();
+	        return false;
+	    }
+	    
+	    $('#upload_input_hidden').remove();
+	    return true;
 	});
+
+	function isSummernoteContentEmpty(html) {
+	    const hasImage = /<img\b[^>]*>/i.test(html);
+	    const text = html
+	        .replace(/<[^>]*>/gi, '')
+	        .replace(/&nbsp;/gi, '')
+	        .replace(/\u200B/g, '')
+	        .trim();
+	    return !hasImage && text === '';
+	}
 
 </script>
 <script src="<c:url value='/resources/static/js/jquery-ui.min.js' />"></script>

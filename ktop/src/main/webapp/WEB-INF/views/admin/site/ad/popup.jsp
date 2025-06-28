@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 		<div class="main_contents">
 			<div class="sub_top">
 				<h2>배너관리</h2>
@@ -14,12 +15,12 @@
 		<li ><a href="<c:url value='/admin/site/ad/bottom' />">하단배너</a></li>
 		<li ><a href="<c:url value='/admin/site/ad/middle' />">메인중간배너</a></li>
 	</ul>
-<a href="<c:url value='/admin/site/ad/write' />"><div class="ab_m ab_blue"><i class="fas fa-clone"></i>생성</div></a>
+<a href="<c:url value='/admin/site/ad/write?position=popup' />"><div class="ab_m ab_blue"><i class="fas fa-clone"></i>생성</div></a>
 
 <form name="search_form" method="post" action="#">
 <input type="hidden" name="gc" value="banner" />
 <div class="gsearch_box">
-	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>2</span></div>
+	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>${fn:length(bannerList)}</span></div>
 	<div class="gsearch">
 		<select name="sit">
 			<option value="banner_title" >배너명</option>
@@ -31,113 +32,94 @@
 </div>
 </form>
 
-<form name="admin_banner_listform" method="post" action="#">
-<input type="hidden" name="gc" value="banner" />
-<input type="hidden" name="do" value="update" />
-<input type="hidden" name="action" value="listupdate" />
-
 <table class="gtable">
 <colgroup>
-	<col style="width:80px;" />
-	<col style="width:80px;" />
-	<col style="width:80px;" />
 	<col style="width:80px;" />
 	<col style="width:120px;" />
 	<col style="width:20%;" />
 	<col />
+	<col style="width:80px;" />
 	<col style="width:120px;" />
 </colgroup>
 <thead>
 <tr>
     <th>번호</th>
-	<th>출력</th>
-	<th>순서</th>
-	<th>csort</th>
     <th>이미지</th>
     <th>배너명</th>
-    <th>배너정보</th>
+    <th>링크URL</th>
+	<th>출력여부</th>
     <th>작업</th>
 </tr>
 </thead>
 <tbody>
-		<tr>
-			<td class="center">2</td>
-			<td class="center"><input type="checkbox" name="a_gview[103]" value="1"  checked="checked" /></td>
-			<td class="center">
-				<a href="http://localhost:3000/gwizard/?gc=banner/update&action=sortup&banner_id=103"><p class="arr_top"></p></a> 
-				<a href="http://localhost:3000/gwizard/?gc=banner/update&action=sortdown&banner_id=103"><p class="arr_btm"></p></a>
-			</td>
-			<td class="center">1</td>
-			<td class="center">
-				<img src="http://localhost:3000/_data/guava_banner/thum/103_604ce8d405cb236e76776fd9aebcc9f9.jpg?t=1748055701" class="popimg_btns cursor w100" data-href="http://localhost:3000/gwizard/?gc=banner/image&file_id=guava_banner/103" alt="클릭시 큰 이미지" />
-			</td>
-			<td>
-				<span class="line"><input type="text" name="a_banner_title[103]" class="input_form w100" title="배너명" value="main02" /></span>
-				<input type="hidden" name="a_banner_id[103]" value="103" />
-			</td>
-			<td>
-				<dl>
-					<dt class="fl">링크URL :</dt>
-					<dd style="padding-left:70px;">
-						<input type="text" name="a_banner_link[103]" class="input_form w90" title="링크URL" value="" />
-					</dd>
-				</dl>
-				<dl class="mt5">
-					<dt class="fl">링크타입 :</dt>
-					<dd style="padding-left:70px;">
-						<select name="a_banner_target[103]">
-							<option value="">:선택:</option>
-													<option value="_self"  >현재창</option>
-													<option value="_blank"  >새창</option>
-												</select>
-					</dd>
-				</dl>
-			</td>
-			<td class="center"><a href="<c:url value='/admin/site/ad/edit/1' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m delete_btns Fix_FormBtns" data-href="/admin/site/ad/del/1">삭제</div></td>
-		</tr>
+	<c:choose>
+		<c:when test="${not empty bannerList}">
+			<c:forEach var="banner" items="${bannerList}" varStatus="status">
+				<tr>
+					<td class="center">${status.count}</td>
+					<td class="center">
+						<c:if test="${not empty banner.file}">
+							<img src="<c:url value='${banner.file.filePath}' />" class="popimg_btns cursor w100" alt="${banner.title}" style="max-width: 100px; max-height: 60px;" />
+						</c:if>
+						<c:if test="${empty banner.file}">
+							<span class="text-muted">이미지 없음</span>
+						</c:if>
+					</td>
+					<td>${banner.title}</td>
+					<td>
+						<c:choose>
+							<c:when test="${not empty banner.linkUrl}">
+								<a href="${banner.linkUrl}" target="_blank">${banner.linkUrl}</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td class="center">
+						<c:choose>
+							<c:when test="${banner.active}">
+								<span class="badge badge-success">출력</span>
+							</c:when>
+							<c:otherwise>
+								<span class="badge badge-secondary">미출력</span>
+							</c:otherwise>
+						</c:choose>
+					</td>
+					<td class="center">
+						<a href="<c:url value='/admin/site/ad/edit/${banner.id}' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;
+						<div class="ab_m delete_btns Fix_FormBtns" onclick="deleteBanner('${banner.id}')">삭제</div>
+					</td>
+				</tr>
+			</c:forEach>
+		</c:when>
+		<c:otherwise>
 			<tr>
-			<td class="center">1</td>
-			<td class="center"><input type="checkbox" name="a_gview[69]" value="1"  /></td>
-			<td class="center">
-				<a href="http://localhost:3000/gwizard/?gc=banner/update&action=sortup&banner_id=69"><p class="arr_top"></p></a> 
-				<a href="http://localhost:3000/gwizard/?gc=banner/update&action=sortdown&banner_id=69"><p class="arr_btm"></p></a>
-			</td>
-			<td class="center">2</td>
-			<td class="center">
-				<img src="http://localhost:3000/_data/guava_banner/thum/69_9a52280400449f191860cc30c4138cbd.jpg?t=1748055701" class="popimg_btns cursor w100" data-href="http://localhost:3000/gwizard/?gc=banner/image&file_id=guava_banner/69" alt="클릭시 큰 이미지" />
-			</td>
-			<td>
-				<span class="line"><input type="text" name="a_banner_title[69]" class="input_form w100" title="배너명" value="visual" /></span>
-				<input type="hidden" name="a_banner_id[69]" value="69" />
-			</td>
-			<td>
-				<dl>
-					<dt class="fl">링크URL :</dt>
-					<dd style="padding-left:70px;">
-						<input type="text" name="a_banner_link[69]" class="input_form w90" title="링크URL" value="" />
-					</dd>
-				</dl>
-				<dl class="mt5">
-					<dt class="fl">링크타입 :</dt>
-					<dd style="padding-left:70px;">
-						<select name="a_banner_target[69]">
-							<option value="">:선택:</option>
-													<option value="_self"  >현재창</option>
-													<option value="_blank"  >새창</option>
-												</select>
-					</dd>
-				</dl>
-			</td>
-			<td class="center"><a href="<c:url value='/admin/site/ad/edit/2' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m delete_btns Fix_FormBtns" data-href="<c:url value='/admin/site/ad/del/2' />">삭제</div></td>
-		</tr>
-	</tbody>
-</table>
+				<td colspan="6" class="center">등록된 배너가 없습니다.</td>
+			</tr>
+		</c:otherwise>
+	</c:choose>
+</tbody>
+		</table>
 
-<div class="pt20">
-	<button type="submit" class="ab_m ab_blue"><i class="fas fa-check-circle"></i>변경값 일괄수정</button>
-</div>
 
-</form>
+
+<script>
+function deleteBanner(id) {
+    if (confirm('정말 삭제하시겠습니까?')) {
+        axios.delete('<c:url value="/admin/site/ad/del/" />' + id)
+            .then(function(response) {
+                alert('삭제되었습니다.');
+                location.reload();
+            })
+            .catch(function(error) {
+                if (error.response && error.response.status === 409) {
+                    alert(error.response.data.message || '데이터 제약으로 인해 삭제할 수 없습니다.');
+                } else {
+                    alert('삭제 중 오류가 발생했습니다.');
+                }
+            });
+    }
+}
+</script>
 
 
 

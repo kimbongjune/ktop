@@ -24,11 +24,6 @@
 		<div class="web_size">  
 					<div class="sub_top">  
 				<h2>업체정보관리</h2>
-				<ul class="location">
-											<li class="home"><a href="<c:url value='/' />"></a></li>
-											<li><a href="<c:url value='/user/mypage' />" >MYPAGE</a></li>
-											<li class=""><a href="<c:url value='/user/company' />" >업체정보관리</a></li>
-														</ul>
 			</div> 
 		
 			<div class="sub_cont"> 
@@ -229,10 +224,11 @@ $('form[name="company_form"]').on('submit', function(e) {
         return;
     }
 	
-	if(isSummernoteContentEmpty(content)){
+	if(isSummernoteContentEmpty(descriptionHtml)){
 		alert("회사 소개문구를 작성해주세요");
 		$('#descriptionHtml').focus();
-		return;
+		e.preventDefault();
+		return false;
 	}
 });
 
