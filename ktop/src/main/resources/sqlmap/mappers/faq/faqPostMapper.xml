@@ -25,6 +25,25 @@
             </choose>
         </where>
         ORDER BY created_at DESC
+        <if test="pagination != null">
+            LIMIT #{pagination.size} OFFSET #{pagination.offset}
+        </if>
+    </select>
+    
+    <select id="selectFaqPostCount" parameterType="net.ktop.ktop.module.web.board.BoardPostSearchDto" resultType="int">
+        SELECT COUNT(*)
+        FROM faq_post
+        <where>
+            deleted_at IS NULL
+            <choose>
+                <when test="searchType == 'title' and keyword != null and keyword != ''">
+                    AND title LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="searchType == 'content' and keyword != null and keyword != ''">
+                    AND answer LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+            </choose>
+        </where>
     </select>
     
     <select id="selectFaqPostOne" parameterType="int" resultType="net.ktop.ktop.module.web.faq.FaqPostDto">

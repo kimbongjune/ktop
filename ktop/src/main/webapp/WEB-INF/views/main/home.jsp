@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div class="main_container">
 	<section class="main_visual">
 		<ul class="bxslider">
@@ -114,91 +116,33 @@
 
 	<section class="cont03"> 
 		<div class="web_size">
-			<p class="product_listbox_tit">BEST PRODUCT</p> 
+			<p class="product_listbox_tit">NEW PRODUCT</p> 
 			<div class="product_listbox">
 				<ul>
-									<li>
-						<a href="<c:url value='/material/1' />">
-						<figure><img src="<c:url value='/resources/static/image/10_d993e284b01d72f94ee687bde0a112bc.jpg' />" alt="구조재" /></figure>
-						<dl>
-							<dt>구조재</dt>
-							<dd><span>4,200</span>원</dd>
-						</dl>
-						</a>
-					</li>
-									<li>
-						<a href="<c:url value='/material/2' />">
-						<figure><img src="<c:url value='/resources/static/image/9_72c3f45f54419fa7e23313843cfbe245.jpg' />" alt="MALPESA 스페인 점토 벽돌" /></figure>
-						<dl>
-							<dt>MALPESA 스페인 점토 벽돌</dt>
-							<dd><span>850,000</span>원</dd>
-						</dl>
-						</a>
-					</li>
-									<li>
-						<a href="<c:url value='/material/3' />">
-						<figure><img src="<c:url value='/resources/static/image/8_eace7e11bc6db486105381f4ea1a2356.jpg' />" alt="유코 디자인 블록" /></figure>
-						<dl>
-							<dt>유코 디자인 블록</dt>
-							<dd><span>554,400</span>원</dd>
-						</dl>
-						</a>
-					</li>
-									<li>
-						<a href="<c:url value='/material/4' />">
-						<figure><img src="<c:url value='/resources/static/image/7_66fb8418a341adb9f2cd706140d80689.jpg' />" alt="세라믹사이딩" /></figure>
-						<dl>
-							<dt>세라믹사이딩</dt>
-							<dd><span>116,400</span>원</dd>
-						</dl>
-						</a>
-					</li>
-									<li>
-						<a href="<c:url value='/material/5' />">
-						<figure><img src="<c:url value='/resources/static/image/5_69328ada292c806a706bc58a9e0b025d.jpg' />" alt="판자" /></figure>
-						<dl>
-							<dt>판자</dt>
-							<dd><span>1,000</span>원</dd>
-						</dl>
-						</a>
-					</li>
-									<li>
-						<a href="<c:url value='/material/6' />">
-						<figure><img src="<c:url value='/resources/static/image/4_2d8924abdbc7901b27c5a74098a40abe.jpg' />" alt="메이플후로링" /></figure>
-						<dl>
-							<dt>메이플후로링</dt>
-							<dd><span>20,000</span>원</dd>
-						</dl>
-						</a>
-					</li>
-									<li>
-						<a href="<c:url value='/material/7' />">
-						<figure><img src="<c:url value='/resources/static/image/3_34263ccb7f1cf298aa9bc1d88457782a.jpg' />" alt="다용도 각목" /></figure>
-						<dl>
-							<dt>다용도 각목</dt>
-							<dd><span>3,000</span>원</dd>
-						</dl>
-						</a>
-					</li>
-									<li>
-						<a href="<c:url value='/material/8' />">
-						<figure><img src="<c:url value='/resources/static/image/2_6c333a1c784ce2eba633064d02e1d19e.jpg' />" alt="목재루바" /></figure>
-						<dl>
-							<dt>목재루바</dt>
-							<dd><span>71,500</span>원</dd>
-						</dl>
-						</a>
-					</li>
-									<li>
-						<a href="<c:url value='/material/9' />">
-						<figure><img src="<c:url value='/resources/static/image/1_ed786adada6544e1c9f1a879369473ab.jpg' />" alt="오렌지 목재" /></figure>
-						<dl>
-							<dt>오렌지 목재</dt>
-							<dd><span>5,000</span>원</dd>
-						</dl>
-						</a>
-					</li>
-							</div>		
+					<c:forEach var="product" items="${newProducts}" varStatus="status">
+						<c:if test="${status.index < 9}">
+							<li>
+								<a href="<c:url value='/material/${product.id}' />">
+									<figure>
+										<c:choose>
+											<c:when test="${not empty product.materialFile and not empty product.materialFile.file}">
+												<img src="<c:url value='${product.materialFile.file.filePath}' />" alt="${product.name}" />
+											</c:when>
+											<c:otherwise>
+												<img src="<c:url value='/resources/static/image/10_d993e284b01d72f94ee687bde0a112bc.jpg' />" alt="${product.name}" />
+											</c:otherwise>
+										</c:choose>
+									</figure>
+									<dl>
+										<dt>${product.name}</dt>
+										<dd><span><fmt:formatNumber value="${product.price}" pattern="#,###" /></span>원</dd>
+									</dl>
+								</a>
+							</li>
+						</c:if>
+					</c:forEach>
+				</ul>
+			</div>		
 		</div>
 	</section>
 
@@ -208,39 +152,36 @@
 			<div class="main_people"> 
 				<div class="main_people_tit">
 					<div class="main_people_tit_txt">
-						<span>믿을 수 있는&nbsp;</span>건축 전문가
+						<span>믿을 수 있는&nbsp;</span>전문가
 						<p>포트폴리오를 보고 나에게 딱 맞는<br />전문가를 만나보세요!</p>
 					</div>
 					<div class="main_people_tit_btn01"><a href="<c:url value='/workforce' />"><div class="main_people_tit_btn">더보기</div></a></div>
                 </div>
 
 				<div class="main_people_cont">
-				<ul>
-									<li> 
-					<a href="<c:url value='/workforce/1' />">
-						<div class="main_people_cont_thum"><img src="<c:url value='/resources/static/image/4_2d8924abdbc7901b27c5a74098a40abec.jpg' />" alt="멋쟁이목수" /></div>
-						<p>[목수] 멋쟁이목수</p>
-					 
-						
-					</a>
-					</li>
-									<li> 
-					<a href="<c:url value='/workforce/2' />">
-						<div class="main_people_cont_thum"><img src="<c:url value='/resources/static/image/3_34263ccb7f1cf298aa9bc1d88457782a.jpg' />" alt="홍길동" /></div>
-						<p>[목수, 철거, 설비, 도장, 조적] 홍길동</p>
-					 
-						
-					</a>
-					</li>
-									<li> 
-					<a href="<c:url value='/workforce/2' />">
-						<div class="main_people_cont_thum"><img src="<c:url value='/resources/static/image/2_6c333a1c784ce2eba633064d02e1d19ec.jpg' />" alt="asdf" /></div>
-						<p>[목수, 철거, 미장, 조적] asdf</p>
-					 
-						
-					</a>
-					</li>
-								</ul>
+					<ul>
+						<c:forEach var="expert" items="${experts}" varStatus="status">
+							<c:if test="${status.index < 3}">
+								<li> 
+									<a href="<c:url value='/workforce/${expert.userId}' />">
+										<div class="main_people_cont_thum">
+											<c:choose>
+												<c:when test="${not empty expert.workerFileList and fn:length(expert.workerFileList) > 0 and not empty expert.workerFileList[0].file}">
+													<img src="<c:url value='${expert.workerFileList[0].file.filePath}'/>" alt="${expert.name}" />
+												</c:when>
+												<c:otherwise>
+													<img src="<c:url value='/resources/static/image/4_2d8924abdbc7901b27c5a74098a40abec.jpg' />" alt="${expert.name}" />
+												</c:otherwise>
+											</c:choose>
+										</div>
+										<p>
+											[<c:forEach var="field" items="${expert.fieldList}" varStatus="fieldStatus">${field.fieldName}<c:if test="${!fieldStatus.last}">, </c:if></c:forEach>] ${expert.name}
+										</p>
+									</a>
+								</li>
+							</c:if>
+						</c:forEach>
+					</ul>
 				</div> 
 				<div class="main_people_tit_btn02"><a href="<c:url value='/workforce' />"><div class="main_people_tit_btn">더보기</div></a> </div>
 			</div> 
@@ -263,57 +204,25 @@
 
 <!-- 리스트 -->
 <ul class="notice_item multiboard_content_5" >
-		<li>
-				<a href="<c:url value='/notice/1' />">
-		
-		<dl>
-			<dt>홈페이지가 새롭게 오픈되었습니다</dt>
-			<dd>2022.08.05</dd>
- 
-		</dl>
-
-		</a>
-	</li>
-		<li>
-				<a href="<c:url value='/notice/2' />">
-		
-		<dl>
-			<dt>농어촌일자리플러스 교육 참가자 모집 및 채용한마당 공고</dt>
-			<dd>2022.05.20</dd>
- 
-		</dl>
-
-		</a>
-	</li>
-		<li>
-				<a href="<c:url value='/notice/3' />">
-		
-		<dl>
-			<dt>2022년 도농상생형 완주군로컬잡(JOB)센터 일자리 체험 프로그램 참가자 모집</dt>
-			<dd>2022.05.20</dd>
- 
-		</dl>
-
-		</a>
-	</li>
-		<li>
-				<a href="<c:url value='/notice/4' />">
-		
-		<dl>
-			<dt>장수군로컬job센터, 2022년도 고용복지플러스센터 출장소 운영</dt>
-			<dd>2022.05.20</dd>
- 
-		</dl>
-
-		</a>
-	</li>
-	</ul>
+	<c:forEach var="notice" items="${notices}" varStatus="status">
+		<c:if test="${status.index < 4}">
+			<li>
+				<a href="<c:url value='/notice/${notice.id}' />">
+					<dl>
+						<dt>${notice.title}</dt>
+						<dd>${fn:substring(notice.createdAt, 0, 10)}</dd>
+					</dl>
+				</a>
+			</li>
+		</c:if>
+	</c:forEach>
+</ul>
 <!-- 리스트 -->
 				</div>
 			</div>
 
 			<div class="cont05_center">
-				<a href="<c:url value='/workforce/guide' />"> 
+				<a href="<c:url value='/workforce/mine' />"> 
 				<div class="main_people_bn">
 					<div class="main_people_bn_tit">인력 POOL <span>등록</span> <p>새로운 클라이언트를 만나는 <br />가장 손쉬운 방법!</p></div>
 					<div class="main_people_bn_btn">바로가기</div>
@@ -325,12 +234,12 @@
 				<div class="main_faq">
 					<div class="main_faq_tit"><a href="<c:url value='/notice/faq' />">자주묻는 질문</a></div>
 					<ul class="main_faq_cont">
-						<a href="<c:url value='/notice/faq#1' />"><li>협력업체 등록방법</li></a>
-						<a href="<c:url value='/notice/faq#2' />"><li>인재POOL 등록방법</li></a>
-						<a href="<c:url value='/notice/faq#3' />"><li>회원가입 안내</li></a>
-						<a href="<c:url value='/notice/faq#4' />"><li>이용안내</li></a>
-						<a href="<c:url value='/notice/faq#5' />"><li>기타</li></a> 
-					</ul> 
+						<c:forEach var="faq" items="${faqs}" varStatus="status">
+							<c:if test="${status.index < 6}">
+								<a href="<c:url value='/notice/faq#${faq.id}' />"><li>${faq.title}</li></a>
+							</c:if>
+						</c:forEach>
+					</ul>
 				</div> 
 			</div> 
 		</div> 

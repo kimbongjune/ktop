@@ -1,4 +1,4 @@
-package net.ktop.ktop.module.web.admin.workforce.workfield;
+package net.ktop.ktop.module.web.workforce.workfield;
 
 import java.util.List;
 
@@ -7,21 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AdminWorkFieldRepository {
+public class WorkFieldRepository {
 	private final SqlSessionTemplate template;
 	
-	private final static String MAPPER_NAME = "adminWorkFieldMapper.";
+	private final static String MAPPER_NAME = "workFieldMapper.";
 
 	@Autowired
-	public AdminWorkFieldRepository(SqlSessionTemplate template) {
+	public WorkFieldRepository(SqlSessionTemplate template) {
 		this.template = template;
 	}
    
-	public int addWorkField(AdminWorkFieldDto dto) {
+	public int addWorkField(WorkFieldDto dto) {
 		return template.insert(MAPPER_NAME+"inserWorkField", dto);
 	}
 	
-	public List<AdminWorkFieldDto> getAllWorkField() {
+	public List<WorkFieldDto> getAllWorkField() {
 		return template.selectList(MAPPER_NAME+"selectWorkFieldAll");
 	}
 	
@@ -29,11 +29,7 @@ public class AdminWorkFieldRepository {
 		return template.delete(MAPPER_NAME+"deleteWorkFieldOne", id);
 	}
 	
-	public int updateWorkField(AdminWorkFieldDto dto) {
+	public int updateWorkField(WorkFieldDto dto) {
 		return template.update(MAPPER_NAME+"updateWorkField", dto);
 	}
-	
-	public int updateChildrenWorkField(AdminWorkFieldDto dto) {
-		return template.update(MAPPER_NAME+"updateChildActives", dto);
-	}
-}
+} 

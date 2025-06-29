@@ -30,6 +30,11 @@ public class AdBannerServiceImpl implements AdBannerService {
     }
     
     @Override
+    public int selectAdBannerCount(AdBannerDto dto) {
+        return repository.selectAdBannerCount(dto);
+    }
+    
+    @Override
     public AdBannerDto selectAdBannerOne(Long id) {
         return repository.selectAdBannerOne(id);
     }

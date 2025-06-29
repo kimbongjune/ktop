@@ -51,7 +51,7 @@
 		<dl>
 			<dt>사업자등록증 사본</dt>
 			<dd>
-				<a class="ahref_btns cursor" href="<c:url value='/download?id=${partner.companyFileList[0].file.id}' />">
+				<a class="ahref_btns cursor" href="<c:url value='/file/download?id=${partner.companyFileList[0].file.id}' />">
 					<i class="fas fa-paperclip"></i> 
 					<span class="fname">${partner.companyFileList[0].file.originalName}</span> 
 					<span class="fsize">(${partner.companyFileList[0].file.fileSizeNumber}

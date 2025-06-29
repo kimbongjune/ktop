@@ -50,7 +50,7 @@
 		<dl>
 			<dt>사업자등록증 사본</dt>
 			<dd>
-				<a class="ahref_btns cursor" href="<c:url value='/download?id=${partner.companyFileList[0].file.id}' />">
+				<a class="ahref_btns cursor" href="<c:url value='/file/download?id=${partner.companyFileList[0].file.id}' />">
 					<i class="fas fa-paperclip"></i> 
 					<span class="fname">${partner.companyFileList[0].file.originalName}</span> 
 					<span class="fsize">(${partner.companyFileList[0].file.fileSizeNumber}
@@ -61,9 +61,9 @@
 	</div>
 </div>
 
-<ul class="tabmenu01">
+	<ul class="tabmenu01">
 		<li><a href="<c:url value='/admin/partner/${partner.id}/${partner.categoryId}' />">심사</a></li>
-		<li class="on"><a href="<c:url value='/admin/partner/${partner.id}/${partner.categoryId}/product' />">등록제품</a></li>
+		<li class="on"><a href="<c:url value='/admin/partner/${partner.id}/${partner.categoryId}/product' />">등록제품 (총 ${pagination.totalCount}건)</a></li>
 	</ul>
 <table width="100%" class="gtable">
 <colgroup>
@@ -110,6 +110,9 @@
 </c:forEach>
 </tbody>
 </table>
+
+<!-- 페이징 -->
+<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
 
 <div class="pt20 center">
 	<a href="<c:url value='/admin/partner' />"><div class="ab_m"><i class="fas fa-th-list"></i>목록</div></a>

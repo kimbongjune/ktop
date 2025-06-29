@@ -22,5 +22,7 @@ public interface WorkerService {
 	
 	List<WorkerDto> selectWorkerList(WorkerDto dto);
 	
+	int selectWorkerCount(WorkerDto dto);
+	
 	WorkerDto selectWorkerOne(WorkerDto dto);
 }

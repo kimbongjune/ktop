@@ -73,7 +73,7 @@
 			<li class="grid_area"> 
 				<dl>
 					<dt>포트폴리오</dt>
-					<dd><a class="ahref_btns cursor" style="color:black;" href="<c:url value='/download?id=${worker.workerFileList[1].file.id}' />"><i class="fas fa-paperclip"></i> <span class="fname">${worker.workerFileList[1].file.originalName}</span> <span class="fsize">(${worker.workerFileList[1].file.fileSizeNumber} <span class="fpilsu">${worker.workerFileList[1].file.fileSizeUnit}</span>)</span></a>
+					<dd><a class="ahref_btns cursor" style="color:black;" href="<c:url value='/file/download?id=${worker.workerFileList[1].file.id}' />"><i class="fas fa-paperclip"></i> <span class="fname">${worker.workerFileList[1].file.originalName}</span> <span class="fsize">(${worker.workerFileList[1].file.fileSizeNumber} <span class="fpilsu">${worker.workerFileList[1].file.fileSizeUnit}</span>)</span></a>
 </dd>
 				</dl>
 			</li> 

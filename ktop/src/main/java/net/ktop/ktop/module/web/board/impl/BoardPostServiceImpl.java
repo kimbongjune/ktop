@@ -34,6 +34,11 @@ public class BoardPostServiceImpl implements BoardPostService {
 	}
 
 	@Override
+	public int selectBoardPostCount(BoardPostSearchDto dto) {
+		return boardPostRepository.selectBoardPostCount(dto);
+	}
+
+	@Override
 	public int insertBoardPost(BoardPostDto dto) {
 		return boardPostRepository.insertBoardPost(dto);
 	}

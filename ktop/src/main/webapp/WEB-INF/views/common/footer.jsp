@@ -23,12 +23,10 @@
 		</div>
 	</footer>
 
-<script src="<c:url value='/resources/static/js/common.js' />"></script>
-<script src="<c:url value='/resources/static/js/layout.js' />"></script>
-<script src="<c:url value='/resources/static/js/main.js' />"></script>
-<script src="<c:url value='/resources/static/js/guava.js' />"></script>
-<script src="<c:url value='/resources/static/js/wrest.js' />"></script>
-	
-
+	<script src="<c:url value='/resources/static/js/common.js' />"></script>
+	<script src="<c:url value='/resources/static/js/layout.js' />"></script>
+	<script src="<c:url value='/resources/static/js/main.js' />"></script>
+	<script src="<c:url value='/resources/static/js/guava.js' />"></script>
+	<script src="<c:url value='/resources/static/js/wrest.js' />"></script>
 </body>
 </html>

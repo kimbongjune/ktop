@@ -34,6 +34,10 @@ public class PartnerCompanyRepository {
 		return template.selectList(MAPPER_NAME + "getPartnerCompanyList", dto);
 	}
 	
+	public int selectPartnerCompanyCount(PartnerCompanyDto dto) {
+		return template.selectOne(MAPPER_NAME + "selectPartnerCompanyCount", dto);
+	}
+	
 	public int getPartnerCompanyCount(PartnerCompanyDto dto) {
 		return template.selectOne(MAPPER_NAME + "getPartnerCompanyCount", dto);
 	}

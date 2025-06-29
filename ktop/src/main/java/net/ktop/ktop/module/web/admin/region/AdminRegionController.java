@@ -8,23 +8,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import net.ktop.ktop.module.web.admin.category.AdminSiteCategoryDto;
+import net.ktop.ktop.module.web.region.RegionService;
+import net.ktop.ktop.module.web.region.RegionDto;
 
 @Controller
 @RequestMapping("/admin/region")
 public class AdminRegionController {
 	
 	@Autowired
-	private final AdminRegionService service;
+	private final RegionService service;
 	
-    public AdminRegionController(AdminRegionService service) {
+    public AdminRegionController(RegionService service) {
 		this.service = service;
 	}
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String regionIndex(Model model) {
         model.addAttribute("activeMenu", "region");
-        List<AdminRegionDto> regionList = service.getAllRegion();
+        List<RegionDto> regionList = service.getAllRegion();
         model.addAttribute("regionList", regionList);
         
         System.out.println(regionList);
@@ -33,7 +34,7 @@ public class AdminRegionController {
     
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<AdminRegionDto> siteRegionAdd(Model model, @RequestBody AdminRegionDto dto) {
+    public ResponseEntity<RegionDto> siteRegionAdd(Model model, @RequestBody RegionDto dto) {
     	service.addRegion(dto);
         return ResponseEntity.ok(dto);
     }
@@ -47,7 +48,7 @@ public class AdminRegionController {
     
     @RequestMapping(value = "/mod", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> siteRegionMod(Model model, @RequestBody AdminRegionDto dto) {
+    public ResponseEntity<?> siteRegionMod(Model model, @RequestBody RegionDto dto) {
     	int result = service.updateRegion(dto);
         return ResponseEntity.ok(result);
     }

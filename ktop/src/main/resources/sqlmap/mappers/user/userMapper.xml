@@ -72,7 +72,7 @@
 	    )
 	</insert>
 	
-	<update id="updateUser" parameterType="net.ktop.ktop.module.web.user.UserDto">
+	<update id="updateUser" parameterType="UserDto">
 	    UPDATE users
 	    <set>
 	        <if test="password != null and password != ''">

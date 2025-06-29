@@ -41,7 +41,7 @@
 
 
 <div class="board_search">
-	<p class="ginfo">전체 <span>${fn:length(boards)}</span>건</p>
+	<p class="ginfo">전체 <span>${pagination.totalCount}</span>건</p>
 
 	<dl>
 		<form name="search_form" method="get" action="">
@@ -115,6 +115,9 @@
 	</div>
 
 </div>
+
+<!-- 페이징 -->
+<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
 
 
 

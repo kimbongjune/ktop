@@ -28,4 +28,16 @@ public class CategoryRepository {
 	public boolean isTopLevelCategory(int id) {
 		return template.selectOne(MAPPER_NAME+"isTopLevelCategory", id);
 	}
+	
+	public int addCategory(CategoryDto dto) {
+		return template.insert(MAPPER_NAME+"insertCategory", dto);
+	}
+	
+	public int deleteCategory(int id) {
+		return template.delete(MAPPER_NAME+"deleteCategoryOne", id);
+	}
+	
+	public int updateCategory(CategoryDto dto) {
+		return template.update(MAPPER_NAME+"updateCategory", dto);
+	}
 }

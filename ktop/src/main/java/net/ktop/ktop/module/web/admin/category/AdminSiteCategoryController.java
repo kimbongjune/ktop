@@ -8,14 +8,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import net.ktop.ktop.module.web.category.CategoryService;
+import net.ktop.ktop.module.web.category.CategoryDto;
+
 @Controller
 @RequestMapping("/admin/site/category")
 public class AdminSiteCategoryController {
 	
 	@Autowired
-	private final AdminSiteCategoryService service;
+	private final CategoryService service;
 	
-    public AdminSiteCategoryController(AdminSiteCategoryService service) {
+    public AdminSiteCategoryController(CategoryService service) {
 		this.service = service;
 	}
 
@@ -24,7 +27,7 @@ public class AdminSiteCategoryController {
         model.addAttribute("activeMenu", "site");
         model.addAttribute("activeSubMenu", "category");
         
-        List<AdminSiteCategoryDto> categoryList = service.getAllCategory();
+        List<CategoryDto> categoryList = service.getAllCategory();
         
         model.addAttribute("categoryList", categoryList);
         System.out.println(categoryList);
@@ -34,7 +37,7 @@ public class AdminSiteCategoryController {
     
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<AdminSiteCategoryDto> siteCategoryAdd(Model model, @RequestBody AdminSiteCategoryDto dto) {
+    public ResponseEntity<CategoryDto> siteCategoryAdd(Model model, @RequestBody CategoryDto dto) {
     	service.addCategory(dto);
         return ResponseEntity.ok(dto);
     }
@@ -48,7 +51,7 @@ public class AdminSiteCategoryController {
     
     @RequestMapping(value = "/mod", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> siteCategoryMod(Model model, @RequestBody AdminSiteCategoryDto dto) {
+    public ResponseEntity<?> siteCategoryMod(Model model, @RequestBody CategoryDto dto) {
     	int result = service.updateCategory(dto);
         return ResponseEntity.ok(result);
     }

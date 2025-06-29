@@ -64,7 +64,9 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/{category}",  method = {RequestMethod.GET})
-	public String category(@PathVariable("category") int category, Model model, @AuthenticationPrincipal CustomUserDetails user) {
+	public String category(@PathVariable("category") int category, Model model, @AuthenticationPrincipal CustomUserDetails user,
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "12") int size) {
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
 		boolean isTopLevelCategory = categoryService.isTopLevelCategory(category);
 		
@@ -72,6 +74,13 @@ public class CategoryController {
 		partnerCompanyDto.setCategoryId(category+"");
 		partnerCompanyDto.setTopLevel(isTopLevelCategory);
 		partnerCompanyDto.setStatus("approved");
+		partnerCompanyDto.setPage(page);
+		partnerCompanyDto.setSize(size);
+		
+		// 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = partnerCompanyService.selectPartnerCompanyCount(partnerCompanyDto);
+		partnerCompanyDto.getPagination().setTotalCount(totalCount);
+		
 		List<PartnerCompanyDto> partnerList = partnerCompanyService.getPartnerCompanyList(partnerCompanyDto);
 		System.out.println(partnerList.size());
 		
@@ -80,6 +89,8 @@ public class CategoryController {
 		model.addAttribute("categoryNum", category);
 		model.addAttribute("categorySubList", list);
 		model.addAttribute("partnerList", partnerList);
+		model.addAttribute("pagination", partnerCompanyDto.getPagination());
+		model.addAttribute("searchDto", partnerCompanyDto);
 		
 		return "category/category";
 	}
@@ -125,10 +136,19 @@ public class CategoryController {
 	public String material(@PathVariable("category") int category,
 	                           @AuthenticationPrincipal CustomUserDetails user,
 	                           MaterialDto dto,
+	                           @RequestParam(value = "page", defaultValue = "1") int page,
+							   @RequestParam(value = "size", defaultValue = "10") int size,
 	                           Model model) {
 		dto.setPartnerId(user.getUsername());
 		dto.setCategoryId(category);
+		dto.setPage(page);
+		dto.setSize(size);
+		
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
+		
+		// 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = materialService.selectMaterialCount(dto);
+		dto.getPagination().setTotalCount(totalCount);
 		
 		List<MaterialDto> materials = materialService.selectMaterialList(dto);
 		
@@ -138,6 +158,8 @@ public class CategoryController {
 		model.addAttribute("categoryNum", category);
 		model.addAttribute("materialList", materialList);
 		model.addAttribute("materials", materials);
+		model.addAttribute("pagination", dto.getPagination());
+		model.addAttribute("searchDto", dto);
 		return "product/product";
 	}
 	
@@ -190,6 +212,9 @@ public class CategoryController {
 		
 		List<AdminMaterialDto> materialList = adminMaterialService.getAllMaterial();
 		MaterialDto material = materialService.selectMaterialOne(id);
+		if(material == null) {
+			return "error/404";
+		}
 		
 		model.addAttribute("categorySubList", list);
 		model.addAttribute("categoryNum", category);
@@ -206,6 +231,15 @@ public class CategoryController {
 							   @RequestParam(value = "delFile", required = false) String delFile,
 	                           @AuthenticationPrincipal CustomUserDetails user,
 	                           Model model) throws IOException {
+		// 권한 체크: 자료 조회 후 작성자 확인
+		MaterialDto existingMaterial = materialService.selectMaterialOne(id);
+		if(existingMaterial == null) {
+			return "error/404";
+		}
+		if(user == null || !existingMaterial.getPartnerId().equals(user.getUsername())) {
+			return "error/404";
+		}
+		
 		dto.setId(id);
 		materialService.updateMaterial(dto);
 		
@@ -224,7 +258,16 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value = "/{category}/material/delete/{id}", method = RequestMethod.POST)
-	public String materialDelete(@PathVariable("category") int category,  @PathVariable("id") int id) {
+	public String materialDelete(@PathVariable("category") int category, @PathVariable("id") int id, @AuthenticationPrincipal CustomUserDetails user) {
+		// 권한 체크: 자료 조회 후 작성자 확인
+		MaterialDto existingMaterial = materialService.selectMaterialOne(id);
+		if(existingMaterial == null) {
+			return "error/404";
+		}
+		if(user == null || !existingMaterial.getPartnerId().equals(user.getUsername())) {
+			return "error/404";
+		}
+		
 		materialService.deleteMaterial(id);
 		return "redirect:/category/" + category + "/material";
 	}

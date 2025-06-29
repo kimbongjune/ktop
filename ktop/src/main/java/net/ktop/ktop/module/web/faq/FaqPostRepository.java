@@ -23,6 +23,10 @@ public class FaqPostRepository {
 		return template.selectList(MAPPER_NAME + "selectFaqPostList", dto);
 	}
 	
+	public int selectFaqPostCount(BoardPostSearchDto dto) {
+		return template.selectOne(MAPPER_NAME + "selectFaqPostCount", dto);
+	}
+	
 	public FaqPostDto selectFaqPostOne(int id) {
 		return template.selectOne(MAPPER_NAME + "selectFaqPostOne", id);
 	}

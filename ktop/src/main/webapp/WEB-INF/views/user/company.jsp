@@ -80,7 +80,7 @@
 											<dl>
 												<dt>사업자등록증</dt>
 												<dd>
-													<a class="cursor" style="color: black;" href="<c:url value='/download?id=${company.companyFileList[0].file.id}' />">
+													<a class="cursor" style="color: black;" href="<c:url value='/file/download?id=${company.companyFileList[0].file.id}' />">
 														<i class="fas fa-paperclip"></i> 
 														<span class="fname">${company.companyFileList[0].file.originalName}</span>
 														<span class="fsize">(${company.companyFileList[0].file.fileSizeNumber}

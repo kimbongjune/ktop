@@ -29,6 +29,20 @@ $(window).resize(function() {
 
 $(function() {
 
+	// CSRF 토큰 설정
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	
+	if (token && header) {
+		$(document).ajaxSend(function(e, xhr, options) {
+			if (options.type.toUpperCase() === "POST" || 
+				options.type.toUpperCase() === "PUT" || 
+				options.type.toUpperCase() === "DELETE") {
+				xhr.setRequestHeader(header, token);
+			}
+		});
+	}
+
 	// 높이 저장 이벤트 (리스트)
 	if($('.Fix_ListBtns').length) {
 		$('.Fix_ListBtns').click(function(e) {

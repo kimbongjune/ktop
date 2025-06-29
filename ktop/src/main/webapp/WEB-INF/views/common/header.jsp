@@ -9,6 +9,8 @@
 <meta name="keywords" content="건축자재포털" />
 <meta name="description" content="건축자재포털" />
 <meta name="format-detection" content="telephone=no" />
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>건축자재포털</title>
 <link rel="stylesheet" href="<c:url value='/resources/static/css/common.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/css/layout.css' />">
@@ -65,9 +67,19 @@
 						<p>
 							<a href="<c:url value='/' />"><i class="mbmenu_top_icon06"></i><br />협력사 신청</a>
 						</p>
+						<sec:authorize access="isAnonymous()">
 						<p>
 							<a href="<c:url value='/user/login' />"><i class="mbmenu_top_icon01"></i><br />로그인</a>
 						</p>
+						</sec:authorize>
+						<sec:authorize access="isAuthenticated()">
+						<p>
+							<form action="<c:url value='/logout' />" method="post" style="display:inline;">
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+								<button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;font:inherit;"><i class="mbmenu_top_icon01"></i><br />로그아웃</button>
+							</form>
+						</p>
+						</sec:authorize>
 						<p>
 							<a href="<c:url value='/user/signup' />"><i class="mbmenu_top_icon03"></i><br />회원가입</a>
 						</p>
@@ -122,7 +134,10 @@
 						</sec:authorize> 
 						
 						<sec:authorize access="isAuthenticated()">
-							<a href="<c:url value='/logout' />">로그아웃</a>
+							<form action="<c:url value='/logout' />" method="post" style="display:inline;">
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+								<button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;font:inherit;text-decoration:underline;">로그아웃</button>
+							</form>
 						</sec:authorize>
 						
 					</li>

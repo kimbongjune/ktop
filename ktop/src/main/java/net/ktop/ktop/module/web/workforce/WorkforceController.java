@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import net.ktop.ktop.module.security.CustomUserDetails;
 import net.ktop.ktop.module.util.file.FileDto;
 import net.ktop.ktop.module.util.file.FileService;
-import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldDto;
-import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldService;
+import net.ktop.ktop.module.web.workforce.workfield.WorkFieldDto;
+import net.ktop.ktop.module.web.workforce.workfield.WorkFieldService;
 import net.ktop.ktop.module.web.company.file.CompanyFileDto;
 import net.ktop.ktop.module.web.region.RegionDto;
 import net.ktop.ktop.module.web.region.RegionService;
@@ -31,25 +31,34 @@ import net.ktop.ktop.module.web.workforce.workerfield.WorkerFieldDto;
 @RequestMapping("/workforce")
 public class WorkforceController {
 	
-	private final AdminWorkFieldService adminWorkFieldService;
+	private final WorkFieldService workFieldService;
 	private final RegionService regionService;
 	private final WorkerService workerService;
 	private final FileService fileService;
 	
 	@Autowired
-	public WorkforceController(AdminWorkFieldService adminWorkFieldService, RegionService regionService, WorkerService workerService, FileService fileService) {
-		this.adminWorkFieldService = adminWorkFieldService;
+	public WorkforceController(WorkFieldService workFieldService, RegionService regionService, WorkerService workerService, FileService fileService) {
+		this.workFieldService = workFieldService;
 		this.regionService = regionService;
 		this.workerService = workerService;
 		this.fileService = fileService;
 	}
 
 	@RequestMapping(value = "", method = {RequestMethod.GET})
-	public String workforce(Model model, @ModelAttribute WorkerDto dto) {
-		List<AdminWorkFieldDto> workFieldList = adminWorkFieldService.getAllWorkField();
+	public String workforce(Model model, @ModelAttribute WorkerDto dto,
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "12") int size) {
+		List<WorkFieldDto> workFieldList = workFieldService.getAllWorkField();
 		List<RegionDto> regionList = regionService.getAllRegion();
 		
 		dto.setStatus("approved");
+		dto.setPage(page);
+		dto.setSize(size);
+		
+		// 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = workerService.selectWorkerCount(dto);
+		dto.getPagination().setTotalCount(totalCount);
+		
 		List<WorkerDto> worker = workerService.selectWorkerList(dto);
 		
 		model.addAttribute("regionList", regionList);
@@ -58,6 +67,8 @@ public class WorkforceController {
 		model.addAttribute("fieldId", dto.getFieldId());
 		model.addAttribute("regionId", dto.getRegionId());
 		model.addAttribute("workers", worker);
+		model.addAttribute("pagination", dto.getPagination());
+		model.addAttribute("searchDto", dto);
 		return "workforce/workforces";
 	}
 	
@@ -66,6 +77,9 @@ public class WorkforceController {
 		WorkerDto dto = new WorkerDto();
 		dto.setUserId(id);
 		WorkerDto worker = workerService.selectWorkerOne(dto);
+		if(worker == null) {
+			return "error/404";
+		}
 		model.addAttribute("worker", worker);
 		model.addAttribute("menuCategory", "workforce");
 		return "workforce/workforce";
@@ -84,7 +98,7 @@ public class WorkforceController {
 	
 	@RequestMapping(value = "/regist", method = {RequestMethod.GET})
 	public String workforceRegist(Model model) {
-		List<AdminWorkFieldDto> workFieldList = adminWorkFieldService.getAllWorkField();
+		List<WorkFieldDto> workFieldList = workFieldService.getAllWorkField();
 		List<RegionDto> regionList = regionService.getAllRegion();
 		
 		model.addAttribute("regionList", regionList);
@@ -128,7 +142,7 @@ public class WorkforceController {
 	
 	@RequestMapping(value = "/edit", method = {RequestMethod.GET})
 	public String workforceEdit(Model model, @AuthenticationPrincipal CustomUserDetails user) {
-		List<AdminWorkFieldDto> workFieldList = adminWorkFieldService.getAllWorkField();
+		List<WorkFieldDto> workFieldList = workFieldService.getAllWorkField();
 		List<RegionDto> regionList = regionService.getAllRegion();
 		WorkerDto dto = null;
 		if(user != null) {

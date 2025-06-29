@@ -41,6 +41,7 @@
 <!-- <h4>업체정보 수정</h4> -->
 
 <form name="company_form" method="post" enctype="multipart/form-data" action="">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <table class="gtable">
 <colgroup>
 	<col style="width:15%;" />

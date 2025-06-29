@@ -64,7 +64,7 @@
 			<div class="txt">
 				<ul>
 					<c:forEach var="file" items="${board.boardFileList}">
-						<a class="ahref_btns cursor" style="color:#797979; display:block" href="<c:url value='/download?id=${file.file.id}' />">
+						<a class="ahref_btns cursor" style="color:#797979; display:block" href="<c:url value='/file/download?id=${file.file.id}' />">
 							<i class="fas fa-paperclip"></i> 
 							<span class="fname">${file.file.originalName}</span> 
 							<span class="fsize">(${file.file.fileSizeNumber} <span class="fpilsu">${file.file.fileSizeUnit}</span>)</span>
@@ -80,6 +80,7 @@
 	<div class="btn_wrap">
 					<a href="<c:url value='/notice/edit/${board.id}' />"><div class="fl bbs_btn02">수정</div></a>
 			<form method="post" action="<c:url value='/notice/delete/${board.id}' />" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<input type="hidden" value="${board.userId}" name="userId">
 			    <button type="submit" class="fl bbs_btn02 delete_btns">삭제</button>
 			</form>

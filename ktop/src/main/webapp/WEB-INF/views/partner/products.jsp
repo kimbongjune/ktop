@@ -41,7 +41,7 @@
 </ul>
  
 <div class="company_view_h4">
-	<div class="company_list_top_txt">총 <strong>${fn:length(materials)}</strong>개의 상품이 있습니다.</div>
+	<div class="company_list_top_txt">총 <strong>${pagination.totalCount}</strong>개의 상품이 있습니다.</div>
 	<div class="company_view_product_search"> 
 		<form method="get" name="search" action="<c:url value='' />" >
 			<%-- <select name="searchType" title="검색 옵션">
@@ -79,6 +79,8 @@
 </ul>
 </div>
 
+<!-- 페이징 -->
+<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
 
 <div class="pt40 center">
 	<a href="<c:url value='/category/${categoryNum}' />"><div class="bbs_btn01">목록</div></a>

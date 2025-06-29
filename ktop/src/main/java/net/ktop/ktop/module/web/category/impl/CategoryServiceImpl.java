@@ -33,5 +33,20 @@ public class CategoryServiceImpl implements CategoryService {
 	public boolean isTopLevelCategory(int id) {
 		return repository.isTopLevelCategory(id);
 	}
+
+	@Override
+	public int addCategory(CategoryDto dto) {
+		return repository.addCategory(dto);
+	}
+
+	@Override
+	public int deleteCategory(int id) {
+		return repository.deleteCategory(id);
+	}
+
+	@Override
+	public int updateCategory(CategoryDto dto) {
+		return repository.updateCategory(dto);
+	}
 	
 }

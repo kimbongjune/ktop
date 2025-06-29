@@ -68,6 +68,11 @@ public class WorkerServiceImpl implements WorkerService {
 	}
 
 	@Override
+	public int selectWorkerCount(WorkerDto dto) {
+		return workerRepository.selectWorkerCount(dto);
+	}
+
+	@Override
 	public WorkerDto selectWorkerOne(WorkerDto dto) {
 		return workerRepository.selectWorkerOne(dto);
 	}

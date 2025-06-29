@@ -16,9 +16,11 @@ import java.time.format.DateTimeFormatter;
 public class BoardCommentController {
 
     private final BoardCommentRepository commentRepository;
+    private final BoardCommentService commentService;
 
-    public BoardCommentController(BoardCommentRepository commentRepository) {
+    public BoardCommentController(BoardCommentRepository commentRepository, BoardCommentService commentService) {
         this.commentRepository = commentRepository;
+        this.commentService = commentService;
     }
 
     // 댓글 등록 (JSON 입력, JSON 반환)
@@ -41,7 +43,16 @@ public class BoardCommentController {
 
     // 댓글 삭제 (Soft delete)
     @RequestMapping(value = "/delete/{id}", method = {RequestMethod.POST})
-    public String deleteComment(@PathVariable("id") int id) {
+    public String deleteComment(@PathVariable("id") int id, @AuthenticationPrincipal CustomUserDetails user) {
+        // 권한 체크: 댓글 조회 후 작성자 확인
+        BoardCommentDto existingComment = commentService.selectCommentById(id);
+        if(existingComment == null) {
+            return "error";
+        }
+        if(user == null || !existingComment.getUserId().equals(user.getUsername())) {
+            return "error";
+        }
+        
         commentRepository.deleteComment(id);
         return "success";
     }

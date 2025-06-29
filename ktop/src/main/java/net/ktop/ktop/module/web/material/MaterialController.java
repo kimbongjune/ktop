@@ -34,6 +34,9 @@ public class MaterialController {
 	@RequestMapping(value = "/{materialId}",  method = {RequestMethod.GET})
 	public String material(@PathVariable("materialId") int materialId, @AuthenticationPrincipal CustomUserDetails user, Model model) {
 		MaterialDto material = materialService.selectMaterialOne(materialId);
+		if(material == null) {
+			return "error/404";
+		}
 		model.addAttribute("material", material);
 		return "material/material";
 	}

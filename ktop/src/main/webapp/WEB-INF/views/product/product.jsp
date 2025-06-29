@@ -231,6 +231,9 @@
 	</tbody>
 </table>
 
+<!-- 페이징 -->
+<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
+
 <div class="pt20 center">
 	<a href="<c:url value='/category/${categoryNum}/material/write' />"><div class="bbs_btn01">자재 등록</div></a>
 </div>

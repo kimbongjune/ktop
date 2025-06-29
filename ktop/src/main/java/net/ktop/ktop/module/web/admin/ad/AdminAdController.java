@@ -31,7 +31,9 @@ public class AdminAdController {
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String adMain(Model model) {
+    public String adMain(Model model, 
+    		@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
         model.addAttribute("activeMenu", "site");
         model.addAttribute("activeSubMenu", "ad");
         
@@ -39,50 +41,92 @@ public class AdminAdController {
         searchDto.setPosition("main");
         // 관리자 페이지에서는 isActive를 false로 설정하여 모든 광고 조회
         searchDto.setActive(false);
+        searchDto.setPage(page);
+        searchDto.setSize(size);
+        
+        // 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = adBannerService.selectAdBannerCount(searchDto);
+		searchDto.getPagination().setTotalCount(totalCount);
+        
         List<AdBannerDto> bannerList = adBannerService.selectAdBannerList(searchDto);
         model.addAttribute("bannerList", bannerList);
+        model.addAttribute("pagination", searchDto.getPagination());
+        model.addAttribute("searchDto", searchDto);
         
         return "admin/site/ad/main";
     }
 
     @RequestMapping(value = "/popup", method = RequestMethod.GET)
-    public String adPopup(Model model) {
+    public String adPopup(Model model, 
+    		@RequestParam(value = "page", defaultValue = "1") int page,
+    		@RequestParam(value = "size", defaultValue = "10") int size) {
         model.addAttribute("activeMenu", "site");
         model.addAttribute("activeSubMenu", "ad");
         
         AdBannerDto searchDto2 = new AdBannerDto();
         searchDto2.setPosition("popup");
         searchDto2.setActive(false);
+        searchDto2.setPage(page);
+        searchDto2.setSize(size);
+        
+        // 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = adBannerService.selectAdBannerCount(searchDto2);
+		searchDto2.getPagination().setTotalCount(totalCount);
+        
         List<AdBannerDto> bannerList = adBannerService.selectAdBannerList(searchDto2);
         model.addAttribute("bannerList", bannerList);
+        model.addAttribute("pagination", searchDto2.getPagination());
+        model.addAttribute("searchDto", searchDto2);
         
         return "admin/site/ad/popup";
     }
 
     @RequestMapping(value = "/bottom", method = RequestMethod.GET)
-    public String adBottom(Model model) {
+    public String adBottom(Model model,
+    		@RequestParam(value = "page", defaultValue = "1") int page,
+    		@RequestParam(value = "size", defaultValue = "10") int size) {
         model.addAttribute("activeMenu", "site");
         model.addAttribute("activeSubMenu", "ad");
         
         AdBannerDto searchDto3 = new AdBannerDto();
         searchDto3.setPosition("bottom");
         searchDto3.setActive(false);
+        searchDto3.setPage(page);
+        searchDto3.setSize(size);
+        
+        // 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = adBannerService.selectAdBannerCount(searchDto3);
+		searchDto3.getPagination().setTotalCount(totalCount);
+        
         List<AdBannerDto> bannerList = adBannerService.selectAdBannerList(searchDto3);
         model.addAttribute("bannerList", bannerList);
+        model.addAttribute("pagination", searchDto3.getPagination());
+        model.addAttribute("searchDto", searchDto3);
         
         return "admin/site/ad/bottom";
     }
 
     @RequestMapping(value = "/middle", method = RequestMethod.GET)
-    public String adMiddle(Model model) {
+    public String adMiddle(Model model,
+    		@RequestParam(value = "page", defaultValue = "1") int page,
+    		@RequestParam(value = "size", defaultValue = "10") int size) {
         model.addAttribute("activeMenu", "site");
         model.addAttribute("activeSubMenu", "ad");
         
         AdBannerDto searchDto4 = new AdBannerDto();
         searchDto4.setPosition("middle");
         searchDto4.setActive(false);
+        searchDto4.setPage(page);
+        searchDto4.setSize(size);
+        
+        // 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = adBannerService.selectAdBannerCount(searchDto4);
+		searchDto4.getPagination().setTotalCount(totalCount);
+        
         List<AdBannerDto> bannerList = adBannerService.selectAdBannerList(searchDto4);
         model.addAttribute("bannerList", bannerList);
+        model.addAttribute("pagination", searchDto4.getPagination());
+        model.addAttribute("searchDto", searchDto4);
         
         return "admin/site/ad/middle";
     }

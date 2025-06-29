@@ -8,6 +8,8 @@ public interface AdBannerService {
     
     List<AdBannerDto> selectAdBannerList(AdBannerDto dto);
     
+    int selectAdBannerCount(AdBannerDto dto);
+    
     AdBannerDto selectAdBannerOne(Long id);
     
     int updateAdBanner(AdBannerDto dto);

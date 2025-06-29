@@ -9,6 +9,8 @@ public interface MaterialService {
     int insertMaterial(MaterialDto dto);
 
     List<MaterialDto> selectMaterialList(MaterialDto dto);
+    
+    int selectMaterialCount(MaterialDto dto);
 
     MaterialDto selectMaterialOne(int id);
 

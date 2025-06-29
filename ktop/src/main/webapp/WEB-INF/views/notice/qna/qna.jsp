@@ -64,7 +64,7 @@
 			<div class="txt">
 				<ul>
 					<c:forEach var="file" items="${board.boardFileList}">
-						<a class="ahref_btns cursor" style="color:#797979; display:block" href="<c:url value='/download?id=${file.file.id}' />">
+						<a class="ahref_btns cursor" style="color:#797979; display:block" href="<c:url value='/file/download?id=${file.file.id}' />">
 							<i class="fas fa-paperclip"></i> 
 							<span class="fname">${file.file.originalName}</span> 
 							<span class="fsize">(${file.file.fileSizeNumber} <span class="fpilsu">${file.file.fileSizeUnit}</span>)</span>
@@ -80,6 +80,7 @@
 	<div class="btn_wrap">
 					<a href="<c:url value='/notice/qna/edit/${board.id}' />"><div class="fl bbs_btn02">수정</div></a>
 			<form method="post" action="<c:url value='/notice/qna/delete/${board.id}' />" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<input type="hidden" value="${board.userId}" name="userId">
 			    <button type="submit" class="fl bbs_btn02 delete_btns">삭제</button>
 			</form>
@@ -217,10 +218,11 @@
 	        const data = response.data;
 	        console.log(data)
 
+	        const imageUrl = '<c:url value="/resources/static/image/info_bg.png" />';
 	        let html = '';
 	        html += '<li class="depth0">';
 	        html +=   '<div class="img">';
-	        html +=     '<img src="<c:url value='/resources/static/image/info_bg.png' />" alt="profile image">';
+	        html +=     '<img src="' + imageUrl + '" alt="profile image">';
 	        html +=   '</div>';
 	        html +=   '<div class="info">';
 	        html +=     '<div class="name">' + data.userName + '</div>';

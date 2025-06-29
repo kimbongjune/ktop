@@ -20,11 +20,16 @@ public class FaqPostServiceImpl implements FaqPostService{
 		this.faqPostRepository = faqPostRepository;
 	}
 
-	@Override
+		@Override
 	public List<FaqPostDto> selectFaqPostList(BoardPostSearchDto dto) {
 		return faqPostRepository.selectFaqPostList(dto);
 	}
-	
+
+	@Override
+	public int selectFaqPostCount(BoardPostSearchDto dto) {
+		return faqPostRepository.selectFaqPostCount(dto);
+	}
+
 	@Override
 	public FaqPostDto selectFaqPostOne(int id) {
 		return faqPostRepository.selectFaqPostOne(id);

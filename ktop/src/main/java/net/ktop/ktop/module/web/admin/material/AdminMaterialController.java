@@ -8,9 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import net.ktop.ktop.module.web.admin.category.AdminSiteCategoryDto;
-
-
 @Controller
 @RequestMapping("/admin/material")
 public class AdminMaterialController {

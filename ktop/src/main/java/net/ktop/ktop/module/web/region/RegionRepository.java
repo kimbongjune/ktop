@@ -20,4 +20,16 @@ public class RegionRepository {
 	public List<RegionDto> getAllRegion() {
 		return template.selectList(MAPPER_NAME+"selectRegionAll");
 	}
+	
+	public int addRegion(RegionDto dto) {
+		return template.insert(MAPPER_NAME+"insertRegion", dto);
+	}
+	
+	public int deleteRegion(int id) {
+		return template.delete(MAPPER_NAME+"deleteRegionOne", id);
+	}
+	
+	public int updateRegion(RegionDto dto) {
+		return template.update(MAPPER_NAME+"updateRegion", dto);
+	}
 }

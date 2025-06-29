@@ -9,4 +9,10 @@ public interface CategoryService {
 	List<CategoryDto> selectCategoryById(int id);
 	
 	boolean isTopLevelCategory(int id);
+	
+	int addCategory(CategoryDto dto);
+	
+	int deleteCategory(int id);
+	
+	int updateCategory(CategoryDto dto);
 }

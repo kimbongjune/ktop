@@ -31,10 +31,21 @@ public class AdminPartnerController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-    public String partnerList(Model model, PartnerCompanyDto dto) {
+    public String partnerList(Model model, PartnerCompanyDto dto,
+    		@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
+		dto.setPage(page);
+		dto.setSize(size);
+		
+		// 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = partnerCompanyService.selectPartnerCompanyCount(dto);
+		dto.getPagination().setTotalCount(totalCount);
+		
 		List<PartnerCompanyDto> partnerList = partnerCompanyService.getPartnerCompanyList(dto);
         model.addAttribute("activeMenu", "partner");
         model.addAttribute("partnerList", partnerList);
+        model.addAttribute("pagination", dto.getPagination());
+        model.addAttribute("searchDto", dto);
         return "admin/partner/partners";
     }
 
@@ -43,6 +54,9 @@ public class AdminPartnerController {
     	dto.setId(id);
     	dto.setCategoryId(categoryId);
     	PartnerCompanyDto partner = partnerCompanyService.getPartnerCompanyOne(dto);
+    	if(partner == null) {
+    		return "error/404";
+    	}
         model.addAttribute("activeMenu", "partner");
         model.addAttribute("partner", partner);
         return "admin/partner/partner";
@@ -83,17 +97,30 @@ public class AdminPartnerController {
     }
 
     @RequestMapping(value = "/{id}/{categoryId}/product", method = RequestMethod.GET)
-    public String partnerProduct(Model model, @PathVariable String id, @PathVariable int categoryId, PartnerCompanyDto partnerCompanyDto) {
+    public String partnerProduct(Model model, @PathVariable String id, @PathVariable int categoryId, PartnerCompanyDto partnerCompanyDto,
+    		@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
     	MaterialDto dto = new MaterialDto();
     	dto.setPartnerId(id);
     	dto.setCategoryId(categoryId);
+    	dto.setPage(page);
+    	dto.setSize(size);
+    	
+    	// 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = materialService.selectMaterialCount(dto);
+		dto.getPagination().setTotalCount(totalCount);
+    	
     	List<MaterialDto> materialList = materialService.selectMaterialList(dto);
     	
+    	partnerCompanyDto.setId(id);
+    	partnerCompanyDto.setCategoryId(categoryId + "");
     	PartnerCompanyDto partner = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
     	
         model.addAttribute("activeMenu", "partner");
         model.addAttribute("partner", partner);
         model.addAttribute("materialList", materialList);
+        model.addAttribute("pagination", dto.getPagination());
+        model.addAttribute("searchDto", dto);
         return "admin/partner/product";
     }
 }

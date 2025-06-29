@@ -14,6 +14,7 @@
 					<div id="register_box">
 
 						<form name="register_form" method="post" action="<c:url value='/user/signup' />" onsubmit="return formSubmit();">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 							<p class="tit1">회원가입</p>
 

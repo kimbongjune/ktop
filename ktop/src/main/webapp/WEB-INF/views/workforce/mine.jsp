@@ -86,13 +86,13 @@
 				<tr>
 					<th>대표이미지</th>
 					<td colspan="3">
-						<a class="ahref_btns cursor" href="<c:url value='/download?id=${worker.workerFileList[0].file.id}' />"><i class="fas fa-paperclip"></i> <span class="fname">${worker.workerFileList[0].file.originalName}</span> <span class="fsize">(${worker.workerFileList[0].file.fileSizeNumber}<span class="fpilsu">${worker.workerFileList[0].file.fileSizeUnit}</span>)</span></a>
+						<a class="ahref_btns cursor" href="<c:url value='/file/download?id=${worker.workerFileList[0].file.id}' />"><i class="fas fa-paperclip"></i> <span class="fname">${worker.workerFileList[0].file.originalName}</span> <span class="fsize">(${worker.workerFileList[0].file.fileSizeNumber}<span class="fpilsu">${worker.workerFileList[0].file.fileSizeUnit}</span>)</span></a>
 					</td>
 				</tr>
 				<tr>
 					<th>포트폴리오</th>
 					<td colspan="3">
-						<a class="ahref_btns cursor" href="<c:url value='/download?id=${worker.workerFileList[1].file.id}' />"><i class="fas fa-paperclip"></i> <span class="fname">${worker.workerFileList[1].file.originalName}</span> <span class="fsize">(${worker.workerFileList[1].file.fileSizeNumber} <span class="fpilsu">${worker.workerFileList[1].file.fileSizeUnit}</span>)</span></a>
+						<a class="ahref_btns cursor" href="<c:url value='/file/download?id=${worker.workerFileList[1].file.id}' />"><i class="fas fa-paperclip"></i> <span class="fname">${worker.workerFileList[1].file.originalName}</span> <span class="fsize">(${worker.workerFileList[1].file.fileSizeNumber} <span class="fpilsu">${worker.workerFileList[1].file.fileSizeUnit}</span>)</span></a>
 					</td>
 				</tr>
 				<tr>

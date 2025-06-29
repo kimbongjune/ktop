@@ -36,7 +36,7 @@
 							</sec:authorize>
 			
 						
-				<h3 class="sub_title">자재</h3>
+				<h3 class="sub_title">협력사 (총 ${pagination.totalCount}건)</h3>
 <div class="company_list_wrap">
 <ul>
 	<c:forEach var="partner" items="${partnerList}">
@@ -57,6 +57,9 @@
 	</c:forEach>
 </ul>
 </div> 
+
+<!-- 페이징 -->
+<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
 
 
 

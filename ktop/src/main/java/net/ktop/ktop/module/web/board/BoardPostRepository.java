@@ -21,6 +21,10 @@ public class BoardPostRepository {
 		return template.selectList(MAPPER_NAME + "selectBoardPostList", dto);
 	}
 	
+	public int selectBoardPostCount(BoardPostSearchDto dto) {
+		return template.selectOne(MAPPER_NAME + "selectBoardPostCount", dto);
+	}
+	
 	public int insertBoardPost(BoardPostDto dto) {
 		return template.insert(MAPPER_NAME + "insertBoardPost", dto);
 	}

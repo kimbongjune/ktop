@@ -38,6 +38,7 @@
 <h4>인력 POOL 등록신청 신규입력</h4>
 
 <form name="person_form" method="post" enctype="multipart/form-data" action="">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 <table class="gtable">
 <colgroup>

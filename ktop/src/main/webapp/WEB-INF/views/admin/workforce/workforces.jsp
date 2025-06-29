@@ -14,7 +14,7 @@
 		<form name="search_form">
 			<div class="gsearch_box">
 				<div class="ginfo ginfo2">
-					<i class="fas fa-layer-group"></i>Total : <span>${fn:length(workers)}</span>
+					<i class="fas fa-layer-group"></i>Total : <span>${pagination.totalCount}</span>
 				</div>
 				<div class="gsearch">
 					<select name="searchType">
@@ -71,6 +71,8 @@
 				</tbody>
 			</table>
 
+			<!-- 페이징 -->
+			<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
 
 	</div>
 

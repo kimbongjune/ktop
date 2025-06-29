@@ -29,6 +29,14 @@ public class MaterialRepository {
         }
         return template.selectList(MAPPER_NAME + "selectMaterialList", dto);
     }
+    
+    public int selectMaterialCount(MaterialDto dto) {
+    	List<Integer> ids = dto.getMaterialCategoryIdList();
+        if (ids != null && !ids.isEmpty()) {
+            dto.setMaterialCategoryIdList(selectMaterialCategoryIdsIncludingChildren(ids));
+        }
+        return template.selectOne(MAPPER_NAME + "selectMaterialCount", dto);
+    }
 
     public MaterialDto selectMaterialOne(int id) {
         return template.selectOne(MAPPER_NAME + "selectMaterialOne", id);

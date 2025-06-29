@@ -19,6 +19,10 @@ public class BoardCommentRepository {
         return sqlSession.selectList(NAMESPACE + "selectCommentsByPostId", postId);
     }
 
+    public BoardCommentDto selectCommentById(int id) {
+        return sqlSession.selectOne(NAMESPACE + "selectCommentById", id);
+    }
+
     public int insertComment(BoardCommentDto dto) {
         return sqlSession.insert(NAMESPACE + "insertComment", dto);
     }

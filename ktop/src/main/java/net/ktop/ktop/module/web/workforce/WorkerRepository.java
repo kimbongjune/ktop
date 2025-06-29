@@ -34,6 +34,10 @@ public class WorkerRepository {
 		return template.selectList(MAPPER_NAME + "selectWorkerList", dto);
 	}
 	
+	public int selectWorkerCount(WorkerDto dto) {
+		return template.selectOne(MAPPER_NAME + "selectWorkerCount", dto);
+	}
+	
 	public WorkerDto selectWorkerOne(WorkerDto dto) {
 		return template.selectOne(MAPPER_NAME + "selectWorkerList", dto);
 	}

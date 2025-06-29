@@ -25,6 +25,10 @@ public class AdBannerRepository {
         return template.selectList(MAPPER_NAME + "selectAdBannerList", dto);
     }
     
+    public int selectAdBannerCount(AdBannerDto dto) {
+        return template.selectOne(MAPPER_NAME + "selectAdBannerCount", dto);
+    }
+    
     public AdBannerDto selectAdBannerOne(Long id) {
         return template.selectOne(MAPPER_NAME + "selectAdBannerOne", id);
     }

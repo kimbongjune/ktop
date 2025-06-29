@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldDto;
-import net.ktop.ktop.module.web.admin.workforce.workfield.AdminWorkFieldService;
+import net.ktop.ktop.module.web.workforce.workfield.WorkFieldDto;
+import net.ktop.ktop.module.web.workforce.workfield.WorkFieldService;
 import net.ktop.ktop.module.web.workforce.WorkerDto;
 import net.ktop.ktop.module.web.workforce.WorkerService;
 import net.ktop.ktop.module.util.EmailService;
@@ -18,22 +18,33 @@ import net.ktop.ktop.module.util.EmailService;
 @RequestMapping("/admin/workforce")
 public class AdminWorkforceController {
 	
-	private final AdminWorkFieldService adminWorkFieldService;
+	private final WorkFieldService workFieldService;
 	private final WorkerService workerService;
 	private final EmailService emailService;
 	
 	@Autowired
-    public AdminWorkforceController(AdminWorkFieldService adminWorkFieldService, WorkerService workerService, EmailService emailService) {
-		this.adminWorkFieldService = adminWorkFieldService;
+    public AdminWorkforceController(WorkFieldService workFieldService, WorkerService workerService, EmailService emailService) {
+		this.workFieldService = workFieldService;
 		this.workerService = workerService;
 		this.emailService = emailService;
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-    public String workforceList(Model model, WorkerDto dto) {
+    public String workforceList(Model model, WorkerDto dto,
+    		@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
+		dto.setPage(page);
+		dto.setSize(size);
+		
+		// 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = workerService.selectWorkerCount(dto);
+		dto.getPagination().setTotalCount(totalCount);
+		
 		List<WorkerDto> worker = workerService.selectWorkerList(dto);
 		
 		model.addAttribute("workers", worker);
+		model.addAttribute("pagination", dto.getPagination());
+		model.addAttribute("searchDto", dto);
         model.addAttribute("activeMenu", "workforce");
         model.addAttribute("activeSubMenu", "workforceMain");
         return "admin/workforce/workforces";
@@ -43,6 +54,9 @@ public class AdminWorkforceController {
     public String workforceDetail(Model model, @PathVariable String id) {
     	
     	WorkerDto worker = workerService.getWorkerOne(id);
+    	if(worker == null) {
+    		return "error/404";
+    	}
         model.addAttribute("activeMenu", "workforce");
         model.addAttribute("activeSubMenu", "workforceMain");
         model.addAttribute("worker", worker);
@@ -83,7 +97,7 @@ public class AdminWorkforceController {
     @RequestMapping(value = "/category", method = RequestMethod.GET)
     public String workforceCategory(Model model) {
     	
-    	List<AdminWorkFieldDto> workFieldList = adminWorkFieldService.getAllWorkField();
+    	List<WorkFieldDto> workFieldList = workFieldService.getAllWorkField();
         model.addAttribute("activeMenu", "workforce");
         model.addAttribute("activeSubMenu", "workforceCategory");
         model.addAttribute("workFieldList", workFieldList);
@@ -92,22 +106,22 @@ public class AdminWorkforceController {
     
     @RequestMapping(value = "/category/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<AdminWorkFieldDto> siteCategoryAdd(Model model, @RequestBody AdminWorkFieldDto dto) {
-    	adminWorkFieldService.addWorkField(dto);
+    public ResponseEntity<WorkFieldDto> siteCategoryAdd(Model model, @RequestBody WorkFieldDto dto) {
+    	workFieldService.addWorkField(dto);
         return ResponseEntity.ok(dto);
     }
     
     @RequestMapping(value = "/category/del", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<?> siteCategoryDel(Model model, @RequestParam int id) {
-    	int result = adminWorkFieldService.deleteWorkField(id);
+    	int result = workFieldService.deleteWorkField(id);
         return ResponseEntity.ok(result);
     }
     
     @RequestMapping(value = "/category/mod", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> siteCategoryMod(Model model, @RequestBody AdminWorkFieldDto dto) {
-    	int result = adminWorkFieldService.updateWorkField(dto);
+    public ResponseEntity<?> siteCategoryMod(Model model, @RequestBody WorkFieldDto dto) {
+    	int result = workFieldService.updateWorkField(dto);
         return ResponseEntity.ok(result);
     }
 }

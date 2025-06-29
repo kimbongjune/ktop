@@ -123,6 +123,9 @@
 		<!-- <div class="personlist_nolist">자료가 없습니다.</div> -->
 </div>		
 
+<!-- 페이징 -->
+<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
+
 
 
 	 

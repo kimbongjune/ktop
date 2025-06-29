@@ -11,5 +11,7 @@ public interface PartnerCompanyService {
 
 	List<PartnerCompanyDto> getPartnerCompanyList(PartnerCompanyDto dto);
 	
+	int selectPartnerCompanyCount(PartnerCompanyDto dto);
+	
 	int getPartnerCompanyCount(PartnerCompanyDto dto);
 }

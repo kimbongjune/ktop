@@ -10,24 +10,24 @@
 						
 <a href="<c:url value='/admin/board/write' />"><div class="ab_m ab_blue"><i class="fas fa-clone"></i>생성</div></a>
 
-<form name="search_form" method="post" action="#">
-<input type="hidden" name="gc" value="FA" />
+<form name="search_form" method="get" action="<c:url value='/admin/board' />">
 <div class="gsearch_box">
-	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>9</span></div>
+	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>${pagination.totalCount}</span></div>
 	<div class="gsearch">
-		<select name="sboard">
+		<select name="boardType">
 			<option value="">전체게시판</option>
-							<option value="5" >main - 공지사항</option>
-							<option value="15" >main - 자료실</option>
-							<option value="17" >main - 자주묻는질문</option>
-							<option value="16" >main - 질문과답변</option>
-					</select>
-
-		<select name="sit">
-			<option value="bwrite_title" >제목</option>
-			<option value="bwrite_content" >내용</option>
+			<option value="1" ${searchDto.boardType == 1 ? 'selected' : ''}>공지사항</option>
+			<option value="2" ${searchDto.boardType == 2 ? 'selected' : ''}>질문과답변</option>
 		</select>
-		<span class="input_clear_wrap"><input type="text" name="stx" class="input_form" title="검색어" value="" /><a href="http://localhost:3000/gwizard/?gc=FA"><i class="fas fa-times-circle"></i></a></span>
+
+		<select name="searchType">
+			<option value="title" ${searchDto.searchType == 'title' ? 'selected' : ''}>제목</option>
+			<option value="content" ${searchDto.searchType == 'content' ? 'selected' : ''}>내용</option>
+		</select>
+		<span class="input_clear_wrap">
+			<input type="text" name="keyword" class="input_form" title="검색어" value="${searchDto.keyword}" />
+			<i class="fas fa-times-circle"></i>
+		</span>
 		<input type="submit" class="ab_m ab_gray ab_h Fix_FormBtns" value="검색" />
 	</div>
 </div>
@@ -63,36 +63,39 @@
 </tr>
 </thead>
 <tbody>
-		<tr>
-			<td class="center">9</td>
-			<td class="center">main - 자주묻는질문</td>
-			<td class="">
-								<a href="<c:url value='/admin/board/1' />">인재 POOL 등록안내</a>
-											</td>
-			<td class="center">관리자</td>
-			<td class="center">2022-08-05</td>
-			<td class="right">1</td>
-			<td class="center">출력</td>
-			<td class="center"><a href="<c:url value='/admin/board/1' />"><div class="ab_m ab_blueline">보기</div></a>&nbsp;<a href="<c:url value='/admin/board/edit/1' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m delete_btns Fix_FormBtns" data-href="<c:url value='/admin/board/del/1' />">삭제</div></td>
-		</tr>
-			<tr>
-			<td class="center">8</td>
-			<td class="center">main - 자주묻는질문</td>
-			<td class="">
-								<a href="<c:url value='/admin/board/2' />">협력업체 등록안내</a>
-											</td>
-			<td class="center">관리자</td>
-			<td class="center">2022-08-05</td>
-			<td class="right">1</td>
-			<td class="center">출력</td>
-			<td class="center"><a href="<c:url value='/admin/board/2' />"><div class="ab_m ab_blueline">보기</div></a>&nbsp;<a href="<c:url value='/admin/board/edit/2' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m delete_btns Fix_FormBtns" data-href="<c:url value='/admin/board/del/1' />">삭제</div></td>
-		</tr>
-	</tbody>
+<c:forEach var="board" items="${boards}">
+	<tr>
+		<td class="center">${board.id}</td>
+		<td class="center">${board.boardType == 1 ? '공지사항' : '질문과답변'}</td>
+		<td class="">
+			<a href="<c:url value='/admin/board/${board.id}' />">${board.title}</a>
+		</td>
+		<td class="center">${board.author}</td>
+		<td class="center">${board.createdAt}</td>
+		<td class="right">${board.viewCount}</td>
+		<td class="center">출력</td>
+		<td class="center">
+			<a href="<c:url value='/admin/board/${board.id}' />">
+				<div class="ab_m ab_blueline">보기</div>
+			</a>&nbsp;
+			<a href="<c:url value='/admin/board/edit/${board.id}' />">
+				<div class="ab_m ab_redline">수정</div>
+			</a>&nbsp;
+			<div class="ab_m delete_btns Fix_FormBtns" data-href="<c:url value='/admin/board/del/${board.id}' />">삭제</div>
+		</td>
+	</tr>
+</c:forEach>
+<c:if test="${empty boards}">
+	<tr>
+		<td colspan="8" class="center">조회 결과가 없습니다.</td>
+	</tr>
+</c:if>
+</tbody>
 </table>
 </form>
 
-
-
+<!-- 페이징 -->
+<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
 
 		</div> <!-- main_contents -->
 <%@ include file="/WEB-INF/views/admin/common/footer.jsp"%>

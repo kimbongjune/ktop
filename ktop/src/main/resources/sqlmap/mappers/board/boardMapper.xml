@@ -49,7 +49,7 @@
             bp.updated_at,
             bp.deleted_at,
             bp.expire_date,
-            (select name from users where id = bp.user_id) as name,
+            (select nick_name from users where id = bp.user_id) as name,
             IFNULL(vc.view_count, 0) AS view_count,
             bpf.id AS board_file_id,
             bpf.file_id,
@@ -84,6 +84,29 @@
             </choose>
         </where>
         ORDER BY bp.created_at DESC
+        <if test="pagination != null">
+            LIMIT #{pagination.size} OFFSET #{pagination.offset}
+        </if>
+    </select>
+    
+    <select id="selectBoardPostCount" parameterType="net.ktop.ktop.module.web.board.BoardPostSearchDto" resultType="int">
+        SELECT COUNT(DISTINCT bp.id)
+        FROM board_post bp
+        <where>
+            bp.deleted_at IS NULL
+            AND bp.board_type = #{boardType}
+            <if test="boardType == 1">
+                AND (bp.expire_date IS NULL OR bp.expire_date > NOW())
+            </if>
+            <choose>
+                <when test="searchType == 'title' and keyword != null and keyword != ''">
+                    AND bp.title LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="searchType == 'content' and keyword != null and keyword != ''">
+                    AND bp.content LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+            </choose>
+        </where>
     </select>
     
     <select id="selectBoardPostById" parameterType="int" resultMap="BoardPostResultMap">
@@ -97,7 +120,7 @@
 	        bp.updated_at,
 	        bp.deleted_at,
 	        bp.expire_date,
-	        (SELECT name FROM users WHERE id = bp.user_id) AS name,
+	        (SELECT nick_name FROM users WHERE id = bp.user_id) AS name,
 	        IFNULL(vc.view_count, 0) AS view_count,
 	        prev.id AS prev_post_id,
 	        prev.title AS prev_post_title,

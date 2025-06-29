@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import net.ktop.ktop.module.security.CustomUserDetails;
 import net.ktop.ktop.module.web.category.CategoryDto;
@@ -49,6 +50,9 @@ public class PartnerController {
 		partnerCompanyDto.setCategoryId(category + "");
 		partnerCompanyDto.setId(company);
 		PartnerCompanyDto partnerDto = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
+		if(partnerDto == null) {
+			return "error/404";
+		}
 		
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
 		model.addAttribute("menuCategory", "category");
@@ -60,10 +64,19 @@ public class PartnerController {
 	}
 	
 	@RequestMapping(value = "/{category}/{company}/products", method = {RequestMethod.GET})
-	public String partnerProducts(@PathVariable("company") String company, @PathVariable("category") int category, Model model, @AuthenticationPrincipal CustomUserDetails user, MaterialDto dto) {
+	public String partnerProducts(@PathVariable("company") String company, @PathVariable("category") int category, Model model, @AuthenticationPrincipal CustomUserDetails user, MaterialDto dto,
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
-		dto.setPartnerId(user.getUsername());
+		dto.setPartnerId(company);
 		dto.setCategoryId(category);
+		dto.setPage(page);
+		dto.setSize(size);
+		
+		// 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = materialService.selectMaterialCount(dto);
+		dto.getPagination().setTotalCount(totalCount);
+		
 		List<MaterialDto> materials = materialService.selectMaterialList(dto);
 		
 		model.addAttribute("menuCategory", "category");
@@ -71,6 +84,8 @@ public class PartnerController {
 		model.addAttribute("categoryNum", category);
 		model.addAttribute("companyNum", company);
 		model.addAttribute("materials", materials);
+		model.addAttribute("pagination", dto.getPagination());
+		model.addAttribute("searchDto", dto);
 		return "partner/products";
 	}
 	
@@ -120,6 +135,9 @@ public class PartnerController {
 			partnerCompanyDto.setCategoryId(category+"");
 			partnerCompanyDto.setId(user.getUsername());
 			partnerDto = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
+		}
+		if(partnerDto == null) {
+			return "error/404";
 		}
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
 		model.addAttribute("menuCategory", "category");

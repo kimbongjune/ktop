@@ -9,7 +9,7 @@
 	        bc.id,
 	        bc.post_id,
 	        bc.user_id,
-	        (SELECT name FROM users u WHERE u.id = bc.user_id) AS user_name,
+	        (SELECT nick_name FROM users u WHERE u.id = bc.user_id) AS user_name,
 	        bc.content,
 	        bc.created_at,
 	        bc.updated_at,
@@ -21,7 +21,24 @@
 	        AND bc.deleted_at IS NULL
 	    ORDER BY
 	        bc.created_at DESC
-	</select>
+	    </select>
+
+    <select id="selectCommentById" parameterType="int" resultType="BoardCommentDto">
+        SELECT
+            bc.id,
+            bc.post_id,
+            bc.user_id,
+            (SELECT nick_name FROM users u WHERE u.id = bc.user_id) AS user_name,
+            bc.content,
+            bc.created_at,
+            bc.updated_at,
+            bc.deleted_at
+        FROM
+            board_comment bc
+        WHERE
+            bc.id = #{id}
+            AND bc.deleted_at IS NULL
+    </select>
 
     <insert id="insertComment" parameterType="net.ktop.ktop.module.web.boardcomment.BoardCommentDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO board_comment (

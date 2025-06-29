@@ -129,7 +129,7 @@
 </div>
 <div class="product_list_cont"> 
 
-<div class="product_list_top_txt">총 <strong>${fn:length(materials)}</strong>개의 상품이 있습니다.</div>
+	<div class="product_list_top_txt">총 <strong>${pagination.totalCount}</strong>개의 상품이 있습니다.</div>
 <ul class="product_list">
 	<c:forEach var="material" items="${materials}">
 		<li>
@@ -187,6 +187,9 @@
 	</li> --%>
 			
 	</ul>
+	
+	<!-- 페이징 -->
+	<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
 
 </div>
 

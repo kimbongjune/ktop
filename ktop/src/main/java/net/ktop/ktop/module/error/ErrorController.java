@@ -22,4 +22,9 @@ public class ErrorController {
     public String error500() {
         return "/error/500";  // /WEB-INF/views/error/500.jsp
     }
+    
+    @GetMapping("/csrf")
+    public String securityError() {
+        return "/error/csrf";  // 보안 오류 페이지 (CSRF, 인증 실패, 세션 만료 등)
+    }
 }

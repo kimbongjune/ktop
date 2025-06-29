@@ -74,6 +74,19 @@
         AND CURDATE() BETWEEN DATE(ab.start_at) AND DATE(ab.end_at)
         </if>
         ORDER BY ab.created_at DESC
+        <if test="pagination != null">
+            LIMIT #{pagination.size} OFFSET #{pagination.offset}
+        </if>
+    </select>
+    
+    <select id="selectAdBannerCount" parameterType="net.ktop.ktop.module.web.admin.ad.AdBannerDto" resultType="int">
+        SELECT COUNT(ab.id)
+        FROM ad_banner ab
+        WHERE ab.position = #{position}
+        <if test="isActive == true">
+        AND ab.is_active = 1
+        AND CURDATE() BETWEEN DATE(ab.start_at) AND DATE(ab.end_at)
+        </if>
     </select>
 
     <select id="selectAdBannerOne" parameterType="Long" resultMap="AdBannerResultMap">

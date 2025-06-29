@@ -25,6 +25,11 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 	}
 
 	@Override
+	public BoardCommentDto selectCommentById(int id) {
+		return boardCommentRepository.selectCommentById(id);
+	}
+
+	@Override
 	public int insertComment(BoardCommentDto dto) {
 		return boardCommentRepository.insertComment(dto);
 	}

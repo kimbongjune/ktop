@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="workFieldMapper">
+	
+	<resultMap id="workFieldMap" type="WorkFieldDto">
+        <id      property="id"        column="id"/>
+        <result  property="name"      column="name"/>
+        <result  property="isActive"  column="is_active"/>
+        <result  property="createdAt" column="created_at"/>
+        <result  property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+	<insert id="inserWorkField" parameterType="WorkFieldDto" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO work_field (
+	        name,
+	        is_active
+	    )
+	    VALUES (
+	        #{name},
+	        #{active}
+	    )
+	</insert>
+	
+	<delete id="deleteWorkFieldOne" parameterType="int">
+		DELETE FROM work_field WHERE id = #{id};
+	</delete>
+	
+	<select id="selectWorkFieldAll" resultMap="workFieldMap">
+	    SELECT * FROM work_field ORDER BY created_at;
+	</select>
+	
+	<update id="updateWorkField" parameterType="WorkFieldDto">
+	    UPDATE work_field
+	    SET
+	        name = #{name},
+	        is_active = #{active},
+	        updated_at = NOW()
+	    WHERE id = #{id}
+	</update>
+</mapper> 

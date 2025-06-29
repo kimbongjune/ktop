@@ -18,7 +18,7 @@
 	<form name="search_form" method="post" action="#">
 		<input type="hidden" name="gc" value="banner" />
 		<div class="gsearch_box">
-			<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>${fn:length(bannerList)}</span></div>
+			<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>${pagination.totalCount}</span></div>
 			<div class="gsearch">
 				<select name="sit">
 					<option value="banner_title" >배너명</option>
@@ -97,6 +97,9 @@
 			</c:choose>
 		</tbody>
 	</table>
+
+	<!-- 페이징 -->
+	<%@ include file="/WEB-INF/views/common/pagination.jsp" %>
 
 </div>
 

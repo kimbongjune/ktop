@@ -3,7 +3,7 @@
 
 <mapper namespace="regionMapper">
 	
-	<resultMap id="regionWithChildrenMap" type="net.ktop.ktop.module.web.region.RegionDto">
+	<resultMap id="regionWithChildrenMap" type="RegionDto">
         <id      property="id"        column="id"/>
         <result  property="name"      column="name"/>
         <result  property="parentId"  column="parent_id"/>
@@ -15,7 +15,7 @@
 
         <!-- 자식(중분류) 리스트 매핑 : depth=1 만 조회 -->
         <collection property="children"
-                    ofType="net.ktop.ktop.module.web.region.RegionDto"
+                    ofType="RegionDto"
                     select="selectChildrenByParentId"
                     column="id"/>
     </resultMap>
@@ -24,9 +24,35 @@
 	    SELECT * FROM region_category WHERE parent_id IS NULL ORDER BY created_at;
 	</select>
 	
-	<select id="selectChildrenByParentId" resultType="net.ktop.ktop.module.web.region.RegionDto">
+	<select id="selectChildrenByParentId" resultType="RegionDto">
 	    SELECT *
 	    FROM region_category
 	    WHERE parent_id = #{param1} ORDER BY created_at;
 	</select>
+
+	<insert id="insertRegion" parameterType="RegionDto" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO region_category (
+	        name,
+	        parent_id,
+	        is_active
+	    )
+	    VALUES (
+	        #{name},
+	        #{parentId},
+	        #{active}
+	    )
+	</insert>
+	
+	<delete id="deleteRegionOne" parameterType="int">
+		DELETE FROM region_category WHERE id = #{id};
+	</delete>
+	
+	<update id="updateRegion" parameterType="RegionDto">
+	    UPDATE region_category
+	    SET
+	        name = #{name},
+	        is_active = #{active},
+	        updated_at = NOW()
+	    WHERE id = #{id}
+	</update>
 </mapper>

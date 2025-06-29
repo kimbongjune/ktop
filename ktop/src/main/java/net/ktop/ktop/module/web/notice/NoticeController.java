@@ -38,11 +38,22 @@ public class NoticeController {
 	}
 
 	@RequestMapping(value = "", method = {RequestMethod.GET})
-	public String notice(Model model, BoardPostSearchDto dto) {
+	public String notice(Model model, BoardPostSearchDto dto, 
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
 		dto.setBoardType(1);
+		dto.setPage(page);
+		dto.setSize(size);
+		
+		// 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = boardPostService.selectBoardPostCount(dto);
+		dto.getPagination().setTotalCount(totalCount);
+		
 		List<BoardPostDto> boards = boardPostService.selectBoardPostList(dto);
 		
 		model.addAttribute("boards", boards);
+		model.addAttribute("pagination", dto.getPagination());
+		model.addAttribute("searchDto", dto);
 		return "notice/notice/notices";
 	}
 	
@@ -100,6 +111,9 @@ public class NoticeController {
 			boardPostService.insertBoardPostView(new BoardPostViewDto(id, user.getUsername()));
 		}
 		BoardPostDto board = boardPostService.selectBoardPostById(id);
+		if(board == null) {
+			return "error/404";
+		}
 		
 		model.addAttribute("board", board);
 		return "notice/notice/edit";
@@ -112,6 +126,16 @@ public class NoticeController {
 			@ModelAttribute BoardPostDto postDto,
 	        @RequestParam(value = "file", required = false) List<MultipartFile> files,
 	        @RequestParam(value = "deletedFileIds", required = false) List<Integer> deletedFileIds) throws IOException {
+		
+		// 권한 체크: 게시글 조회 후 작성자 확인
+		BoardPostDto existingBoard = boardPostService.selectBoardPostById(id);
+		if(existingBoard == null) {
+			return "error/404";
+		}
+		if(user == null || !existingBoard.getUserId().equals(user.getUsername())) {
+			return "error/404";
+		}
+		
 		System.out.println(postDto);
 		System.out.println("추가 파일 : "+files.size());
 		System.out.println("삭제 파일 : "+deletedFileIds);
@@ -141,9 +165,16 @@ public class NoticeController {
 	
 	@RequestMapping(value = "/delete/{id}", method = {RequestMethod.POST})
 	public String noticeDelete(@PathVariable("id") int id, @RequestParam(value = "userId", required = true) String userId, @AuthenticationPrincipal CustomUserDetails user) {
-		if(user != null && userId.equals(user.getUsername())) {
-			boardPostService.deleteBoardPost(id);
+		// 권한 체크: 게시글 조회 후 작성자 확인
+		BoardPostDto existingBoard = boardPostService.selectBoardPostById(id);
+		if(existingBoard == null) {
+			return "error/404";
 		}
+		if(user == null || !existingBoard.getUserId().equals(user.getUsername()) || !userId.equals(user.getUsername())) {
+			return "error/404";
+		}
+		
+		boardPostService.deleteBoardPost(id);
 		return "redirect:/notice";
 	}
 }

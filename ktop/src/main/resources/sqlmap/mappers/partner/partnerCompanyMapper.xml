@@ -169,7 +169,44 @@
 	        </if>
 	        AND u.role = 2
 	    </where>
-	    ORDER BY cf.file_type ASC;
+	    ORDER BY cf.file_type ASC
+	    <if test="pagination != null">
+	        LIMIT #{pagination.size} OFFSET #{pagination.offset}
+	    </if>
+	</select>
+	
+	<select id="selectPartnerCompanyCount" parameterType="PartnerCompanyDto" resultType="int">
+	    SELECT COUNT(DISTINCT pc.id, pc.category_id)
+	    FROM partner_company pc
+	    LEFT JOIN company c ON pc.id = c.id
+	    LEFT join users u on c.id = u.id 
+	    LEFT JOIN region_category rc ON c.region_id = rc.id 
+	    <where>
+	        <if test="id != null and id != ''">
+	            AND pc.id = #{id}
+	        </if>
+	        <if test="categoryId != null">
+	        	<choose>
+					<when test="topLevel != null and topLevel == true">
+						AND pc.category_id IN (
+						    SELECT id FROM category WHERE parent_id = #{categoryId}
+						)
+					</when>
+					<otherwise>
+			            AND pc.category_id = #{categoryId}
+					</otherwise>
+				</choose>
+	        </if>
+	        <choose>
+                <when test="searchType == 'companyName' and keyword != null and keyword != ''">
+                    AND c.company_name LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+            </choose>
+	        <if test="status != null and status != ''">
+	        	AND pc.status = #{status}
+	        </if>
+	        AND u.role = 2
+	    </where>
 	</select>
 
 

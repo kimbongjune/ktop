@@ -3,7 +3,7 @@
 
 <mapper namespace="categoryMapper">
 	
-	<resultMap id="categoryWithChildrenMap" type="net.ktop.ktop.module.web.category.CategoryDto">
+	<resultMap id="categoryWithChildrenMap" type="CategoryDto">
         <id      property="id"        column="id"/>
         <result  property="name"      column="name"/>
         <result  property="parentId"  column="parent_id"/>
@@ -15,7 +15,7 @@
 
         <!-- 자식(중분류) 리스트 매핑 : depth=1 만 조회 -->
         <collection property="children"
-                    ofType="net.ktop.ktop.module.web.category.CategoryDto"
+                    ofType="CategoryDto"
                     select="selectChildrenByParentId"
                     column="id"/>
     </resultMap>
@@ -24,13 +24,13 @@
 	    SELECT * FROM category WHERE parent_id IS NULL ORDER BY created_at;
 	</select>
 	
-	<select id="selectChildrenByParentId" resultType="net.ktop.ktop.module.web.category.CategoryDto">
+	<select id="selectChildrenByParentId" resultType="CategoryDto">
 	    SELECT *
 	    FROM category
 	    WHERE parent_id = #{param1} ORDER BY created_at;
 	</select>
 	
-	<select id="selectCategoryById" resultType="net.ktop.ktop.module.web.category.CategoryDto" parameterType="int">
+	<select id="selectCategoryById" resultType="CategoryDto" parameterType="int">
 	    SELECT *
 			FROM category
 			WHERE
@@ -51,4 +51,30 @@
 	    FROM category
 	    WHERE id = #{id}
 	</select>
+
+	<insert id="insertCategory" parameterType="CategoryDto" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO category (
+	        name,
+	        parent_id,
+	        is_active
+	    )
+	    VALUES (
+	        #{name},
+	        #{parentId},
+	        #{active}
+	    )
+	</insert>
+	
+	<delete id="deleteCategoryOne" parameterType="int">
+		DELETE FROM category WHERE id = #{id};
+	</delete>
+	
+	<update id="updateCategory" parameterType="CategoryDto">
+	    UPDATE category
+	    SET
+	        name = #{name},
+	        is_active = #{active},
+	        updated_at = NOW()
+	    WHERE id = #{id}
+	</update>
 </mapper>

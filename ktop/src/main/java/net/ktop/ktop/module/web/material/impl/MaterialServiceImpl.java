@@ -34,6 +34,11 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
+    public int selectMaterialCount(MaterialDto dto) {
+        return materialRepository.selectMaterialCount(dto);
+    }
+
+    @Override
     public MaterialDto selectMaterialOne(int id) {
         return materialRepository.selectMaterialOne(id);
     }

@@ -17,5 +17,25 @@
 		<typeAlias alias="FileDto" type="net.ktop.ktop.module.util.file.FileDto"/>
 		<typeAlias alias="CompanyFileDto" type="net.ktop.ktop.module.web.company.file.CompanyFileDto"/>
 		<typeAlias alias="PartnerCompanyDto" type="net.ktop.ktop.module.web.partner.PartnerCompanyDto"/>
+		
+		<!-- 새로 통합된 클래스들 -->
+		<typeAlias alias="RegionDto" type="net.ktop.ktop.module.web.region.RegionDto"/>
+		<typeAlias alias="CategoryDto" type="net.ktop.ktop.module.web.category.CategoryDto"/>
+		<typeAlias alias="WorkFieldDto" type="net.ktop.ktop.module.web.workforce.workfield.WorkFieldDto"/>
+		
+		<!-- 자주 사용되는 클래스들 추가 -->
+		<typeAlias alias="MaterialDto" type="net.ktop.ktop.module.web.material.MaterialDto"/>
+		<typeAlias alias="MaterialFileDto" type="net.ktop.ktop.module.web.material.file.MaterialFileDto"/>
+		<typeAlias alias="WorkerDto" type="net.ktop.ktop.module.web.workforce.WorkerDto"/>
+		<typeAlias alias="WorkerFieldDto" type="net.ktop.ktop.module.web.workforce.workerfield.WorkerFieldDto"/>
+		<typeAlias alias="WorkerFileDto" type="net.ktop.ktop.module.web.workforce.file.WorkerFileDto"/>
+		<typeAlias alias="BoardPostDto" type="net.ktop.ktop.module.web.board.BoardPostDto"/>
+		<typeAlias alias="BoardPostSearchDto" type="net.ktop.ktop.module.web.board.BoardPostSearchDto"/>
+		<typeAlias alias="BoardPostFileDto" type="net.ktop.ktop.module.web.board.file.BoardPostFileDto"/>
+		<typeAlias alias="BoardPostViewDto" type="net.ktop.ktop.module.web.board.view.BoardPostViewDto"/>
+		<typeAlias alias="BoardCommentDto" type="net.ktop.ktop.module.web.boardcomment.BoardCommentDto"/>
+		<typeAlias alias="FaqPostDto" type="net.ktop.ktop.module.web.faq.FaqPostDto"/>
+		<typeAlias alias="AdBannerDto" type="net.ktop.ktop.module.web.admin.ad.AdBannerDto"/>
+		<typeAlias alias="AdminMaterialDto" type="net.ktop.ktop.module.web.admin.material.AdminMaterialDto"/>
    	</typeAliases>
 </configuration>

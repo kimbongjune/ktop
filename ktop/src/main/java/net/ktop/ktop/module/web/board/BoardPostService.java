@@ -8,6 +8,8 @@ import net.ktop.ktop.module.web.board.view.BoardPostViewDto;
 public interface BoardPostService {
 	List<BoardPostDto> selectBoardPostList(BoardPostSearchDto dto);
 	
+	int selectBoardPostCount(BoardPostSearchDto dto);
+	
 	BoardPostDto selectBoardPostById(int id);
 	
 	int insertBoardPost(BoardPostDto dto);

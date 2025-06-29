@@ -45,7 +45,7 @@
 		<dl>
 			<dt>대표이미지</dt>
 			<dd>
-				<a class="ahref_btns cursor" href="<c:url value='/download?id=${worker.workerFileList[0].file.id}' />">
+				<a class="ahref_btns cursor" href="<c:url value='/file/download?id=${worker.workerFileList[0].file.id}' />">
 					<i class="fas fa-paperclip"></i> 
 					<span class="fname">${worker.workerFileList[0].file.originalName}</span> 
 					<span class="fsize">(${worker.workerFileList[0].file.fileSizeNumber}
@@ -56,7 +56,7 @@
 		<dl>
 			<dt>포트폴리오</dt>
 			<dd>
-				<a class="ahref_btns cursor" href="<c:url value='/download?id=${worker.workerFileList[1].file.id}' />">
+				<a class="ahref_btns cursor" href="<c:url value='/file/download?id=${worker.workerFileList[1].file.id}' />">
 					<i class="fas fa-paperclip"></i> 
 					<span class="fname">${worker.workerFileList[1].file.originalName}</span> 
 					<span class="fsize">(${worker.workerFileList[1].file.fileSizeNumber}
