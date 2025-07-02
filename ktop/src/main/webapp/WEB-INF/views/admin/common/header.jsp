@@ -8,6 +8,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width" />
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>건축자재포털</title>
 <link rel="stylesheet" href="<c:url value='/resources/static/css/admin/common.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/css/admin/gwizard.css' />">

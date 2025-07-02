@@ -15,6 +15,7 @@
 <h4>팝업정보 수정</h4>
 
 <form name="admin_popup_form" method="post" action="#">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <input type="hidden" name="gc" value="BC" />
 <input type="hidden" name="popup_id" value="14" />
 <input type="hidden" name="do" value="update" />

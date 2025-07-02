@@ -219,6 +219,7 @@
 				<form method="post"
 				      action="<c:url value='/category/${categoryNum}/material/delete/${material.id}' />"
 				      style="display: inline;">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					<button type="submit" class="ab_m delete_btns Fix_FormBtns"
 					        onclick="return confirm('정말 삭제하시겠습니까?');">
 						삭제

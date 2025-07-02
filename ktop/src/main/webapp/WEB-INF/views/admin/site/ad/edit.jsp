@@ -10,6 +10,7 @@
 		<div class="text_edit board_write">
 			<h3 style="border-bottom:1px solid #ddd; padding-bottom:10px; margin-bottom:20px;">배너 수정</h3>
 			<form name="banner_form" method="post" action="<c:url value='/admin/site/ad/update/${banner.id}' />" enctype="multipart/form-data" onsubmit="return submitForm(event);">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<input type="hidden" name="id" value="${banner.id}" />
 				<table class="gtable">
 					<colgroup>

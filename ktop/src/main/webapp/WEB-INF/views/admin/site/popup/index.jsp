@@ -15,6 +15,7 @@
 <a href="<c:url value='/admin/site/popup/write' />"><div class="ab_m ab_blue"><i class="fas fa-clone"></i>생성</div></a>
 
 <form name="search_form" method="post" action="#">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <input type="hidden" name="gc" value="BC" />
 <div class="gsearch_box">
 	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>1</span></div>
@@ -30,6 +31,7 @@
 
 
 <form name="admin_popup_listform" method="post" action="#">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <input type="hidden" name="gc" value="BC" />
 <input type="hidden" name="do" value="update" />
 <input type="hidden" name="action" value="listupdate" />

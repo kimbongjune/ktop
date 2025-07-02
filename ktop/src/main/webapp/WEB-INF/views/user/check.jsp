@@ -41,6 +41,7 @@
 <div id="register_box">
 
 	<form name="register_check" method="post" action="#" onsubmit="return register_check_submit();">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	<input type="hidden" name="gc" value="MC" />
 	<input type="hidden" name="do" value="form" />
 

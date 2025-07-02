@@ -1,4 +1,3 @@
-
 /***** 기본셋팅 값 *********************************************/
 
 var common_ajax_ing = false;
@@ -34,6 +33,7 @@ $(function() {
 	var header = $("meta[name='_csrf_header']").attr("content");
 	
 	if (token && header) {
+		// jQuery AJAX용 CSRF 설정
 		$(document).ajaxSend(function(e, xhr, options) {
 			if (options.type.toUpperCase() === "POST" || 
 				options.type.toUpperCase() === "PUT" || 
@@ -41,6 +41,21 @@ $(function() {
 				xhr.setRequestHeader(header, token);
 			}
 		});
+		
+		// axios용 CSRF 설정
+		if (typeof axios !== 'undefined') {
+			axios.defaults.headers.common[header] = token;
+			
+			// axios 인터셉터로 추가 보장
+			axios.interceptors.request.use(function (config) {
+				if (config.method === 'post' || config.method === 'put' || config.method === 'delete') {
+					config.headers[header] = token;
+				}
+				return config;
+			}, function (error) {
+				return Promise.reject(error);
+			});
+		}
 	}
 
 	// 높이 저장 이벤트 (리스트)

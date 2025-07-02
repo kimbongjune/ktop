@@ -22,6 +22,7 @@
 
 
 <form name="search_form" method="post" action="#">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <input type="hidden" name="gc" value="556YGDI" />
 <div class="gsearch_box">
 	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>7</span></div>

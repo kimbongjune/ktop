@@ -9,6 +9,7 @@
 		<div class="text_edit board_write">
 			<h3 style="border-bottom:1px solid #ddd; padding-bottom:10px; margin-bottom:20px;">배너 생성</h3>
 			<form name="banner_form" method="post" action="<c:url value='/admin/site/ad/add' />" enctype="multipart/form-data" onsubmit="return submitForm(event);">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<table class="gtable">
 					<colgroup>
 						<col style="width:15%;" />

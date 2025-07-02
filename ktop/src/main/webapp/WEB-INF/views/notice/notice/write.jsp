@@ -42,6 +42,7 @@
 <div class="board_form">
 
 	<form name="bwrite_form" method="post" enctype="multipart/form-data" action="">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 	<div class="tit">새글쓰기</div>
 

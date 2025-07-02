@@ -69,6 +69,7 @@
 
 
 	<form name="admin_person_confirm" method="post" >
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 	<h4>업체 신청내역 심사</h4>
 	<table class="gtable">

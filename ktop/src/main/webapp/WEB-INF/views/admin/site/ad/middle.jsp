@@ -18,7 +18,8 @@
 <a href="<c:url value='/admin/site/ad/write?position=middle' />"><div class="ab_m ab_blue"><i class="fas fa-clone"></i>생성</div></a>
 
 <form name="search_form" method="post" action="#">
-<input type="hidden" name="gc" value="banner" />
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	<input type="hidden" name="gc" value="banner" />
 <div class="gsearch_box">
 	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>${pagination.totalCount}</span></div>
 	<div class="gsearch">

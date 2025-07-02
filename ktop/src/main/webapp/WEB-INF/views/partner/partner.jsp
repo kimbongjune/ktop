@@ -123,8 +123,9 @@
 <div id="review_layer">
 	<h4>리뷰 작성</h4>
 	<form method="post" name="review_form" action="#">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input type="hidden" name="gc" value="603TYQP" />
-<input type="hidden" name="company_id" value="1" />
+		<input type="hidden" name="company_id" value="1" />
 		<input type="hidden" name="do" value="update" />
 		<input type="hidden" name="action" value="review_insert" />
 		<input type="hidden" id="review_table_name" name="table_name" value="" />

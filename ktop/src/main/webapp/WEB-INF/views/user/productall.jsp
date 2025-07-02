@@ -129,6 +129,7 @@
 <div class="notice_box">
 <h5>등록상품 일괄입력</h5> 
 <form name="mydump_dumpform2" method="post" action="#" enctype="multipart/form-data">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <input type="hidden" name="gc" value="579OLWN" />
 <input type="hidden" name="s_mgroup" value="1" />
 <input type="hidden" name="do" value="aupdate" />
@@ -169,6 +170,7 @@
 </div>
 
 <form name="myproduct_listform" method="post" action="#">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <input type="hidden" name="gc" value="579OLWN" />
 <input type="hidden" name="s_mgroup" value="1" />
 <input type="hidden" name="do" value="aupdate" />

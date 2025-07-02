@@ -13,6 +13,7 @@
 <h4>회원정보 입력</h4>
 
 <form name="admin_user_form" method="post" action="#">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <input type="hidden" name="gc" value="556YGDI" />
 <input type="hidden" name="do" value="update" />
 <input type="hidden" name="action" value="insert" />

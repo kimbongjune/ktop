@@ -15,6 +15,7 @@
 <h4>게시글정보 입력</h4>
 
 <form name="admin_bwrite_form" method="post" enctype="multipart/form-data" action="#">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <input type="hidden" name="gc" value="FA" />
 <input type="hidden" name="do" value="update" />
 <input type="hidden" name="action" value="insert" />

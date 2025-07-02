@@ -6,7 +6,7 @@
 	</div>
 
 	<form name="search_form" method="post" action=#>
-		<input type="hidden" name="gc" value="DB" /> <input type="hidden" name="do" value="action" /> <input type="hidden" name="do" value="action" />
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 		<div class="gsearch">
 			<table class="gtable">

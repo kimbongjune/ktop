@@ -35,6 +35,7 @@
 
 
 <form name="admin_bwrite_listform" method="post" action="#">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <input type="hidden" name="gc" value="FA" />
 <input type="hidden" name="do" value="update" />
 <input type="hidden" name="action" value="listdelete" />

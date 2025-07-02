@@ -139,6 +139,7 @@
 
 -->
 <form name="material_form" method="post" enctype="multipart/form-data" action="">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 <table class="gtable">
 <colgroup>
