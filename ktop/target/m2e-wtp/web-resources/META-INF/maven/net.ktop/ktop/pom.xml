@@ -58,11 +58,12 @@
 				 </exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
+		<!-- 가비아 서버용 - WebSocket 관련 제거 -->
+		<!-- <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-messaging</artifactId>
 		    <version>${org.springframework-version}</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 	        <groupId>org.springframework</groupId>
 	        <artifactId>spring-core</artifactId>
@@ -100,20 +101,18 @@
 		</dependency>
         <!--spring security dependency end-->
 
-		<!-- websocket -->
-		<dependency>
+		<!-- websocket - 가비아 서버용 비활성화 (CPU 집약적) -->
+		<!-- <dependency>
 		    <groupId>javax.websocket</groupId>
 		    <artifactId>javax.websocket-api</artifactId>
 		    <version>1.1</version>
 		    <scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
-			<dependency>
-			    <groupId>org.springframework</groupId>
-			    <artifactId>spring-websocket</artifactId>
-			    <version>${org.springframework-version}</version>
-			</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-messaging -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency> -->
 		<!-- end websocket -->
 
 		<!-- file upload -->
@@ -240,11 +239,12 @@
             <version>${com.fasterxml.jackson.core.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
-		<dependency>
+		<!-- 가비아 서버용 - 구버전 Jackson 제거로 CPU 최적화 -->
+		<!-- <dependency>
 		    <groupId>org.codehaus.jackson</groupId>
 		    <artifactId>jackson-mapper-asl</artifactId>
 		    <version>1.9.13</version>
-		</dependency>
+		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -262,17 +262,17 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		<dependency>
+		<!-- 가비아 서버용 - 사용하지 않는 DB 드라이버 제거 -->
+		<!-- <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${org.postgresql.version}</version>
         </dependency>
-        <!-- Maria DB -->
-		<dependency>
+        <dependency>
             <groupId>org.mariadb.jdbc</groupId>
 	        <artifactId>mariadb-java-client</artifactId>
 	        <version>${org.mariadb.version}</version>
-	    </dependency>
+	    </dependency> -->
 
         <dependency>
 		    <groupId>javax.annotation</groupId>

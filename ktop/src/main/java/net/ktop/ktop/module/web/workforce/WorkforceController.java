@@ -167,6 +167,9 @@ public class WorkforceController {
 		workerDto.setUserId(user.getUsername());
 		workerService.updateWorker(workerDto);
 		
+		// 기존 워커 필드 삭제 후 새로 추가
+		workerService.deleteWorkerField(user.getUsername());
+		
 		WorkerFieldDto dto = new WorkerFieldDto();
 		dto.setWorkFieldList(workField);
 		dto.setUserId(user.getUsername());
@@ -175,13 +178,17 @@ public class WorkforceController {
 		List<WorkerFileDto> workerFileList = new ArrayList<>();
 		if (file1 != null && !file1.isEmpty()) {
 	        FileDto fileDto = fileService.saveUploadedFile(file1);
-	        workerService.deleteWorkerFileOne(delFile1);
+	        if (delFile1 != null && !delFile1.trim().isEmpty()) {
+	            workerService.deleteWorkerFileOne(delFile1);
+	        }
 	        workerFileList.add(new WorkerFileDto(workerDto.getUserId(), fileDto.getId(), 1));
 	    }
 
 	    if (file2 != null && !file2.isEmpty()) {
 	        FileDto fileDto = fileService.saveUploadedFile(file2);
-	        workerService.deleteWorkerFileOne(delFile2);
+	        if (delFile2 != null && !delFile2.trim().isEmpty()) {
+	            workerService.deleteWorkerFileOne(delFile2);
+	        }
 	        workerFileList.add(new WorkerFileDto(workerDto.getUserId(), fileDto.getId(), 2));
 	    }
 	    

@@ -189,17 +189,36 @@ public class CategoryController {
 		dto.setCategoryId(category);
 		dto.setPartnerId(user.getUsername());
 		
+		System.out.println("자재 등록 시작 - MaterialDto: " + dto);
+		System.out.println("파일 파라미터 확인 - file: " + file);
+		System.out.println("파일이 null인가? " + (file == null));
+		if (file != null) {
+			System.out.println("파일이 비어있는가? " + file.isEmpty());
+			System.out.println("파일 이름: " + file.getOriginalFilename());
+			System.out.println("파일 크기: " + file.getSize());
+		}
+		
 		materialService.insertMaterial(dto);
+		System.out.println("자재 등록 완료 - MaterialDto ID: " + dto.getId());
 		
 		if (file != null && !file.isEmpty()) {
+			System.out.println("파일 업로드 시작 - 파일명: " + file.getOriginalFilename() + ", 크기: " + file.getSize());
 	        FileDto fileDto = fileService.saveUploadedFile(file);
+	        System.out.println("파일 저장 완료 - FileDto: " + fileDto);
 	        materialFileList.add(new MaterialFileDto(dto.getId(), fileDto.getId()));
+	        System.out.println("MaterialFileDto 생성 완료 - materialId: " + dto.getId() + ", fileId: " + fileDto.getId());
+	    } else {
+	    	System.out.println("파일이 없거나 비어있어서 파일 업로드를 건너뜀");
 	    }
 		
 		if(materialFileList != null && !materialFileList.isEmpty()) {
+			System.out.println("MaterialFile 저장 시작 - 개수: " + materialFileList.size());
 			materialService.insertMaterialFiles(materialFileList);
+			System.out.println("MaterialFile 저장 완료");
+   		} else {
+   			System.out.println("MaterialFileList가 비어있어서 DB 저장을 건너뜀");
    		}
-		System.out.println(file);
+		System.out.println("자재 등록 전체 완료");
 		return "redirect:/category/"+category+"/material";
 	}
 	

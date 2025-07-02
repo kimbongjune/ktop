@@ -87,10 +87,10 @@ $(function() {
 		$('.multiboard_tab').removeClass('on');
 		$('#multiboard_'+multi_id).addClass('on');
 
-		var more_href = $('.multiboard_more').attr('href');
-		var more_href_arr = more_href.split('=');
-
-		$('.multiboard_more').attr('href', more_href_arr[0]+'='+$(this).attr('data-gc'));
+		// URL 조작 기능 제거 (undefined 문제 해결)
+		// var more_href = $('.multiboard_more').attr('href');
+		// var more_href_arr = more_href.split('=');
+		// $('.multiboard_more').attr('href', more_href_arr[0]+'='+$(this).attr('data-gc'));
 
 		$('.news_item').css('display', 'none');
 		$('.multiboard_content_'+multi_id).css('display', 'block');

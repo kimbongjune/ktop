@@ -35,22 +35,27 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public FileDto saveUploadedFile(MultipartFile file) throws IOException {
-	    if (file == null || file.isEmpty()) return null;
+	    if (file == null || file.isEmpty()) {
+	    	System.out.println("파일이 null이거나 비어있음");
+	    	return null;
+	    }
 
 	    String uploadPath = servletContext.getRealPath("/uploads");
+	    System.out.println("업로드 경로: " + uploadPath);
 	    File dir = new File(uploadPath);
 	    if (!dir.exists()) {
-	        dir.mkdirs();
+	        System.out.println("업로드 디렉토리 생성: " + dir.mkdirs());
 	    }
 
 	    String originalName = file.getOriginalFilename();
-
 		String normalizedName = Normalizer.normalize(originalName, Normalizer.Form.NFC);
-
 		String savedName = UUID.randomUUID().toString() + "_" + normalizedName;
+		
+		System.out.println("원본 파일명: " + originalName + ", 저장 파일명: " + savedName);
 		
 	    File saveFile = new File(dir, savedName);
 	    file.transferTo(saveFile);
+	    System.out.println("파일 물리적 저장 완료: " + saveFile.getAbsolutePath());
 
 	    FileDto dto = new FileDto();
 	    dto.setOriginalName(originalName);
@@ -59,7 +64,9 @@ public class FileServiceImpl implements FileService {
 	    dto.setMimeType(file.getContentType());
 	    dto.setFileSize(file.getSize());
 	    
+	    System.out.println("FileDto 생성 완료 (DB 저장 전): " + dto);
 	    this.saveFile(dto);
+	    System.out.println("FileDto DB 저장 완료 (ID: " + dto.getId() + ")");
 
 	    return dto;
 	}

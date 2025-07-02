@@ -138,7 +138,7 @@
 </div>
 
 -->
-<form name="material_form" method="post" enctype="multipart/form-data" action="">
+<form name="material_form" method="post" enctype="multipart/form-data" action="" onsubmit="console.log('Form 제출 시 파일:', $('#file')[0].files);">
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 <table class="gtable">

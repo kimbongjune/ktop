@@ -8,7 +8,13 @@
 	    <setting name="callSettersOnNulls" value="true"/>    
 	    <setting name="returnInstanceForEmptyRow" value="true"/>
 	    <setting name="mapUnderscoreToCamelCase" value="true"/>
-	    <setting name="logImpl" value="LOG4J2"/>
+	    <setting name="logImpl" value="NO_LOGGING"/>
+	    <setting name="lazyLoadingEnabled" value="false"/>
+	    <setting name="aggressiveLazyLoading" value="false"/>
+	    <setting name="multipleResultSetsEnabled" value="true"/>
+	    <setting name="useColumnLabel" value="true"/>
+	    <setting name="autoMappingBehavior" value="PARTIAL"/>
+	    <setting name="defaultExecutorType" value="SIMPLE"/>
 	</settings>
 	<typeAliases>
 		<typeAlias alias="UserDto" type="net.ktop.ktop.module.web.user.UserDto"/>
