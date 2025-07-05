@@ -35,6 +35,18 @@ html							{font-size:15px;}
 .top_link							{position:absolute; right:0;top:0;line-height:52px; }
 .top_link li						{position:relative; display:inline-block; margin-left:20px;}
 .top_link li a						{color:#666; font-size:0.9em; opacity:0.9;   } 
+.login form 						{display: flex; color: #666; font-size: 0.9em; opacity: 0.9;}
+.login form button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px;
+    bottom: 0;
+    width: 1px;
+    height: 1em;
+    margin: auto;
+    background: #d1d1d2;
+}
 .top_link li a:hover				{opacity:1;}
 .top_link li a:after				{content:''; position:absolute; top:0; left:-10px; bottom:0; width:1px; height:1em; margin:auto; background:#d1d1d2;}
 .top_link li:first-child			{margin:0;} 

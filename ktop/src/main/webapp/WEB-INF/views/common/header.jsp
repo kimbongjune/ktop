@@ -74,9 +74,9 @@
 						</sec:authorize>
 						<sec:authorize access="isAuthenticated()">
 						<p>
-							<form action="<c:url value='/logout' />" method="post" style="display:inline;">
+							<form action="<c:url value='/logout' />" method="post">
 								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-								<button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;font:inherit;"><i class="mbmenu_top_icon01"></i><br />로그아웃</button>
+								<button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;font:inherit;"><i class="mbmenu_top_icon02"></i><br />로그아웃</button>
 							</form>
 						</p>
 						</sec:authorize>
@@ -134,9 +134,9 @@
 						</sec:authorize> 
 						
 						<sec:authorize access="isAuthenticated()">
-							<form action="<c:url value='/logout' />" method="post" style="display:inline;">
+							<form action="<c:url value='/logout' />" method="post">
 								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-								<button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;font:inherit;text-decoration:underline;">로그아웃</button>
+								<button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;font:inherit;">로그아웃</button>
 							</form>
 						</sec:authorize>
 						

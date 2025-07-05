@@ -12,9 +12,9 @@
 /* 상품 검색박스 ================================================================================== */
 .product_list_wrap						{position:relative;    }
 .product_list_wrap:after			{content:""; display:block; clear:both;}
- .product_list_cont							{width:calc(100% - 260px); padding:0 30px 60px 0;}
+ .product_list_cont							{width:calc(100% - 350px); padding:0 30px 60px 0;}
 
-.product_list_search_box				{ float:right; width:260px; padding:18px; border:1px solid #ddd;background:#f9f9f9;}
+.product_list_search_box				{ float:right; width:350px; padding:18px; border:1px solid #ddd;background:#f9f9f9;}
 .product_list_search_tit							{color:#000;font-size:1.1em;font-weight:700;padding:0 0 15px 0;}
 .product_list_search_category				{position:relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; text-align:center;}
 .product_list_search_category li			{display:inline-block;background:#fff;border:1px solid #b9b9b9;line-height:32px; border-radius:5px; }
