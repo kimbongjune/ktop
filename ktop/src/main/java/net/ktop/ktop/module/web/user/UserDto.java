@@ -1,66 +1,70 @@
 package net.ktop.ktop.module.web.user;
 
-public class UserDto {
+import java.io.Serializable;
 
-    /** 회원 아이디 */
-    private String id;
+public class UserDto implements Serializable {
 
-    /** 회원 비밀번호 */
-    private String password;
+	private static final long serialVersionUID = 1L;
 
-    /** 회원 이름 */
-    private String name;
+	/** 회원 아이디 */
+	private String id;
 
-    /** 회원 이름 (닉네임) */
-    private String nickName;
+	/** 회원 비밀번호 */
+	private String password;
 
-    /** 회원 휴대전화 번호 */
-    private String phoneMobile;
+	/** 회원 이름 */
+	private String name;
 
-    /** 회원 일반 전화번호 */
-    private String phoneHome;
+	/** 회원 이름 (닉네임) */
+	private String nickName;
 
-    /** 회원 이메일 */
-    private String email;
+	/** 회원 휴대전화 번호 */
+	private String phoneMobile;
 
-    /** 회원가입 질문1 */
-    private int question1Id;
+	/** 회원 일반 전화번호 */
+	private String phoneHome;
 
-    /** 회원가입 답변1 */
-    private String answer1;
+	/** 회원 이메일 */
+	private String email;
 
-    /** 회원가입 질문2 */
-    private int question2Id;
+	/** 회원가입 질문1 */
+	private int question1Id;
 
-    /** 회원가입 답변2 */
-    private String answer2;
+	/** 회원가입 답변1 */
+	private String answer1;
 
-    /** SMS 수신 동의 여부 */
-    private boolean smsAgree;
+	/** 회원가입 질문2 */
+	private int question2Id;
 
-    /** 이메일 수신 동의 여부 */
-    private boolean emailAgree;
+	/** 회원가입 답변2 */
+	private String answer2;
 
-    /** 광고성 정보 수신 동의 여부 */
-    private boolean adAgree;
+	/** SMS 수신 동의 여부 */
+	private boolean smsAgree;
 
-    /** 이용약관 동의 여부 */
-    private boolean termsAgree;
+	/** 이메일 수신 동의 여부 */
+	private boolean emailAgree;
 
-    /** 회원가입일 */
-    private String createdAt;
+	/** 광고성 정보 수신 동의 여부 */
+	private boolean adAgree;
 
-    /** 회원정보 수정일 */
-    private String updatedAt;
+	/** 이용약관 동의 여부 */
+	private boolean termsAgree;
 
-    /** 회원탈퇴일 */
-    private String deletedAt;
+	/** 회원가입일 */
+	private String createdAt;
 
-    /** 회원 권한 */
-    private int role;
+	/** 회원정보 수정일 */
+	private String updatedAt;
+
+	/** 회원탈퇴일 */
+	private String deletedAt;
+
+	/** 회원 권한 */
+	private int role;
     
-    /** 권한 이름 */
-    private String roleName;
+	/** 권한 이름 */
+	private String roleName;
 
 	public String getId() {
 		return id;

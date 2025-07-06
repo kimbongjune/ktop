@@ -1,5 +1,6 @@
 package net.ktop.ktop.module.security;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -7,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import net.ktop.ktop.module.web.user.UserDto;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private final UserDto user;

@@ -107,6 +107,8 @@
 								<li class=""><a href="<c:url value='/workforce/mine' />">인력 POOL 안내/등록 </a></li>
 							</ul>
 						</li>
+						<li class="lis ${menuCategory eq 'design' ? 'on' : ''}" data-key="design"><a href="<c:url value='/design' />" class="mbsub1s">3D 미리보기<span></span></a>
+						</li>
 					</ul>
 				</nav>
 				<ul class="top_link">
