@@ -4,6 +4,9 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.ArrayList;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,8 @@ import net.ktop.ktop.module.web.board.BoardPostService;
 import net.ktop.ktop.module.web.board.BoardPostSearchDto;
 import net.ktop.ktop.module.web.faq.FaqPostDto;
 import net.ktop.ktop.module.web.faq.FaqPostService;
+import net.ktop.ktop.module.web.popup.PopupDto;
+import net.ktop.ktop.module.web.popup.PopupService;
 
 /**
  * Handles requests for the application home page.
@@ -47,11 +52,12 @@ public class MainController {
 	private final WorkerService workerService;
 	private final BoardPostService boardPostService;
 	private final FaqPostService faqPostService;
+	private final PopupService popupService;
 	
 	@Autowired
 	public MainController(RegionService regionService, AdminMaterialService adminMaterialService, 
 			MaterialService materialService, AdBannerService adBannerService, WorkerService workerService,
-			BoardPostService boardPostService, FaqPostService faqPostService) {
+			BoardPostService boardPostService, FaqPostService faqPostService, PopupService popupService) {
 		this.regionService = regionService;
 		this.adminMaterialService = adminMaterialService;
 		this.materialService = materialService;
@@ -59,6 +65,7 @@ public class MainController {
 		this.workerService = workerService;
 		this.boardPostService = boardPostService;
 		this.faqPostService = faqPostService;
+		this.popupService = popupService;
 	}
 
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
@@ -67,13 +74,39 @@ public class MainController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, @AuthenticationPrincipal CustomUserDetails user) {
+	public String home(Locale locale, Model model, @AuthenticationPrincipal CustomUserDetails user, HttpServletRequest request) {
 		
 		List<RegionDto> regionList = regionService.getAllRegion();
 		List<AdminMaterialDto> materialList = adminMaterialService.getAllMaterial();
 		
 		model.addAttribute("regionList", regionList);
 		model.addAttribute("materialList", materialList);
+		
+		// 활성화된 팝업 목록 조회 및 쿠키 기반 필터링
+		try {
+			List<PopupDto> allActivePopups = popupService.getActivePopupList();
+			System.out.println(allActivePopups);
+			List<PopupDto> popupsToShow = new ArrayList<>();
+			Cookie[] cookies = request.getCookies();
+
+			for (PopupDto popup : allActivePopups) {
+				boolean shouldShow = true;
+				if (cookies != null) {
+					for (Cookie cookie : cookies) {
+						if (("hide_popup_" + popup.getId()).equals(cookie.getName())) {
+							shouldShow = false;
+							break;
+						}
+					}
+				}
+				if (shouldShow) {
+					popupsToShow.add(popup);
+				}
+			}
+			model.addAttribute("activePopups", popupsToShow);
+		} catch (Exception e) {
+			logger.error("활성 팝업 조회 중 오류 발생", e);
+		}
 		
 		// 광고 배너 데이터 추가 (사용자용 - 활성화된 것만)
 		try {

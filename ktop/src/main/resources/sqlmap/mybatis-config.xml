@@ -43,5 +43,6 @@
 		<typeAlias alias="FaqPostDto" type="net.ktop.ktop.module.web.faq.FaqPostDto"/>
 		<typeAlias alias="AdBannerDto" type="net.ktop.ktop.module.web.admin.ad.AdBannerDto"/>
 		<typeAlias alias="AdminMaterialDto" type="net.ktop.ktop.module.web.admin.material.AdminMaterialDto"/>
+		<typeAlias alias="PopupDto" type="net.ktop.ktop.module.web.popup.PopupDto"/>
    	</typeAliases>
 </configuration>

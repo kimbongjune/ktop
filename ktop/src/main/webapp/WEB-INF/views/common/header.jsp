@@ -19,12 +19,14 @@
 <link rel="stylesheet" href="<c:url value='/resources/static/css/guava.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/css/fontawesome.min.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/static/css/solid.min.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/static/css/popup.css' />">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500&display=swap" rel="stylesheet">
 
 <script src="<c:url value='/resources/static/js/axios.min.js'  />"></script>
 <script src="<c:url value='/resources/static/js/jquery.min.js' />"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
 	var agent = navigator.userAgent.toLowerCase();
 	if ((navigator.appName == 'Netscape' && agent.indexOf('trident') != -1)

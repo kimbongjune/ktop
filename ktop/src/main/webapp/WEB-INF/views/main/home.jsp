@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <div class="main_container">
 	<section class="main_visual">
 		<ul class="bxslider">
@@ -33,7 +34,6 @@
 			</div>
 		</dl>
 	</section>
-
 	<section class="cont01">
 		<div class="web_size">
 			<div class="main_search_wrap">
@@ -295,3 +295,65 @@
 <script src="<c:url value='/resources/static/js/slickslider.js' />"></script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
+<!-- Popups -->
+<c:if test="${not empty activePopups}">
+    <c:forEach var="popup" items="${activePopups}" varStatus="status">
+        <div id="popup-${popup.id}" class="popup-layer" style="top: calc(50% - 170px + ${status.index * 40}px); left: calc(50% - 200px + ${status.index * 40}px);">
+            <div class="popup-header">
+                <span class="title">${popup.title}</span>
+                <a href="#" class="close-btn" data-popup-id="${popup.id}">&times;</a>
+            </div>
+            <div class="popup-content">
+                ${popup.contentHtml}
+            </div>
+            <div class="popup-footer">
+                <label>
+                    <input type="checkbox" class="hide-for-7-days" data-popup-id="${popup.id}"> 7일간 보지 않기
+                </label>
+            </div>
+        </div>
+    </c:forEach>
+</c:if>
+
+<script>
+$(function() {
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+
+    let maxZIndex = 1000;
+
+    // 팝업 드래그 및 z-index 처리
+    $('.popup-layer').draggable({
+        handle: ".popup-header",
+        containment: "window",
+        start: function() {
+            $(this).css('z-index', ++maxZIndex);
+        }
+    }).on('mousedown', function() {
+        $(this).css('z-index', ++maxZIndex);
+    });
+
+    // 닫기 버튼 기능
+    $('.popup-header .close-btn').on('click', function(e) {
+        e.preventDefault();
+        const popupId = $(this).data('popup-id');
+        const popupDiv = $('#popup-' + popupId);
+        
+        if (popupDiv.find('.hide-for-7-days').is(':checked')) {
+            setCookie('hide_popup_' + popupId, 'true', 7);
+        }
+        
+        popupDiv.hide();
+    });
+});
+</script>
+</body>
+</html>

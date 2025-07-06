@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import net.ktop.ktop.module.security.CustomUserDetails;
 import net.ktop.ktop.module.web.admin.ad.AdBannerDto;
 import net.ktop.ktop.module.web.admin.ad.AdBannerService;
+import net.ktop.ktop.module.web.popup.PopupDto;
+import net.ktop.ktop.module.web.popup.PopupService;
 
 /**
  * Handles requests for the application home page.
@@ -29,6 +31,9 @@ public class HomeController {
 	
 	@Autowired
 	private AdBannerService adBannerService;
+
+	@Autowired
+    private PopupService popupService;
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -67,6 +72,14 @@ public class HomeController {
 			model.addAttribute("bottomBanners", bottomBanners);
 		} catch (Exception e) {
 			logger.error("광고 배너 조회 중 오류 발생", e);
+		}
+
+		// 활성화된 팝업 목록 조회
+		try {
+			List<PopupDto> activePopups = popupService.getActivePopupList();
+			model.addAttribute("activePopups", activePopups);
+		} catch (Exception e) {
+			logger.error("활성화된 팝업 조회 중 오류 발생", e);
 		}
 		
 		return "home";
