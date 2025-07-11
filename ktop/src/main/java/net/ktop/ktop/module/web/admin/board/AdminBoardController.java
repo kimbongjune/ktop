@@ -15,48 +15,48 @@ import net.ktop.ktop.module.web.board.BoardPostService;
 @RequestMapping("/admin/board")
 public class AdminBoardController {
 
-    private final BoardPostService boardPostService;
-    
-    @Autowired
-    public AdminBoardController(BoardPostService boardPostService) {
-        this.boardPostService = boardPostService;
-    }
+	private final BoardPostService boardPostService;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String boardList(Model model, BoardPostSearchDto dto,
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) {
-        dto.setPage(page);
-        dto.setSize(size);
-        
-        // 전체 개수 조회 및 페이징 정보 설정
-        int totalCount = boardPostService.selectBoardPostCount(dto);
-        dto.getPagination().setTotalCount(totalCount);
-        
-        List<BoardPostDto> boards = boardPostService.selectBoardPostList(dto);
-        
-        model.addAttribute("activeMenu", "board");
-        model.addAttribute("boards", boards);
-        model.addAttribute("pagination", dto.getPagination());
-        model.addAttribute("searchDto", dto);
-        return "admin/board/boards";
-    }
+	@Autowired
+	public AdminBoardController(BoardPostService boardPostService) {
+		this.boardPostService = boardPostService;
+	}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String boardDetail(Model model, @PathVariable String id) {
-        model.addAttribute("activeMenu", "board");
-        return "admin/board/board";
-    }
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String boardList(Model model, BoardPostSearchDto dto,
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
+		dto.setPage(page);
+		dto.setSize(size);
 
-    @RequestMapping(value = "/write", method = RequestMethod.GET)
-    public String boardWrite(Model model) {
-        model.addAttribute("activeMenu", "board");
-        return "admin/board/write";
-    }
+		// 전체 개수 조회 및 페이징 정보 설정
+		int totalCount = boardPostService.selectBoardPostCount(dto);
+		dto.getPagination().setTotalCount(totalCount);
 
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String boardEdit(Model model, @PathVariable String id) {
-        model.addAttribute("activeMenu", "board");
-        return "admin/board/write";
-    }
+		List<BoardPostDto> boards = boardPostService.selectBoardPostList(dto);
+
+		model.addAttribute("activeMenu", "board");
+		model.addAttribute("boards", boards);
+		model.addAttribute("pagination", dto.getPagination());
+		model.addAttribute("searchDto", dto);
+		return "admin/board/boards";
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String boardDetail(Model model, @PathVariable String id) {
+		model.addAttribute("activeMenu", "board");
+		return "admin/board/board";
+	}
+
+	@RequestMapping(value = "/write", method = RequestMethod.GET)
+	public String boardWrite(Model model) {
+		model.addAttribute("activeMenu", "board");
+		return "admin/board/write";
+	}
+
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	public String boardEdit(Model model, @PathVariable String id) {
+		model.addAttribute("activeMenu", "board");
+		return "admin/board/write";
+	}
 }

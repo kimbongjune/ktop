@@ -183,19 +183,18 @@ public class UserController {
    
    @RequestMapping(value = "/company/edit", method = {RequestMethod.GET})
    public String companyEdit(Model model, @AuthenticationPrincipal CustomUserDetails user) {
-	   CompanyDto dto = null;
-	   if(user != null) {
-		   dto = companyService.getCompanyOne(user.getUsername());
-	   }
-	   
-	   System.out.println(dto);
-	   
-	   List<RegionDto> regionList = regionService.getAllRegion();
-	   
-	   model.addAttribute("regionList", regionList);
-	   
-	   model.addAttribute("company", dto);
-	   return "/user/companyedit";
+       CompanyDto dto = null;
+       if(user != null) {
+           dto = companyService.getCompanyOne(user.getUsername());
+       }
+       if(dto == null) {
+           throw new org.springframework.security.access.AccessDeniedException("권한이 없습니다. 업체정보가 등록되어 있지 않습니다.");
+       }
+       System.out.println(dto);
+       List<RegionDto> regionList = regionService.getAllRegion();
+       model.addAttribute("regionList", regionList);
+       model.addAttribute("company", dto);
+       return "/user/companyedit";
    }
    
    @RequestMapping(value = "/company/edit", method = {RequestMethod.POST})

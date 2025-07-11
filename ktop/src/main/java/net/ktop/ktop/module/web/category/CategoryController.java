@@ -139,6 +139,15 @@ public class CategoryController {
 	                           @RequestParam(value = "page", defaultValue = "1") int page,
 							   @RequestParam(value = "size", defaultValue = "10") int size,
 	                           Model model) {
+		// 협력사 승인여부 체크
+		PartnerCompanyDto partnerCompanyDto = new PartnerCompanyDto();
+		partnerCompanyDto.setCategoryId(String.valueOf(category));
+		partnerCompanyDto.setId(user.getUsername());
+		PartnerCompanyDto partner = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
+		if(partner == null || !"approved".equals(partner.getStatus())) {
+			throw new org.springframework.security.access.AccessDeniedException("권한이 없습니다. 승인된 협력사만 자재 목록에 접근할 수 있습니다.");
+		}
+		
 		dto.setPartnerId(user.getUsername());
 		dto.setCategoryId(category);
 		dto.setPage(page);
@@ -167,6 +176,14 @@ public class CategoryController {
 	public String materialWrite(@PathVariable("category") int category,
 	                           @AuthenticationPrincipal CustomUserDetails user,
 	                           Model model) {
+		// 협력사 승인여부 체크
+		PartnerCompanyDto partnerCompanyDto = new PartnerCompanyDto();
+		partnerCompanyDto.setCategoryId(String.valueOf(category));
+		partnerCompanyDto.setId(user.getUsername());
+		PartnerCompanyDto partner = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
+		if(partner == null || !"approved".equals(partner.getStatus())) {
+			throw new org.springframework.security.access.AccessDeniedException("권한이 없습니다. 승인된 협력사만 자재 등록이 가능합니다.");
+		}
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
 		
 		List<AdminMaterialDto> materialList = adminMaterialService.getAllMaterial();
@@ -227,6 +244,14 @@ public class CategoryController {
 							   @PathVariable("id") int id,
 	                           @AuthenticationPrincipal CustomUserDetails user,
 	                           Model model) {
+		// 협력사 승인여부 체크
+		PartnerCompanyDto partnerCompanyDto = new PartnerCompanyDto();
+		partnerCompanyDto.setCategoryId(String.valueOf(category));
+		partnerCompanyDto.setId(user.getUsername());
+		PartnerCompanyDto partner = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
+		if(partner == null || !"approved".equals(partner.getStatus())) {
+			throw new org.springframework.security.access.AccessDeniedException("권한이 없습니다. 승인된 협력사만 자재 수정이 가능합니다.");
+		}
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
 		
 		List<AdminMaterialDto> materialList = adminMaterialService.getAllMaterial();
@@ -278,6 +303,14 @@ public class CategoryController {
 	
 	@RequestMapping(value = "/{category}/material/delete/{id}", method = RequestMethod.POST)
 	public String materialDelete(@PathVariable("category") int category, @PathVariable("id") int id, @AuthenticationPrincipal CustomUserDetails user) {
+		// 협력사 승인여부 체크
+		PartnerCompanyDto partnerCompanyDto = new PartnerCompanyDto();
+		partnerCompanyDto.setCategoryId(String.valueOf(category));
+		partnerCompanyDto.setId(user.getUsername());
+		PartnerCompanyDto partner = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
+		if(partner == null || !"approved".equals(partner.getStatus())) {
+			throw new org.springframework.security.access.AccessDeniedException("권한이 없습니다. 승인된 협력사만 자재 삭제가 가능합니다.");
+		}
 		// 권한 체크: 자료 조회 후 작성자 확인
 		MaterialDto existingMaterial = materialService.selectMaterialOne(id);
 		if(existingMaterial == null) {

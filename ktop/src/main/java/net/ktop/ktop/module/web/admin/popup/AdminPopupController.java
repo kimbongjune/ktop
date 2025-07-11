@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import net.ktop.ktop.module.web.popup.PopupDto;
 import net.ktop.ktop.module.web.popup.PopupService;
@@ -26,9 +27,19 @@ public class AdminPopupController {
     }
 
     @GetMapping
-    public String popupList(Model model, PopupDto params) {
+    public String popupList(Model model, PopupDto params,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        params.setPage(page);
+        params.setSize(size);
+        
+        int totalCount = popupService.getPopupCount(params);
+        params.getPagination().setTotalCount(totalCount);
+        
         List<PopupDto> popupList = popupService.getPopupList(params);
         model.addAttribute("popupList", popupList);
+        model.addAttribute("pagination", params.getPagination());
+        model.addAttribute("searchDto", params);
         model.addAttribute("activeMenu", "site");
         model.addAttribute("activeSubMenu", "popup");
         return "admin/site/popup/index";

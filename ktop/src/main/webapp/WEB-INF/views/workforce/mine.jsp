@@ -43,7 +43,7 @@
 		</div>
 	</div>
 </sec:authorize>
-<sec:authorize access="isAuthenticated()">
+<sec:authorize access="isAuthenticated() and !hasRole('ROLE_ADMIN')">
 	<c:choose>
 		<c:when test="${empty worker}">
 			<div class="center mt30">

@@ -78,16 +78,16 @@
 
 	<!-- 링크 -->
 	<div class="btn_wrap">
-					<a href="<c:url value='/notice/edit/${board.id}' />"><div class="fl bbs_btn02">수정</div></a>
-			<form method="post" action="<c:url value='/notice/delete/${board.id}' />" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				<input type="hidden" value="${board.userId}" name="userId">
-			    <button type="submit" class="fl bbs_btn02 delete_btns">삭제</button>
-			</form>
-
-		
-		<a href="<c:url value='/notice' />"><div class="bbs_btn01 w150p">목록보기</div></a>
-	</div>
+  <sec:authorize access="hasRole('ROLE_ADMIN')">
+    <a href="<c:url value='/notice/edit/${board.id}' />"><div class="fl bbs_btn02">수정</div></a>
+    <form method="post" action="<c:url value='/notice/delete/${board.id}' />" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+      <input type="hidden" value="${board.userId}" name="userId">
+      <button type="submit" class="fl bbs_btn02 delete_btns">삭제</button>
+    </form>
+  </sec:authorize>
+  <a href="<c:url value='/notice' />"><div class="bbs_btn01 w150p">목록보기</div></a>
+</div>
 
 	<ul class="pn_wrap">
 		<c:if test="${not empty board.prevPostId}">

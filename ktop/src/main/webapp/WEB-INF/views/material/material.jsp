@@ -122,39 +122,23 @@
 		</table>		 --%>
 	</div>
 </div>
-<!-- <div class="product_other_item_wrap"> 
+<div class="product_other_item_wrap"> 
 	<div class="product_other_item_tit">가격 비교 </div>
 	<ul>
-			<a href="#">
-		<li class="on">
-			<div class="product_other_item_cate">친환경 페인트 / 도포</div>
-			<div class="product_other_item_price"><span>71,500</span>원	</div>
-			<div class="product_other_item_company">2개 업체</div>
-		</li>
-		</a>
-			<a href="#">
-		<li class="">
-			<div class="product_other_item_cate">방수 페인트 / 도포</div>
-			<div class="product_other_item_price"><span>0</span>원	</div>
-			<div class="product_other_item_company">0개 업체</div>
-		</li>
-		</a>
-			<a href="#">
-		<li class="">
-			<div class="product_other_item_cate">친환경 페인트 / 분사</div>
-			<div class="product_other_item_price"><span>250,000</span>원	</div>
-			<div class="product_other_item_company">1개 업체</div>
-		</li>
-		</a>
-			<a href="#">
-		<li class="">
-			<div class="product_other_item_cate">방수 페인트 / 분사</div>
-			<div class="product_other_item_price"><span>0</span>원	</div>
-			<div class="product_other_item_company">0개 업체</div>
-		</li>
-		</a>
-		</ul>
-</div> -->
+		<c:forEach var="item" items="${lowestPriceList}">
+			<a href="<c:url value='/material/${item.id}' />">
+				<li <c:if test="${item.id == material.id}">class="on"</c:if>>
+					<div class="product_other_item_cate">
+						${item.materialName} / ${item.name}
+					</div>
+					<div class="product_other_item_price">
+						<span><fmt:formatNumber value="${item.price}" /></span>원
+					</div>
+				</li>
+			</a>
+		</c:forEach>
+	</ul>
+</div>
 <%-- <div class="product_view_comlist"> 
 <ul>
 		<li>

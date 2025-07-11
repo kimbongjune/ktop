@@ -163,7 +163,9 @@ public class MainController {
 			noticeDto.setBoardType(1);  // 공지사항
 			noticeDto.setPage(1);
 			noticeDto.setSize(4);
-			
+			// 관리자 여부 세팅
+			boolean isAdmin = (user != null && user.getAuthorities() != null && user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
+			noticeDto.setIsAdmin(isAdmin);
 			List<BoardPostDto> notices = boardPostService.selectBoardPostList(noticeDto);
 			model.addAttribute("notices", notices);
 		} catch (Exception e) {

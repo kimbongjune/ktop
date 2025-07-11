@@ -1,5 +1,7 @@
 package net.ktop.ktop.module.web.popup;
 
+import net.ktop.ktop.module.util.pagination.PaginationDto;
+
 public class PopupDto {
     private int id;
     private String title;
@@ -9,6 +11,7 @@ public class PopupDto {
     private Integer isVisible;
     private String createdAt;
     private String updatedAt;
+    private PaginationDto pagination = new PaginationDto();
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -26,6 +29,29 @@ public class PopupDto {
     public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
     public String getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(String updatedAt) { this.updatedAt = updatedAt; }
+    public PaginationDto getPagination() { return pagination; }
+    public void setPagination(PaginationDto pagination) { this.pagination = pagination; }
+
+    // 편의 메서드들
+    public void setPage(int page) {
+        this.pagination.setPage(page);
+    }
+
+    public void setSize(int size) {
+        this.pagination.setSize(size);
+    }
+
+    public int getPage() {
+        return this.pagination.getPage();
+    }
+
+    public int getSize() {
+        return this.pagination.getSize();
+    }
+
+    public int getOffset() {
+        return this.pagination.getOffset();
+    }
 
     @Override
     public String toString() {

@@ -104,8 +104,10 @@
 	
 	<div class="btn_wrap">
 		<div class="fl">
-					<a href="<c:url value='/notice/write' />"><div class="bbs_btn01">글쓰기</div></a>
-				</div>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<a href="<c:url value='/notice/write' />"><div class="bbs_btn01">글쓰기</div></a>
+			</sec:authorize>
+		</div>
 
 				
 		<!--

@@ -33,6 +33,11 @@
     <delete id="deletePopup" parameterType="int">
         DELETE FROM popup WHERE id = #{id}
     </delete>
+    <!-- 팝업 총 개수 조회 -->
+    <select id="getPopupCount" parameterType="PopupDto" resultType="int">
+        SELECT COUNT(*)
+        FROM popup
+    </select>
     <select id="getActivePopupList" resultType="popupDto">
         SELECT
             id,

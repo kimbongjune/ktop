@@ -8,6 +8,7 @@ public class BoardPostSearchDto {
     private String keyword;
     private int boardType;
     private PaginationDto pagination;
+    private boolean isAdmin;
 
     public BoardPostSearchDto() {
         this.pagination = new PaginationDto();
@@ -43,6 +44,14 @@ public class BoardPostSearchDto {
 
 	public void setPagination(PaginationDto pagination) {
 		this.pagination = pagination;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 	// 편의 메서드들

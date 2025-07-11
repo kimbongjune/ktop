@@ -23,4 +23,6 @@ public interface MaterialService {
     int deleteMaterialFileOne(String id);
     
     List<Integer> selectMaterialCategoryIdsIncludingChildren(List<Integer> materialCategoryIdList);
+
+    List<MaterialDto> selectLowestPriceListByCategory(int materialCategoryId);
 }

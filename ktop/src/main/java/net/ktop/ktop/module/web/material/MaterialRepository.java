@@ -53,4 +53,8 @@ public class MaterialRepository {
     public List<Integer> selectMaterialCategoryIdsIncludingChildren(List<Integer> materialCategoryIdList){
     	return template.selectList(MAPPER_NAME + "selectMaterialCategoryIdsIncludingChildren", materialCategoryIdList);
     }
+
+    public List<MaterialDto> selectLowestPriceListByCategory(int materialCategoryId) {
+        return template.selectList(MAPPER_NAME + "selectLowestPriceListByCategory", materialCategoryId);
+    }
 }

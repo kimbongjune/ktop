@@ -40,11 +40,14 @@ public class NoticeController {
 	@RequestMapping(value = "", method = {RequestMethod.GET})
 	public String notice(Model model, BoardPostSearchDto dto, 
 			@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "size", defaultValue = "10") int size) {
+			@RequestParam(value = "size", defaultValue = "10") int size,
+			@AuthenticationPrincipal CustomUserDetails user) {
 		dto.setBoardType(1);
 		dto.setPage(page);
 		dto.setSize(size);
-		
+		// 관리자 여부 세팅
+		boolean isAdmin = (user != null && user.getAuthorities() != null && user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
+		dto.setIsAdmin(isAdmin);
 		// 전체 개수 조회 및 페이징 정보 설정
 		int totalCount = boardPostService.selectBoardPostCount(dto);
 		dto.getPagination().setTotalCount(totalCount);

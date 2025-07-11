@@ -137,7 +137,7 @@ public class PartnerController {
 			partnerDto = partnerCompanyService.getPartnerCompanyOne(partnerCompanyDto);
 		}
 		if(partnerDto == null) {
-			return "error/404";
+			throw new org.springframework.security.access.AccessDeniedException("권한이 없습니다. 협력사 정보가 등록되어 있지 않습니다.");
 		}
 		List<CategoryDto> list = categoryService.selectCategoryById(category);
 		model.addAttribute("menuCategory", "category");

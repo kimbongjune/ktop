@@ -53,4 +53,9 @@ public class PopupServiceImpl implements PopupService {
     public List<PopupDto> getActivePopupList() {
         return popupRepository.getActivePopupList();
     }
+
+    @Override
+    public int getPopupCount(PopupDto params) {
+        return popupRepository.getPopupCount(params);
+    }
 } 

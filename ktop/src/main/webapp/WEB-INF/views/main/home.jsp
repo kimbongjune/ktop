@@ -29,8 +29,7 @@
 		</ul>
 		<dl class="visual_txt">
 			<div class="web_size">
-				<p>건축자재 최저가 선언!</p>
-				건축자재, 이제 가격을 비교해 보고 구입하세요
+				<p>건축의 모든것을 시작한다.</p>
 			</div>
 		</dl>
 	</section>

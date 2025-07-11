@@ -275,4 +275,59 @@
 		WHERE id = #{id}
 	</update>
 
+<!-- material_category_id 기준 최저가 10개 상품 조회 -->
+<select id="selectLowestPriceListByCategory" parameterType="int" resultMap="materialWithFileMap">
+SELECT 
+	m.id AS m_id,
+	m.name,
+	m.category_id,
+	m.material_category_id,
+	m.partner_id,
+	m.price,
+	m.description,
+	m.is_active,
+	m.created_at,
+	m.updated_at,
+	mf.id AS mf_id,
+	mf.material_id,
+	mf.file_id,
+	f.id AS f_id,
+	f.file_path,
+	f.original_name,
+	f.file_name,
+	f.mime_type,
+	f.file_size,
+	f.created_at AS file_created_at,
+	(select name from material_category where id = m.material_category_id) as material_name,
+	u.id AS u_id,
+	u.name AS u_name,
+	c.company_name,
+	c.region_id
+FROM material m
+LEFT JOIN (
+	SELECT mf1.*
+	FROM material_file mf1
+	JOIN (
+		SELECT material_id, MAX(id) AS max_id
+		FROM material_file
+		GROUP BY material_id
+	) mf2 ON mf1.material_id = mf2.material_id AND mf1.id = mf2.max_id
+) mf ON m.id = mf.material_id
+LEFT JOIN file f ON mf.file_id = f.id
+LEFT JOIN users u ON u.id = m.partner_id
+LEFT JOIN company c ON c.id = m.partner_id
+JOIN partner_company pc 
+	ON m.partner_id = pc.id 
+	AND m.category_id = pc.category_id 
+	AND pc.status = 'approved'
+LEFT JOIN region_category rc ON rc.id = c.region_id
+LEFT JOIN region_category rc_parent ON rc.parent_id = rc_parent.id
+WHERE m.deleted_at IS NULL
+AND u.role = 2
+AND m.material_category_id = #{materialCategoryId}
+AND m.is_active = true
+ORDER BY m.price ASC
+LIMIT 10
+</select>
+
 </mapper>

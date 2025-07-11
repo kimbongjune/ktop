@@ -19,11 +19,20 @@
 
 <div id="container" class="sub">
 	<div class="sub_container">
-	    <div class="sub_visual" style="margin-top: -60px;">
+	    <div class="sub_visual">
 	        <div class="web_size">
 	            <div class="sub_top">  
 					<h2>3D 미리보기</h2>
 				</div>
+	        </div>
+	    </div>
+	    <div class="sub_category_box">
+	        <div class="lnb">
+	            <div class="web_size">
+	                <ul>
+	                    <li class="on"><a href="<c:url value='/design' />">3D 미리보기</a></li>
+	                </ul>
+	            </div>
 	        </div>
 	    </div>
 	    <div class="sub_wrap">

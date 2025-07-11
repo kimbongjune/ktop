@@ -69,12 +69,13 @@
 		        <div class="tits open_btns" data-num="${faq.id}" data-class="condivs">${faq.title}</div>
 		
 		        <div class="btns">	
-		            <a href="<c:url value='/notice/faq/edit/${faq.id}' />"><div class="ab_m">수정</div></a>
-		            
-		            <form method="post" action="<c:url value='/notice/faq/delete/${faq.id}' />" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-		                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		                <button type="submit" class="ab_m">삭제</button>
-		            </form>
+		            <sec:authorize access="hasRole('ROLE_ADMIN')">
+		                <a href="<c:url value='/notice/faq/edit/${faq.id}' />"><div class="ab_m">수정</div></a>
+		                <form method="post" action="<c:url value='/notice/faq/delete/${faq.id}' />" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+		                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+		                    <button type="submit" class="ab_m">삭제</button>
+		                </form>
+		            </sec:authorize>
 		        </div>
 		    </div>
 		
@@ -90,9 +91,11 @@
 		</div>
 	
 	<div class="btn_wrap">
-		<div class="fl">
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+			<div class="fl">
 					<a href="<c:url value='/notice/faq/write' />"><div class="bbs_btn01">+ 글쓰기</div></a>
 				</div>
+		</sec:authorize>
 		<div class="fc">
 				</div>
 

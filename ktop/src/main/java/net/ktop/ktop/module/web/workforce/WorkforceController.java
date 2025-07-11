@@ -97,10 +97,17 @@ public class WorkforceController {
 	}
 	
 	@RequestMapping(value = "/regist", method = {RequestMethod.GET})
-	public String workforceRegist(Model model) {
+	public String workforceRegist(Model model, @AuthenticationPrincipal CustomUserDetails user) {
+		// 관리자 접근 불가
+		if(user != null && user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+			throw new org.springframework.security.access.AccessDeniedException("관리자는 인력풀 등록이 불가합니다.");
+		}
+		// 이미 등록된 인력이 있으면 접근 불가
+		if(user != null && workerService.getWorkerOne(user.getUsername()) != null) {
+			throw new org.springframework.security.access.AccessDeniedException("이미 인력 정보가 등록되어 있습니다.");
+		}
 		List<WorkFieldDto> workFieldList = workFieldService.getAllWorkField();
 		List<RegionDto> regionList = regionService.getAllRegion();
-		
 		model.addAttribute("regionList", regionList);
 		model.addAttribute("workFieldList", workFieldList);
 		model.addAttribute("menuCategory", "workforce");
@@ -114,6 +121,10 @@ public class WorkforceController {
 			@AuthenticationPrincipal CustomUserDetails user,
 			@RequestParam(value = "file1", required = false) MultipartFile file1,
 		    @RequestParam(value = "file2", required = false) MultipartFile file2) throws IOException {
+		// 관리자 접근 불가
+		if(user != null && user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+			throw new org.springframework.security.access.AccessDeniedException("관리자는 인력풀 등록이 불가합니다.");
+		}
 		workerDto.setUserId(user.getUsername());
 		workerService.insertWorker(workerDto);
 		
@@ -142,11 +153,18 @@ public class WorkforceController {
 	
 	@RequestMapping(value = "/edit", method = {RequestMethod.GET})
 	public String workforceEdit(Model model, @AuthenticationPrincipal CustomUserDetails user) {
+		// 관리자 접근 불가
+		if(user != null && user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+			throw new org.springframework.security.access.AccessDeniedException("관리자는 인력풀 수정이 불가합니다.");
+		}
 		List<WorkFieldDto> workFieldList = workFieldService.getAllWorkField();
 		List<RegionDto> regionList = regionService.getAllRegion();
 		WorkerDto dto = null;
 		if(user != null) {
 			dto = workerService.getWorkerOne(user.getUsername());
+		}
+		if(dto == null) {
+			throw new org.springframework.security.access.AccessDeniedException("권한이 없습니다. 인력 정보가 등록되어 있지 않습니다.");
 		}
 		model.addAttribute("worker", dto);
 		
@@ -164,6 +182,10 @@ public class WorkforceController {
 		    @RequestParam(value = "delFile1", required = false) String delFile1,
 		    @RequestParam(value = "delFile2", required = false) String delFile2,
 			@RequestParam(value = "workField", required = false) List<Integer> workField) throws IOException {
+		// 관리자 접근 불가
+		if(user != null && user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+			throw new org.springframework.security.access.AccessDeniedException("관리자는 인력풀 수정이 불가합니다.");
+		}
 		workerDto.setUserId(user.getUsername());
 		workerService.updateWorker(workerDto);
 		

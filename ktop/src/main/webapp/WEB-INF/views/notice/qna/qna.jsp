@@ -78,16 +78,22 @@
 
 	<!-- 링크 -->
 	<div class="btn_wrap">
-					<a href="<c:url value='/notice/qna/edit/${board.id}' />"><div class="fl bbs_btn02">수정</div></a>
-			<form method="post" action="<c:url value='/notice/qna/delete/${board.id}' />" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				<input type="hidden" value="${board.userId}" name="userId">
-			    <button type="submit" class="fl bbs_btn02 delete_btns">삭제</button>
-			</form>
-
-		
-		<a href="<c:url value='/notice' />"><div class="bbs_btn01 w150p">목록보기</div></a>
-	</div>
+  <sec:authorize access="isAuthenticated()">
+    <div class="fl">
+      <a href="<c:url value='/notice/qna/write' />"><div class="bbs_btn01">+ 글쓰기</div></a>
+    </div>
+  </sec:authorize>
+  <div class="fc"></div>
+  <c:if test="${loginUserId eq board.userId}">
+    <a href="<c:url value='/notice/qna/edit/${board.id}' />"><div class="fl bbs_btn02">수정</div></a>
+    <form method="post" action="<c:url value='/notice/qna/delete/${board.id}' />" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+      <input type="hidden" value="${board.userId}" name="userId">
+      <button type="submit" class="fl bbs_btn02 delete_btns">삭제</button>
+    </form>
+  </c:if>
+  <a href="<c:url value='/notice' />"><div class="bbs_btn01 w150p">목록보기</div></a>
+</div>
 
 	<ul class="pn_wrap">
 		<c:if test="${not empty board.prevPostId}">
@@ -116,21 +122,18 @@
 
 
 <div class="board_comment">
-
-	<sec:authorize access="isAuthenticated()">
-		<div class="top">
-			<div class="content">
-				<label>
-					<sec:authorize access="hasRole('ROLE_ADMIN')">
-						<textarea name="comment" id="comment" placeholder="댓글을 입력해주세요" class="textarea_form" title="댓글내용"></textarea>
-					</sec:authorize>
-				</label>
-			</div>
-			<div class="submit">
-				<input type="button" id="btn_reply" class="btn Fix_FormBtns" value="등록">
-			</div>
-		</div>
-	</sec:authorize>
+    <sec:authorize access="isAuthenticated() and hasRole('ROLE_ADMIN')">
+        <div class="top">
+            <div class="content">
+                <label>
+                    <textarea name="comment" id="comment" placeholder="댓글을 입력해주세요" class="textarea_form" title="댓글내용"></textarea>
+                </label>
+            </div>
+            <div class="submit">
+                <input type="button" id="btn_reply" class="btn Fix_FormBtns" value="등록">
+            </div>
+        </div>
+    </sec:authorize>
 	
 	<div class="replybox">
 
@@ -156,7 +159,9 @@
 					<div class="content">${comment.content}</div>
 	
 					<div class="controls">
-						<button class="delete_btns Fix_FormBtns" onclick="deleteComment(${comment.id})">삭제</button>
+						<c:if test="${loginUserId eq comment.userId}">
+							<button class="delete_btns Fix_FormBtns" onclick="deleteComment(${comment.id})">삭제</button>
+						</c:if>
 					</div>
 				</li>
 			</c:forEach>

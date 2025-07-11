@@ -71,7 +71,7 @@
 	        f.file_name,
 	        f.mime_type,
 	        f.file_size,
-	        f.created_at AS file_created_at,
+            f.created_at AS f_created_at,
 	        wfd.field_id AS wf_field_id,
 	        wf2.name AS work_field_name
 	    FROM worker w
@@ -81,32 +81,42 @@
 	    LEFT JOIN file f ON wf.file_id = f.id
 	    LEFT JOIN worker_field wfd ON w.user_id = wfd.user_id
 	    LEFT JOIN work_field wf2 ON wfd.field_id = wf2.id
+        WHERE w.user_id IN (
+            SELECT user_id FROM (
+                SELECT DISTINCT w2.user_id
+                FROM worker w2
+                <if test="fieldId != null and fieldId != 0">
+                    LEFT JOIN worker_field wfd2 ON w2.user_id = wfd2.user_id
+                </if>
 	    <where>
 	        <if test="status != null and status != ''">
-	            AND w.status = #{status}
+                        AND w2.status = #{status}
 	        </if>
 	        <if test="regionId != null and regionId != 0">
-	            AND w.region_id IN (
+                        AND w2.region_id IN (
 	                SELECT id FROM region_category
 	                WHERE id = #{regionId} OR parent_id = #{regionId}
 	            )
 	        </if>
 	        <if test="fieldId != null and fieldId != 0">
-	            AND wfd.field_id = #{fieldId}
+                        AND wfd2.field_id = #{fieldId}
 	        </if>
 	        <if test="userId != null and userId != ''">
-	            AND w.user_id = #{userId}
+                        AND w2.user_id = #{userId}
 	        </if>
 	        <choose>
                 <when test="searchType == 'name' and keyword != null and keyword != ''">
-                    AND w.name LIKE CONCAT('%', #{keyword}, '%')
+                            AND w2.name LIKE CONCAT('%', #{keyword}, '%')
                 </when>
             </choose>
 	    </where>
-	    ORDER BY wf.file_type ASC
+                ORDER BY w2.user_id
 	    <if test="pagination != null">
 	        LIMIT #{pagination.size} OFFSET #{pagination.offset}
 	    </if>
+            ) AS limited_workers
+        )
+        ORDER BY wf.file_type ASC
 	</select>
 	
 	<select id="selectWorkerCount" parameterType="net.ktop.ktop.module.web.workforce.WorkerDto" resultType="int">

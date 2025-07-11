@@ -20,7 +20,7 @@
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 <input type="hidden" name="gc" value="BC" />
 <div class="gsearch_box">
-	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>1</span></div>
+	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>${pagination.totalCount}</span></div>
 	<div class="gsearch">
 		<select name="sit">
 			<option value="popup_title" >제목</option>

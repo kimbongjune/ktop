@@ -42,4 +42,24 @@
 .popup-footer label {
     font-size: 12px;
     cursor: pointer;
+}
+@media screen and (max-width: 600px) {
+  .popup-layer {
+    width: 90vw !important;
+    left: 5vw !important;
+    top: 10vh !important;
+    max-width: 95vw;
+  }
+  .popup-content {
+    width: 100vw !important;
+    max-width: 90vw;
+    height: 50vh !important;
+    max-height: 60vh;
+    padding: 10px;
+    font-size: 1em;
+  }
+  .popup-header {
+    font-size: 1.1em;
+    padding: 10px;
+  }
 } 

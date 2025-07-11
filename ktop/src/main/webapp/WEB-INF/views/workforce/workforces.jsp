@@ -126,7 +126,10 @@
 <!-- 페이징 -->
 <%@ include file="/WEB-INF/views/common/pagination.jsp" %>
 
-
+<sec:authorize access="!hasRole('ROLE_ADMIN')">
+  <!-- 인력풀 등록 버튼 예시 -->
+  <a href="<c:url value='/workforce/regist' />"><div class="bbs_btn01">인력풀 등록</div></a>
+</sec:authorize>
 
 	 
 		</div>	<!-- web_size  -->

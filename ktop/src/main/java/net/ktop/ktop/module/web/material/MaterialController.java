@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import net.ktop.ktop.module.security.CustomUserDetails;
+import net.ktop.ktop.module.web.material.MaterialDto;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/material")
@@ -38,6 +41,11 @@ public class MaterialController {
 			return "error/404";
 		}
 		model.addAttribute("material", material);
+
+		// materialCategoryId 기준 최저가 10개 상품 리스트 조회
+		List<MaterialDto> lowestPriceList = materialService.selectLowestPriceListByCategory(material.getMaterialCategoryId());
+		model.addAttribute("lowestPriceList", lowestPriceList);
+
 		return "material/material";
 	}
 }

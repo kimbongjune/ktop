@@ -67,4 +67,9 @@ public class MaterialServiceImpl implements MaterialService {
 	public List<Integer> selectMaterialCategoryIdsIncludingChildren(List<Integer> materialCategoryIdList){
 		return materialRepository.selectMaterialCategoryIdsIncludingChildren(materialCategoryIdList);
     }
+
+    @Override
+    public List<MaterialDto> selectLowestPriceListByCategory(int materialCategoryId) {
+        return materialRepository.selectLowestPriceListByCategory(materialCategoryId);
+    }
 }

@@ -71,7 +71,7 @@
         <where>
             bp.deleted_at IS NULL
             AND bp.board_type = #{boardType}
-	        <if test="boardType == 1">
+	        <if test="boardType == 1 and !isAdmin">
 	            AND (bp.expire_date IS NULL OR bp.expire_date > NOW())
 	        </if>
             <choose>

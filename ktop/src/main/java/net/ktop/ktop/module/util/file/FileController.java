@@ -11,6 +11,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +34,9 @@ public class FileController {
 	
 	private final FileService fileService;
 	private final ServletContext servletContext;
+	
+	@Value("${file.upload.path:/var/ktop/uploads}")
+	private String uploadBasePath;
 
 	@Autowired
 	public FileController(FileService fileService, ServletContext servletContext) {
@@ -45,17 +49,24 @@ public class FileController {
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestParam("id") int fileId) {
 		FileDto file = fileService.getFileById(fileId);
+		System.out.println(file);
 	    if (file == null) {
 	        return ResponseEntity.notFound().build();
 	    }
 
 	    try {
-	        // 업로드 시 사용한 것과 같은 방식으로 물리 경로 변환
-	        String realPath = servletContext.getRealPath(file.getFilePath());
-	        Path filePath = Paths.get(realPath).normalize();
+	        // filePath에서 파일명 추출 (/uploads/filename -> filename)
+	        String fileName = file.getFilePath();
+	        if (fileName.startsWith("/uploads/")) {
+	            fileName = fileName.substring("/uploads/".length());
+	        }
+	        
+	        // 영구 업로드 디렉토리에서 파일 찾기
+	        Path filePath = Paths.get(uploadBasePath, fileName).normalize();
 	        Resource resource = new UrlResource(filePath.toUri());
 
 	        if (!resource.exists()) {
+	            System.out.println("파일을 찾을 수 없음: " + filePath.toString());
 	            return ResponseEntity.notFound().build();
 	        }
 
@@ -67,6 +78,7 @@ public class FileController {
 	                .body(resource);
 
 	    } catch (Exception e) {
+	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	    }
 	}

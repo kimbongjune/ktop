@@ -9,4 +9,5 @@ public interface PopupService {
     void updatePopup(PopupDto popup);
     void deletePopup(int id);
     List<PopupDto> getActivePopupList();
+    int getPopupCount(PopupDto params);
 } 

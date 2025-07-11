@@ -11,9 +11,16 @@
 		http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd">
 
+	<!-- Properties 파일 로드 (servlet-context에서 사용하기 위해) -->
+	<context:property-placeholder location="classpath:/properties/globals.properties" ignore-unresolvable="true" />
+
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<mvc:resources mapping="/uploads/**" location="/uploads/" />
+	<!-- 파일 업로드 디렉토리를 외부 경로로 매핑 (톰캣 재시작 시에도 유지됨) -->
+	<!-- 윈도우 개발환경용 (properties 사용) -->
+	<!-- <mvc:resources mapping="/uploads/**" location="file:///${file.upload.path}/" /> -->
+	<!-- 리눅스 서버용 (배포 시 위 라인 주석처리하고 아래 라인 활성화) -->
+	<mvc:resources mapping="/uploads/**" location="file:${file.upload.path}/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
