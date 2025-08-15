@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="siteHistoryMapper">
+
+    <!-- 히스토리 목록 조회 -->
+    <select id="selectSiteHistoryList" parameterType="SiteHistoryDto" resultType="SiteHistoryDto">
+        SELECT 
+            id,
+            created_at as createdAt,
+            user_id as userId,
+            type,
+            ip,
+            parameters
+        FROM site_history
+        <where>
+            <if test="searchUserId != null and searchUserId != ''">
+                AND user_id LIKE CONCAT('%', #{searchUserId}, '%')
+            </if>
+            <if test="searchType != null and searchType != ''">
+                AND type = #{searchType}
+            </if>
+            <if test="searchIp != null and searchIp != ''">
+                AND ip LIKE CONCAT('%', #{searchIp}, '%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND created_at >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND created_at &lt;= STR_TO_DATE(CONCAT(#{endDate}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+        ORDER BY created_at DESC
+        LIMIT #{pagination.size} OFFSET #{pagination.offset}
+    </select>
+    
+    <!-- 히스토리 총 개수 조회 -->
+    <select id="selectSiteHistoryCount" parameterType="SiteHistoryDto" resultType="int">
+        SELECT COUNT(*)
+        FROM site_history
+        <where>
+            <if test="searchUserId != null and searchUserId != ''">
+                AND user_id LIKE CONCAT('%', #{searchUserId}, '%')
+            </if>
+            <if test="searchType != null and searchType != ''">
+                AND type = #{searchType}
+            </if>
+            <if test="searchIp != null and searchIp != ''">
+                AND ip LIKE CONCAT('%', #{searchIp}, '%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND created_at >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND created_at &lt;= STR_TO_DATE(CONCAT(#{endDate}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+    </select>
+    
+    <!-- 히스토리 상세 조회 -->
+    <select id="selectSiteHistoryOne" parameterType="long" resultType="SiteHistoryDto">
+        SELECT 
+            id,
+            created_at as createdAt,
+            user_id as userId,
+            type,
+            ip,
+            parameters
+        FROM site_history
+        WHERE id = #{id}
+    </select>
+    
+    <!-- 히스토리 등록 -->
+    <insert id="insertSiteHistory" parameterType="SiteHistoryDto">
+        INSERT INTO site_history (
+            user_id,
+            type,
+            ip,
+            parameters
+        ) VALUES (
+            #{userId},
+            #{type},
+            #{ip},
+            #{parameters}
+        )
+    </insert>
+    
+    <!-- 타입별 히스토리 조회 -->
+    <select id="selectSiteHistoryByType" parameterType="string" resultType="SiteHistoryDto">
+        SELECT 
+            id,
+            created_at as createdAt,
+            user_id as userId,
+            type,
+            ip,
+            parameters
+        FROM site_history
+        WHERE type = #{type}
+        ORDER BY created_at DESC
+    </select>
+    
+    <!-- 사용자별 히스토리 조회 -->
+    <select id="selectSiteHistoryByUserId" parameterType="string" resultType="SiteHistoryDto">
+        SELECT 
+            id,
+            created_at as createdAt,
+            user_id as userId,
+            type,
+            ip,
+            parameters
+        FROM site_history
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+    </select>
+    
+    <!-- 기간별 히스토리 조회 -->
+    <select id="selectSiteHistoryByDateRange" parameterType="SiteHistoryDto" resultType="SiteHistoryDto">
+        SELECT 
+            id,
+            created_at as createdAt,
+            user_id as userId,
+            type,
+            ip,
+            parameters
+        FROM site_history
+        <where>
+            <if test="startDate != null and startDate != ''">
+                AND created_at >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND created_at &lt;= STR_TO_DATE(CONCAT(#{endDate}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+        ORDER BY created_at DESC
+    </select>
+
+</mapper>

@@ -98,7 +98,12 @@
 
 				<ul class="top_menu">
 					<li><a href="<c:url value='/' />" target="_blank">메인으로</a></li>
-					<li><a href="<c:url value='/user/logout' />">로그아웃</a></li>
+					<li>
+						<form action="<c:url value='/logout' />" method="post" style="display:inline;">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							<button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;font:inherit;padding:0;margin:0;">로그아웃</button>
+						</form>
+					</li>
 				</ul>
 			</div>
 		</div>

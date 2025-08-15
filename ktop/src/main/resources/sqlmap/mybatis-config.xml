@@ -44,5 +44,7 @@
 		<typeAlias alias="AdBannerDto" type="net.ktop.ktop.module.web.admin.ad.AdBannerDto"/>
 		<typeAlias alias="AdminMaterialDto" type="net.ktop.ktop.module.web.admin.material.AdminMaterialDto"/>
 		<typeAlias alias="PopupDto" type="net.ktop.ktop.module.web.popup.PopupDto"/>
+		<typeAlias alias="SiteHistoryDto" type="net.ktop.ktop.module.web.admin.site.history.SiteHistoryDto"/>
+		<typeAlias alias="VisitorStatisticsDto" type="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto"/>
    	</typeAliases>
 </configuration>

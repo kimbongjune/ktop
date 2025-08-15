@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="visitorStatisticsMapper">
+
+    <!-- 접속자 상세 로그 조회 -->
+    <select id="getVisitorLogs" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+        SELECT 
+            id,
+            visit_datetime as visitDatetime,
+            visit_date as visitDate,
+            ip_address as ipAddress,
+            browser,
+            os,
+            page_url as pageUrl,
+            created_at as createdAt
+        FROM visitor_statistics
+        WHERE 1=1
+        <if test="startDate != null and startDate != ''">
+            AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        ORDER BY visit_datetime DESC
+    </select>
+
+    <!-- 도메인별 통계 조회 -->
+    <select id="getDomainStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+        SELECT 
+            domain_type as domainType,
+            COUNT(*) as visitCount,
+            COUNT(DISTINCT ip_address) as uniqueVisitors,
+            ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visitor_statistics 
+                WHERE 1=1
+                <if test="startDate != null and startDate != ''">
+                    AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+                </if>
+                <if test="endDate != null and endDate != ''">
+                    AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+                </if>
+            ), 2) as percentage
+        FROM visitor_statistics
+        WHERE 1=1
+        <if test="startDate != null and startDate != ''">
+            AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        GROUP BY domain_type
+        ORDER BY visitCount DESC
+    </select>
+
+    <!-- 브라우저별 통계 조회 -->
+    <select id="getBrowserStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+        SELECT 
+            browser,
+            COUNT(*) as visitCount,
+            COUNT(DISTINCT ip_address) as uniqueVisitors,
+            ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visitor_statistics 
+                WHERE 1=1
+                <if test="startDate != null and startDate != ''">
+                    AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+                </if>
+                <if test="endDate != null and endDate != ''">
+                    AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+                </if>
+            ), 2) as percentage
+        FROM visitor_statistics
+        WHERE 1=1
+        <if test="startDate != null and startDate != ''">
+            AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        GROUP BY browser
+        ORDER BY visitCount DESC
+    </select>
+
+    <!-- OS별 통계 조회 -->
+    <select id="getOsStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+        SELECT 
+            os,
+            COUNT(*) as visitCount,
+            COUNT(DISTINCT ip_address) as uniqueVisitors,
+            ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visitor_statistics 
+                WHERE 1=1
+                <if test="startDate != null and startDate != ''">
+                    AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+                </if>
+                <if test="endDate != null and endDate != ''">
+                    AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+                </if>
+            ), 2) as percentage
+        FROM visitor_statistics
+        WHERE 1=1
+        <if test="startDate != null and startDate != ''">
+            AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        GROUP BY os
+        ORDER BY visitCount DESC
+    </select>
+
+    <!-- 시간별 통계 조회 -->
+    <select id="getHourlyStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+        SELECT 
+            visit_hour as visitHour,
+            COUNT(*) as visitCount,
+            COUNT(DISTINCT ip_address) as uniqueVisitors,
+            ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visitor_statistics 
+                WHERE 1=1
+                <if test="startDate != null and startDate != ''">
+                    AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+                </if>
+                <if test="endDate != null and endDate != ''">
+                    AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+                </if>
+            ), 2) as percentage
+        FROM visitor_statistics
+        WHERE 1=1
+        <if test="startDate != null and startDate != ''">
+            AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        GROUP BY visit_hour
+        ORDER BY visit_hour
+    </select>
+
+    <!-- 요일별 통계 조회 -->
+    <select id="getWeekdayStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+        SELECT 
+            visit_weekday as visitWeekday,
+                         CASE visit_weekday
+                 WHEN 1 THEN '일'
+                 WHEN 2 THEN '월'
+                 WHEN 3 THEN '화'
+                 WHEN 4 THEN '수'
+                 WHEN 5 THEN '목'
+                 WHEN 6 THEN '금'
+                 WHEN 7 THEN '토'
+                 ELSE 'Unknown'
+             END as weekday,
+            COUNT(*) as visitCount,
+            COUNT(DISTINCT ip_address) as uniqueVisitors,
+            ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visitor_statistics 
+                WHERE 1=1
+                <if test="startDate != null and startDate != ''">
+                    AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+                </if>
+                <if test="endDate != null and endDate != ''">
+                    AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+                </if>
+            ), 2) as percentage
+        FROM visitor_statistics
+        WHERE 1=1
+        <if test="startDate != null and startDate != ''">
+            AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        GROUP BY visit_weekday
+        ORDER BY visit_weekday
+    </select>
+
+    <!-- 일별 통계 조회 -->
+    <select id="getDailyStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+        SELECT 
+            visit_date as visitDate,
+            COUNT(*) as visitCount,
+            COUNT(DISTINCT ip_address) as uniqueVisitors,
+            ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visitor_statistics 
+                WHERE 1=1
+                <if test="startDate != null and startDate != ''">
+                    AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+                </if>
+                <if test="endDate != null and endDate != ''">
+                    AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+                </if>
+            ), 2) as percentage
+        FROM visitor_statistics
+        WHERE 1=1
+        <if test="startDate != null and startDate != ''">
+            AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        GROUP BY visit_date
+        ORDER BY visit_date DESC
+    </select>
+
+    <!-- 월별 통계 조회 -->
+    <select id="getMonthlyStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+        SELECT 
+            visit_year as visitYear,
+            visit_month as visitMonth,
+            CONCAT(visit_year, '-', LPAD(visit_month, 2, '0')) as visitDate,
+            COUNT(*) as visitCount,
+            COUNT(DISTINCT ip_address) as uniqueVisitors,
+            ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visitor_statistics 
+                WHERE 1=1
+                <if test="startDate != null and startDate != ''">
+                    AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+                </if>
+                <if test="endDate != null and endDate != ''">
+                    AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+                </if>
+            ), 2) as percentage
+        FROM visitor_statistics
+        WHERE 1=1
+        <if test="startDate != null and startDate != ''">
+            AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        GROUP BY visit_year, visit_month
+        ORDER BY visit_year DESC, visit_month DESC
+    </select>
+
+    <!-- 년별 통계 조회 -->
+    <select id="getYearlyStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+        SELECT 
+            visit_year as visitYear,
+            visit_year as visitDate,
+            COUNT(*) as visitCount,
+            COUNT(DISTINCT ip_address) as uniqueVisitors,
+            ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visitor_statistics 
+                WHERE 1=1
+                <if test="startDate != null and startDate != ''">
+                    AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+                </if>
+                <if test="endDate != null and endDate != ''">
+                    AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+                </if>
+            ), 2) as percentage
+        FROM visitor_statistics
+        WHERE 1=1
+        <if test="startDate != null and startDate != ''">
+            AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        GROUP BY visit_year
+        ORDER BY visit_year DESC
+    </select>
+
+    <!-- 방문자 로그 저장 -->
+    <insert id="insertVisitorLog" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+        INSERT INTO visitor_statistics (
+            visit_datetime,
+            visit_date,
+            visit_year,
+            visit_month,
+            visit_day,
+            visit_hour,
+            visit_weekday,
+            ip_address,
+            user_agent,
+            browser,
+            os,
+            referer,
+            page_url,
+            domain_type,
+            created_at
+        ) VALUES (
+            #{visitDatetime},
+            #{visitDate},
+            #{visitYear},
+            #{visitMonth},
+            #{visitDay},
+            #{visitHour},
+            #{visitWeekday},
+            #{ipAddress},
+            #{userAgent},
+            #{browser},
+            #{os},
+            #{referer},
+            #{pageUrl},
+            #{domainType},
+            NOW()
+        )
+    </insert>
+
+</mapper>

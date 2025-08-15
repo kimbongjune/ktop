@@ -1,26 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 		<div class="main_contents">
 			<div class="sub_top">
 				<h2>방문자현황</h2>
 			</div>
 
-<form name="search_form" method="get" action="http://localhost:3000/gwizard/">
-<input type="hidden" name="gc" value="DA" />
-<input type="hidden" name="do" value="month" />
-<input type="hidden" name="do" />
-
+<form name="search_form" method="get" action="<c:url value='/admin/site/visitor/month' />">
 <div class="gsearch_box">
 	기간 : 
-	<input type="text" name="sdate" class="input_form input_datepicker w90p" title="시작기간" value="2025-05-18" /> -
-	<input type="text" name="edate" class="input_form input_datepicker w90p" title="종료기간" value="2025-05-24" />&nbsp;
+	<input type="text" name="startDate" class="input_form input_datepicker w90p" title="시작기간" value="${startDate}" /> -
+	<input type="text" name="endDate" class="input_form input_datepicker w90p" title="종료기간" value="${endDate}" />&nbsp;
+	<input type="submit" value="검색" class="btn_blue" style="padding: 5px 15px; margin-left: 5px; cursor: pointer;" />
 	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor' />">접속자</a></div>
 	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor/domain' />">도메인</a></div>
 	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor/browser' />">브라우저</a></div>
 	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor/os' />">OS</a></div>
 	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor/time' />">시간</a></div>
-	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor/date' />">요일</a></div>
-	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor/day' />">일</a></div>
+	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor/day' />">요일</a></div>
+	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor/date' />">일</a></div>
 	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor/month' />">월</a></div>
 	<div class="ab_m ab_blue admin_visit_btns"><a href="<c:url value='/admin/site/visitor/year' />">년</a></div>
 </div>
@@ -45,17 +44,34 @@
 </tr>
 </thead>
 <tbody>
-		<tr>
-			<td class="center"><a href="http://localhost:3000/gwizard/?gc=DA/day&sdate=2025-05-18&edate=2025-05-24&sdate=2025-05-01&edate=2025-05-31">2025-05</a></td>
-			<td><div class="visit_graph_wrap"><div class="bars" style="width:100%;"></div></div></td>
-			<td class="right">100.00%</td>
-			<td class="right">11</td>
-		</tr>
-	</tbody>
+	<c:choose>
+		<c:when test="${empty monthlyStats}">
+			<tr>
+				<td colspan="4" class="center">데이터가 없습니다.</td>
+			</tr>
+		</c:when>
+		<c:otherwise>
+			<c:forEach var="stat" items="${monthlyStats}" varStatus="status">
+				<tr>
+					<td class="center"><a href="<c:url value='/admin/site/visitor/day?startDate=${stat.visitDate}-01&endDate=${stat.visitDate}-31' />">${stat.visitDate}</a></td>
+					<td><div class="visit_graph_wrap"><div class="bars" style="width:${stat.percentage}%;"></div></div></td>
+					<td class="right"><fmt:formatNumber value="${stat.percentage}" pattern="0.00"/>%</td>
+					<td class="right">${stat.visitCount}</td>
+				</tr>
+			</c:forEach>
+		</c:otherwise>
+	</c:choose>
+</tbody>
 <tfoot>
 <tr>
 	<td class="center" colspan="3">합계</td>
-	<td class="right">11</td>
+	<td class="right">
+		<c:set var="total" value="0"/>
+		<c:forEach var="stat" items="${monthlyStats}">
+			<c:set var="total" value="${total + stat.visitCount}"/>
+		</c:forEach>
+		${total}
+	</td>
 </tr>
 </tfoot>
 </table>

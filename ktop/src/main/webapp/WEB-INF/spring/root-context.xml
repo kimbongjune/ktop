@@ -8,6 +8,7 @@
     xmlns:jpa="http://www.springframework.org/schema/data/jpa"
     xmlns:security="http://www.springframework.org/schema/security"
     xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
     xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
     	http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
@@ -15,7 +16,8 @@
 
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 	
 	<mvc:annotation-driven validator="springValidator">
 	    <mvc:argument-resolvers>
@@ -122,6 +124,10 @@
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
     <bean id="customUserDetailsService" class="net.ktop.ktop.module.security.CustomUserDetailsService"/>
     
+    <!-- 히스토리 로깅 핸들러 -->
+    <bean id="customAuthenticationSuccessHandler" class="net.ktop.ktop.module.security.CustomAuthenticationSuccessHandler"/>
+    <bean id="customLogoutSuccessHandler" class="net.ktop.ktop.module.security.CustomLogoutSuccessHandler"/>
+    
 	<!-- 정적 리소스 및 파일 업로드 제외 설정 -->
 	<security:http pattern="/resources/**" security="none" />
 	<security:http pattern="/file/**" security="none" />
@@ -138,14 +144,15 @@
 	        default-target-url="/" 
 	        authentication-failure-url="/user/login?error=true"
 	        username-parameter="username"
-	        password-parameter="password" />
+	        password-parameter="password"
+	        authentication-success-handler-ref="customAuthenticationSuccessHandler" />
 	
 	    <!-- 로그아웃 설정 -->
 	    <security:logout 
 	        logout-url="/logout" 
-	        logout-success-url="/user/login?logout=true"
 	        invalidate-session="true"
-	        delete-cookies="JSESSIONID, remember-me" />
+	        delete-cookies="JSESSIONID, remember-me"
+	        success-handler-ref="customLogoutSuccessHandler" />
 	
 	    <!-- 접근 권한 설정 -->
 	    <security:intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
@@ -220,6 +227,25 @@
 	        <security:password-encoder ref="passwordEncoder" />
 	    </security:authentication-provider>
 	</security:authentication-manager>
+	
+	<!-- AOP 설정 -->
+	<aop:aspectj-autoproxy />
+	
+	<!-- 히스토리 로깅 Advice -->
+	<bean id="historyLogAdvice" class="net.ktop.ktop.module.util.aspect.HistoryLogAdvice"/>
+	
+	<!-- 방문자 로깅 Advice -->
+	<bean id="visitorLogAdvice" class="net.ktop.ktop.module.util.aspect.VisitorLogAdvice"/>
+	
+	<!-- 방문자 로깅 AOP 설정 -->
+	<aop:config>
+		<aop:aspect ref="visitorLogAdvice">
+			<aop:pointcut id="visitorLogPointcut" 
+				expression="execution(* net.ktop.ktop.module.web..*Controller.*(..)) and 
+							!execution(* net.ktop.ktop.module.web.admin..*Controller.*(..))" />
+			<aop:before method="collectVisitorLog" pointcut-ref="visitorLogPointcut" />
+		</aop:aspect>
+	</aop:config>
 	
 	
 	<!-- JavaMailSender 설정 -->
