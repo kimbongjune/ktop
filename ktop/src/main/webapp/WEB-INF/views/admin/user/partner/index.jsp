@@ -1,50 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/admin/common/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 		<div class="main_contents">
 			<div class="sub_top">
 				<h2>협력사</h2>
-				
 			</div>
-
-
-<c:set var="status" value="${status}" />
-						
-<ul class="tabmenu01">
-	<li class="${empty status ? 'on' : ''}"><a href="<c:url value='/admin/user/partner' />">전체</a></li>
-		<li class="${status == 'pending' ? 'on' : ''}"><a href="<c:url value='/admin/user/partner?status=pending' />">심사</a></li>
-		<li class="${status == 'rejected' ? 'on' : ''}"><a href="<c:url value='/admin/user/partner?status=rejected' />">반려</a></li>
-		<li class="${status == 'approved' ? 'on' : ''}"><a href="<c:url value='/admin/user/partner?status=approved' />">승인</a></li>
-	</ul>
-
 
 <a href="<c:url value='/admin/user/partner/add' />"><div class="ab_m ab_blue"><i class="fas fa-clone"></i>생성</div></a>
 
-
-<form name="search_form" method="post" action="#">
+<form name="search_form" method="get" action="<c:url value='/admin/user/partner' />">
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-<input type="hidden" name="gc" value="556YGDI" />
 <div class="gsearch_box">
-	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>7</span></div>
+	<div class="ginfo ginfo2"><i class="fas fa-layer-group"></i>Total : <span>${partnerList.size()}</span></div>
 	<div class="gsearch">
 		<select name="sit">
-			<option value="user_id" >회원아이디</option>
-			<option value="user_name" >성명</option>
-			<option value="user_hp" >휴대폰번호</option>
-			<option value="user_email" >이메일</option>
+			<option value="id" <c:if test="${searchType == 'id'}">selected</c:if>>회원아이디</option>
+			<option value="name" <c:if test="${searchType == 'name'}">selected</c:if>>성명</option>
+			<option value="phoneMobile" <c:if test="${searchType == 'phoneMobile'}">selected</c:if>>휴대폰번호</option>
+			<option value="email" <c:if test="${searchType == 'email'}">selected</c:if>>이메일</option>
 		</select>
-		<span class="input_clear_wrap"><input type="text" name="stx" class="input_form" title="검색어" value="" /><i class="fas fa-times-circle"></i></span>
+		<span class="input_clear_wrap"><input type="text" name="stx" class="input_form" title="검색어" value="${searchKeyword}" /><i class="fas fa-times-circle"></i></span>
 		<input type="submit" class="ab_m ab_gray ab_h Fix_FormBtns" value="검색" />
 	</div>
 </div>
 </form>
 
-
 <table class="gtable">
 <colgroup>
 	<col style="width:80px;" />
-		<col style="width:100px;" />
-		<col style="width:10%;" />
+	<col style="width:100px;" />
+	<col style="width:10%;" />
 	<col style="width:10%;" />
 	<col style="width:15%;" />
 	<col />
@@ -55,8 +42,8 @@
 <thead>
 <tr>
     <th>번호</th>
-	    <th>타입</th>
-	    <th>회원아이디</th>
+    <th>타입</th>
+    <th>회원아이디</th>
 	<th>성명</th>
     <th>휴대폰번호</th>
     <th>이메일</th>
@@ -66,88 +53,57 @@
 </tr>
 </thead>
 <tbody>
-		<tr>
-			<td class="center">7</td>
-						<td class="center">승인</td>
-						<td class="center">sein9432</td>
-			<td class="center">송정휘</td>
-			<td class="center">010-4333-9432</td>
-			<td class="center">sein9432@naver.com</td>
-			<td class="center">22-09-06</td>
-			<td class="center"></td>
-			<td class="center"><a href="<c:url value='/admin/user/partner/mod/1' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m ab_h">삭제</div></td>
-		</tr>
-			<tr>
-			<td class="center">6</td>
-						<td class="center">승인</td>
-						<td class="center">company_test2022</td>
-			<td class="center">김기업</td>
-			<td class="center">010-1234-5678</td>
-			<td class="center">kiup@kim.com</td>
-			<td class="center">22-08-01</td>
-			<td class="center"></td>
-			<td class="center"><a href="<c:url value='/admin/user/partner/mod/2' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m ab_h">삭제</div></td>
-		</tr>
-			<tr>
-			<td class="center">5</td>
-						<td class="center">승인</td>
-						<td class="center">company_10</td>
-			<td class="center">협력회원</td>
-			<td class="center"></td>
-			<td class="center"></td>
-			<td class="center">22-07-21</td>
-			<td class="center"></td>
-			<td class="center"><a href="<c:url value='/admin/user/partner/mod/3' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m ab_h">삭제</div></td>
-		</tr>
-			<tr>
-			<td class="center">4</td>
-						<td class="center">승인</td>
-						<td class="center">com_ora</td>
-			<td class="center">심사필요회원</td>
-			<td class="center">010-1234-1234</td>
-			<td class="center">jinzzz12@nate.com</td>
-			<td class="center">22-07-12</td>
-			<td class="center"></td>
-			<td class="center"><a href="<c:url value='/admin/user/partner/mod/4' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m ab_h">삭제</div></td>
-		</tr>
-			<tr>
-			<td class="center">3</td>
-						<td class="center">승인</td>
-						<td class="center">company_oranc</td>
-			<td class="center">안나현</td>
-			<td class="center">010-3322-2323</td>
-			<td class="center">jinzzz12@nate.com</td>
-			<td class="center">22-07-12</td>
-			<td class="center"></td>
-			<td class="center"><a href="<c:url value='/admin/user/partner/mod/5' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m ab_h">삭제</div></td>
-		</tr>
-			<tr>
-			<td class="center">2</td>
-						<td class="center">승인</td>
-						<td class="center">company_test2</td>
-			<td class="center">기업회원테스트2</td>
-			<td class="center"></td>
-			<td class="center"></td>
-			<td class="center">22-07-05</td>
-			<td class="center"></td>
-			<td class="center"><a href="<c:url value='/admin/user/partner/mod/6' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m ab_h">삭제</div></td>
-		</tr>
-			<tr>
-			<td class="center">1</td>
-						<td class="center">승인</td>
-						<td class="center">company_test</td>
-			<td class="center">기업회원테스트</td>
-			<td class="center"></td>
-			<td class="center"></td>
-			<td class="center">22-07-04</td>
-			<td class="center"></td>
-			<td class="center"><a href="<c:url value='/admin/user/partner/mod/7' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;<div class="ab_m ab_h">삭제</div></td>
-		</tr>
-	</tbody>
+<c:forEach var="partner" items="${partnerList}" varStatus="status">
+	<tr>
+		<td class="center">${status.count}</td>
+		<td class="center">${partner.roleName}</td>
+		<td class="center">${partner.id}</td>
+		<td class="center">${partner.name}</td>
+		<td class="center">${partner.phoneMobile}</td>
+		<td class="center">${partner.email}</td>
+		<td class="center">${partner.createdAt}</td>
+		<td class="center">${partner.deletedAt}</td>
+		<td class="center">
+			<a href="<c:url value='/admin/user/partner/mod/${partner.id}' />"><div class="ab_m ab_redline">수정</div></a>&nbsp;
+			<div class="ab_m ab_h" data-href="/admin/user/partner/del/${partner.id}">삭제</div>
+		</td>
+	</tr>
+</c:forEach>
+<c:if test="${empty partnerList}">
+	<tr>
+		<td colspan="9" class="center">등록된 협력사가 없습니다.</td>
+	</tr>
+</c:if>
+</tbody>
 </table>
 
-
-
-
 		</div> <!-- main_contents -->
+
+<script>
+// 삭제 기능
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('[data-href]');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const href = this.getAttribute('data-href');
+            if (confirm('정말 삭제하시겠습니까?')) {
+                axios.post(href)
+                    .then(response => {
+                        if (response.data === 'success') {
+                            alert('삭제되었습니다.');
+                            location.reload();
+                        } else {
+                            alert('삭제에 실패했습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('삭제 중 오류가 발생했습니다.');
+                    });
+            }
+        });
+    });
+});
+</script>
+
 <%@ include file="/WEB-INF/views/admin/common/footer.jsp" %>

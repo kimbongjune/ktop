@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 	
@@ -87,5 +89,36 @@ public class UserServiceImpl implements UserService {
 		}
 		return "입력하신 정보로 가입되어있는 비밀번호가 존재하지 않습니다.";
 		//return userRepository.findPw(dto);
+	}
+	
+	// 관리자용 회원 관리 기능
+	@Override
+	public List<UserDto> getUserList(UserDto dto) {
+		return userRepository.getUserList(dto);
+	}
+	
+	@Override
+	public UserDto getUserById(String id) {
+		return userRepository.getUserById(id);
+	}
+	
+	@Override
+	public int createUser(UserDto dto) {
+		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+		return userRepository.createUser(dto);
+	}
+	
+	@Override
+	public int modifyUser(UserDto dto) {
+		// 비밀번호가 입력된 경우에만 암호화
+		if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+			dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+		}
+		return userRepository.modifyUser(dto);
+	}
+	
+	@Override
+	public int deleteUser(String id) {
+		return userRepository.deleteUser(id);
 	}
 }

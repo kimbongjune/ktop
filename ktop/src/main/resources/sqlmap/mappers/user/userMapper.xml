@@ -131,5 +131,178 @@
           AND id = #{id}
           AND deleted_at IS NULL
     </select>
+    
+    <!-- 관리자용 회원 관리 기능 -->
+    <select id="getUserList" resultType="UserDto" parameterType="UserDto">
+        SELECT 
+            u.id,
+            u.name,
+            u.nick_name as nickName,
+            u.phone_mobile as phoneMobile,
+            u.phone_home as phoneHome,
+            u.email,
+            u.sms_agree as smsAgree,
+            u.email_agree as emailAgree,
+            u.ad_agree as adAgree,
+            u.terms_agree as termsAgree,
+            DATE_FORMAT(u.created_at, '%Y-%m-%d %H:%i:%s') as createdAt,
+            DATE_FORMAT(u.updated_at, '%Y-%m-%d %H:%i:%s') as updatedAt,
+            DATE_FORMAT(u.deleted_at, '%Y-%m-%d %H:%i:%s') as deletedAt,
+            u.role,
+            r.name as roleName
+        FROM users u
+        LEFT JOIN roles r ON u.role = r.id
+        WHERE u.deleted_at IS NULL
+        <if test="role != 0">
+            AND u.role = #{role}
+        </if>
+        <if test="searchType != null and searchType != '' and searchKeyword != null and searchKeyword != ''">
+            <choose>
+                <when test="searchType == 'id'">
+                    AND u.id LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchType == 'name'">
+                    AND u.name LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchType == 'nickName'">
+                    AND u.nick_name LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchType == 'phoneMobile'">
+                    AND u.phone_mobile LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchType == 'email'">
+                    AND u.email LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+            </choose>
+        </if>
+        ORDER BY u.created_at DESC
+    </select>
+    
+    <select id="getUserById" resultType="UserDto" parameterType="String">
+        SELECT 
+            u.id,
+            u.password,
+            u.name,
+            u.nick_name as nickName,
+            u.phone_mobile as phoneMobile,
+            u.phone_home as phoneHome,
+            u.email,
+            u.question1_id as question1Id,
+            u.answer1,
+            u.question2_id as question2Id,
+            u.answer2,
+            u.sms_agree as smsAgree,
+            u.email_agree as emailAgree,
+            u.ad_agree as adAgree,
+            u.terms_agree as termsAgree,
+            DATE_FORMAT(u.created_at, '%Y-%m-%d %H:%i:%s') as createdAt,
+            DATE_FORMAT(u.updated_at, '%Y-%m-%d %H:%i:%s') as updatedAt,
+            DATE_FORMAT(u.deleted_at, '%Y-%m-%d %H:%i:%s') as deletedAt,
+            u.role,
+            r.name as roleName
+        FROM users u
+        LEFT JOIN roles r ON u.role = r.id
+        WHERE u.id = #{id}
+    </select>
+    
+    <insert id="createUser" parameterType="UserDto">
+        INSERT INTO users (
+            id,
+            password,
+            name,
+            nick_name,
+            phone_mobile,
+            phone_home,
+            email,
+            question1_id,
+            answer1,
+            question2_id,
+            answer2,
+            sms_agree,
+            email_agree,
+            ad_agree,
+            terms_agree,
+            role,
+            created_at
+        )
+        VALUES (
+            #{id},
+            #{password},
+            #{name},
+            #{nickName},
+            #{phoneMobile},
+            #{phoneHome},
+            #{email},
+            1,
+            '',
+            1,
+            '',
+            #{smsAgree},
+            #{emailAgree},
+            #{adAgree},
+            #{termsAgree},
+            #{role},
+            NOW()
+        )
+    </insert>
+    
+    <update id="modifyUser" parameterType="UserDto">
+        UPDATE users
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="phoneMobile != null and phoneMobile != ''">
+                phone_mobile = #{phoneMobile},
+            </if>
+            <if test="phoneHome != null and phoneHome != ''">
+                phone_home = #{phoneHome},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="question1Id != 0">
+                question1_id = #{question1Id},
+            </if>
+            <if test="answer1 != null and answer1 != ''">
+                answer1 = #{answer1},
+            </if>
+            <if test="question2Id != 0">
+                question2_id = #{question2Id},
+            </if>
+            <if test="answer2 != null and answer2 != ''">
+                answer2 = #{answer2},
+            </if>
+            <if test="smsAgree != null">
+                sms_agree = #{smsAgree},
+            </if>
+            <if test="emailAgree != null">
+                email_agree = #{emailAgree},
+            </if>
+            <if test="adAgree != null">
+                ad_agree = #{adAgree},
+            </if>
+            <if test="termsAgree != null">
+                terms_agree = #{termsAgree},
+            </if>
+            <if test="role != 0">
+                role = #{role},
+            </if>
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+    
+    <update id="deleteUser" parameterType="String">
+        UPDATE users 
+        SET deleted_at = NOW() 
+        WHERE id = #{id}
+    </update>
 
 </mapper>

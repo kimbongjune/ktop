@@ -65,6 +65,12 @@ public class UserDto implements Serializable {
     
 	/** 권한 이름 */
 	private String roleName;
+	
+	/** 검색 타입 */
+	private String searchType;
+	
+	/** 검색 키워드 */
+	private String searchKeyword;
 
 	public String getId() {
 		return id;
@@ -226,6 +232,22 @@ public class UserDto implements Serializable {
 		this.roleName = roleName;
 	}
 
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDto [id=" + id + ", password=" + password + ", name=" + name + ", nickName=" + nickName
@@ -233,6 +255,6 @@ public class UserDto implements Serializable {
 				+ question1Id + ", answer1=" + answer1 + ", question2Id=" + question2Id + ", answer2=" + answer2
 				+ ", smsAgree=" + smsAgree + ", emailAgree=" + emailAgree + ", adAgree=" + adAgree + ", termsAgree="
 				+ termsAgree + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt
-				+ ", role=" + role + "]";
+				+ ", role=" + role + ", searchType=" + searchType + ", searchKeyword=" + searchKeyword + "]";
 	}
 }

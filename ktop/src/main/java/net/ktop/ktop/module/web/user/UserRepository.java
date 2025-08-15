@@ -1,5 +1,7 @@
 package net.ktop.ktop.module.web.user;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -61,5 +63,26 @@ public class UserRepository {
 
    public int findPw(UserDto dto) {
 	   return template.selectOne(MAPPER_NAME+"findPw", dto);
+   }
+   
+   // 관리자용 회원 관리 기능
+   public List<UserDto> getUserList(UserDto dto) {
+	   return template.selectList(MAPPER_NAME+"getUserList", dto);
+   }
+   
+   public UserDto getUserById(String id) {
+	   return template.selectOne(MAPPER_NAME+"getUserById", id);
+   }
+   
+   public int createUser(UserDto dto) {
+	   return template.insert(MAPPER_NAME+"createUser", dto);
+   }
+   
+   public int modifyUser(UserDto dto) {
+	   return template.update(MAPPER_NAME+"modifyUser", dto);
+   }
+   
+   public int deleteUser(String id) {
+	   return template.update(MAPPER_NAME+"deleteUser", id);
    }
 }
