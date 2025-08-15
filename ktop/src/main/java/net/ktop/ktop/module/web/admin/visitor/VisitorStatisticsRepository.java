@@ -25,6 +25,13 @@ public class VisitorStatisticsRepository {
     }
     
     /**
+     * 접속자 상세 로그 개수 조회
+     */
+    public int getVisitorLogsCount(VisitorStatisticsDto dto) {
+        return template.selectOne(MAPPER_NAME + "getVisitorLogsCount", dto);
+    }
+    
+    /**
      * 도메인별 통계 조회
      */
     public List<VisitorStatisticsDto> getDomainStats(VisitorStatisticsDto dto) {

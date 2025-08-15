@@ -1,11 +1,12 @@
 package net.ktop.ktop.module.web.admin.visitor;
 
 import java.sql.Timestamp;
+import net.ktop.ktop.module.util.SearchDto;
 
 /**
  * 방문자 통계 DTO
  */
-public class VisitorStatisticsDto {
+public class VisitorStatisticsDto extends SearchDto {
     
     private Long id;
     private Timestamp visitDatetime;
@@ -25,10 +26,9 @@ public class VisitorStatisticsDto {
     private String domainType;
     private Timestamp createdAt;
     
-    // 검색 조건
+    // 검색 조건 (SearchDto의 searchType과 keyword 사용)
     private String startDate;
     private String endDate;
-    private String searchType; // 접속자, 도메인, 브라우저, OS, 시간, 요일, 일, 월, 년
     
     // 통계 결과
     private Integer visitCount;
@@ -36,7 +36,9 @@ public class VisitorStatisticsDto {
     private Double percentage;
     
     // 생성자
-    public VisitorStatisticsDto() {}
+    public VisitorStatisticsDto() {
+        super();
+    }
     
     // Getter/Setter
     public Long getId() {
@@ -191,14 +193,6 @@ public class VisitorStatisticsDto {
         this.endDate = endDate;
     }
     
-    public String getSearchType() {
-        return searchType;
-    }
-    
-    public void setSearchType(String searchType) {
-        this.searchType = searchType;
-    }
-    
     public Integer getVisitCount() {
         return visitCount;
     }
@@ -236,7 +230,6 @@ public class VisitorStatisticsDto {
                 ", domainType='" + domainType + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
-                ", searchType='" + searchType + '\'' +
                 ", visitCount=" + visitCount +
                 ", uniqueVisitors=" + uniqueVisitors +
                 ", percentage=" + percentage +

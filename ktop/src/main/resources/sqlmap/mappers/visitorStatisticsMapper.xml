@@ -4,7 +4,7 @@
 <mapper namespace="visitorStatisticsMapper">
 
     <!-- 접속자 상세 로그 조회 -->
-    <select id="getVisitorLogs" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+    <select id="getVisitorLogs" parameterType="VisitorStatisticsDto" resultType="VisitorStatisticsDto">
         SELECT 
             id,
             visit_datetime as visitDatetime,
@@ -23,10 +23,24 @@
             AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
         </if>
         ORDER BY visit_datetime DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 접속자 상세 로그 개수 조회 -->
+    <select id="getVisitorLogsCount" parameterType="VisitorStatisticsDto" resultType="int">
+        SELECT COUNT(*)
+        FROM visitor_statistics
+        WHERE 1=1
+        <if test="startDate != null and startDate != ''">
+            AND visit_date >= STR_TO_DATE(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND visit_date &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
     </select>
 
     <!-- 도메인별 통계 조회 -->
-    <select id="getDomainStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+    <select id="getDomainStats" parameterType="VisitorStatisticsDto" resultType="VisitorStatisticsDto">
         SELECT 
             domain_type as domainType,
             COUNT(*) as visitCount,
@@ -53,7 +67,7 @@
     </select>
 
     <!-- 브라우저별 통계 조회 -->
-    <select id="getBrowserStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+    <select id="getBrowserStats" parameterType="VisitorStatisticsDto" resultType="VisitorStatisticsDto">
         SELECT 
             browser,
             COUNT(*) as visitCount,
@@ -80,7 +94,7 @@
     </select>
 
     <!-- OS별 통계 조회 -->
-    <select id="getOsStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+    <select id="getOsStats" parameterType="VisitorStatisticsDto" resultType="VisitorStatisticsDto">
         SELECT 
             os,
             COUNT(*) as visitCount,
@@ -107,7 +121,7 @@
     </select>
 
     <!-- 시간별 통계 조회 -->
-    <select id="getHourlyStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+    <select id="getHourlyStats" parameterType="VisitorStatisticsDto" resultType="VisitorStatisticsDto">
         SELECT 
             visit_hour as visitHour,
             COUNT(*) as visitCount,
@@ -134,7 +148,7 @@
     </select>
 
     <!-- 요일별 통계 조회 -->
-    <select id="getWeekdayStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+    <select id="getWeekdayStats" parameterType="VisitorStatisticsDto" resultType="VisitorStatisticsDto">
         SELECT 
             visit_weekday as visitWeekday,
                          CASE visit_weekday
@@ -171,7 +185,7 @@
     </select>
 
     <!-- 일별 통계 조회 -->
-    <select id="getDailyStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+    <select id="getDailyStats" parameterType="VisitorStatisticsDto" resultType="VisitorStatisticsDto">
         SELECT 
             visit_date as visitDate,
             COUNT(*) as visitCount,
@@ -198,7 +212,7 @@
     </select>
 
     <!-- 월별 통계 조회 -->
-    <select id="getMonthlyStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+    <select id="getMonthlyStats" parameterType="VisitorStatisticsDto" resultType="VisitorStatisticsDto">
         SELECT 
             visit_year as visitYear,
             visit_month as visitMonth,
@@ -227,7 +241,7 @@
     </select>
 
     <!-- 년별 통계 조회 -->
-    <select id="getYearlyStats" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto" resultType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+    <select id="getYearlyStats" parameterType="VisitorStatisticsDto" resultType="VisitorStatisticsDto">
         SELECT 
             visit_year as visitYear,
             visit_year as visitDate,
@@ -255,7 +269,7 @@
     </select>
 
     <!-- 방문자 로그 저장 -->
-    <insert id="insertVisitorLog" parameterType="net.ktop.ktop.module.web.admin.visitor.VisitorStatisticsDto">
+    <insert id="insertVisitorLog" parameterType="VisitorStatisticsDto">
         INSERT INTO visitor_statistics (
             visit_datetime,
             visit_date,

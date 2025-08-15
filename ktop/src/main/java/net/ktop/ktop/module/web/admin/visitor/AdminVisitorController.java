@@ -36,7 +36,8 @@ public class AdminVisitorController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String visitorIndex(Model model, 
                              @RequestParam(value = "startDate", required = false) String startDate,
-                             @RequestParam(value = "endDate", required = false) String endDate) {
+                             @RequestParam(value = "endDate", required = false) String endDate,
+                             @RequestParam(value = "page", defaultValue = "1") int page) {
         
         // 기본 기간 설정
         if (startDate == null || startDate.isEmpty() || endDate == null || endDate.isEmpty()) {
@@ -48,6 +49,12 @@ public class AdminVisitorController {
         VisitorStatisticsDto dto = new VisitorStatisticsDto();
         dto.setStartDate(startDate);
         dto.setEndDate(endDate);
+        dto.setPage(page);
+        dto.setSize(10); // 고정값
+        
+        // 전체 개수 조회
+        int totalCount = visitorStatisticsService.getVisitorLogsCount(dto);
+        dto.getPagination().setTotalCount(totalCount);
         
         List<VisitorStatisticsDto> visitorLogs = visitorStatisticsService.getVisitorLogs(dto);
         
@@ -56,6 +63,7 @@ public class AdminVisitorController {
         model.addAttribute("visitorLogs", visitorLogs);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
+        model.addAttribute("pagination", dto.getPagination());
         
         return "admin/site/visitor/index";
     }

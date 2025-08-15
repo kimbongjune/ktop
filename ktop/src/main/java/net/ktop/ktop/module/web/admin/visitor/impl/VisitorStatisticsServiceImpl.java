@@ -24,6 +24,11 @@ public class VisitorStatisticsServiceImpl implements VisitorStatisticsService {
     }
     
     @Override
+    public int getVisitorLogsCount(VisitorStatisticsDto dto) {
+        return visitorStatisticsRepository.getVisitorLogsCount(dto);
+    }
+    
+    @Override
     public List<VisitorStatisticsDto> getDomainStats(VisitorStatisticsDto dto) {
         return visitorStatisticsRepository.getDomainStats(dto);
     }

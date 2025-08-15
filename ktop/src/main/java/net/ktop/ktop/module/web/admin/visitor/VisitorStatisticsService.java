@@ -13,6 +13,11 @@ public interface VisitorStatisticsService {
     List<VisitorStatisticsDto> getVisitorLogs(VisitorStatisticsDto dto);
     
     /**
+     * 접속자 상세 로그 개수 조회
+     */
+    int getVisitorLogsCount(VisitorStatisticsDto dto);
+    
+    /**
      * 도메인별 통계 조회
      */
     List<VisitorStatisticsDto> getDomainStats(VisitorStatisticsDto dto);
